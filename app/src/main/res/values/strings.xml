@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">eGarden</string>
+    <string name="login">Login</string>
+    <string name="connexion">Connexion</string>
+    <string name="port">port</string>
+    <string name="password">password</string>
+    <string name="ipaddress">IPaddress</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
 </resources>
