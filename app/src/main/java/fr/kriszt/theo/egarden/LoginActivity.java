@@ -17,6 +17,8 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private String errorMessage = "";
+
     @BindView(R.id.editIPAddress) EditText _editIPAddress;
     @BindView(R.id.editPort) EditText _editPort;
     @BindView(R.id.editPassword)  EditText _editPassword;
@@ -40,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
 
         }else {
-            Toast.makeText(this, "Erreur de formulaire", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         }
         
 
@@ -50,7 +52,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public boolean validate(){
         String ip = _editIPAddress.getText().toString();
-        int port = Integer.parseInt(_editPort.getText().toString());
+        int port = -1;
+        try{
+            port = Integer.parseInt(_editPort.getText().toString());
+        }catch (NumberFormatException e){
+            errorMessage = "Numéro de port invalide";
+        }
+
         String password = _editPassword.getText().toString();
 
         if (!checkIP(ip)
@@ -61,7 +69,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean checkPassword(String password) {
-        return false;
+
+        //TODO : logique métier pour vérification de mdp
+        if (password.isEmpty()){
+            errorMessage = "Mot de passe manquant";
+            return false;
+        }
+
+        return true;
     }
 
     private boolean checkPort(int port) {
@@ -70,21 +85,33 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean checkIP(String ip) {
         boolean retVal = true;
+
+        if (ip.isEmpty()){
+            errorMessage = "IP manquante";
+            return false;
+        }
+
         String[] matches = ip.split("\\.");
 
         if (matches.length != 4){
             retVal = false;
+            errorMessage = "Format de l'adresse IPv4 invalide (xxx.xxx.xxx.xxx)";
         }
 
         for (String s : matches){
-            int i = Integer.parseInt(s);
-            if(i < 0 || i > 255){
-                retVal =  false;
+            try {
+                int i = Integer.parseInt(s);
+                if(i < 0 || i > 255){
+                    retVal =  false;
+                    errorMessage = "IP invalide : " + i;
+                    break;
+                }
+            }catch (NumberFormatException e){
+                retVal = false;
+                errorMessage = "IP invalide : " + s;
+                break;
             }
-        }
 
-        if (!retVal){
-            Toast.makeText(this, "Erreur : IP invalide", Toast.LENGTH_LONG).show();
         }
 
         return retVal;
