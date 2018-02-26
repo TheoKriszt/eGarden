@@ -1,21 +1,23 @@
 package fr.kriszt.theo.egarden;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-//import butterknife.InjectView;
-
 
 public class LoginActivity extends AppCompatActivity {
+
+    private Context context = getApplicationContext();
+    private SharedPreferences sharedPref = context.getSharedPreferences( // shared preferences are our persistence
+            getString(R.string.credentials_preference_file), Context.MODE_PRIVATE);
 
     private String errorMessage = "";
 
@@ -29,6 +31,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+
+        // Load from stored preferences
+        int savedPort = sharedPref.getInt(getString(R.string.saved_port_key), 0);
+        String savedIP = sharedPref.getString(getString(R.string.saved_ip_key), "192.168.1.");
+        String savedPassword = sharedPref.getString(getString(R.string.saved_password_key), "");
+
+        _editIPAddress.setText(savedIP);
+        _editPort.setText(savedPort);
+        _editPassword.setText(savedPassword);
     }
 
     @OnClick(R.id.connectButton)
@@ -36,9 +48,23 @@ public class LoginActivity extends AppCompatActivity {
         
         if (validate()){
 
-            Toast.makeText(this, "TODO : Authentification", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "TODO : \"VRAIE\" Authentification", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, DashboardActivity.class);
-//        intent.putExtra(MESSAGE, jsonObject.toString());
+            // intent.putExtra(MESSAGE, jsonObject.toString());
+
+            // Save changes
+            SharedPreferences.Editor prefsEditor = sharedPref.edit();
+
+            int port = Integer.parseInt(_editPort.getText().toString());
+            String ip = _editIPAddress.getText().toString();
+            String password = _editPassword.getText().toString();
+
+            prefsEditor.putInt   (getString(R.string.saved_port_key), port);
+            prefsEditor.putString(getString(R.string.saved_ip_key), ip);
+            prefsEditor.putString(getString(R.string.saved_password_key), password);
+
+            prefsEditor.apply();
+
             startActivity(intent);
 
         }else {
