@@ -3,6 +3,7 @@ package fr.kriszt.theo.egarden;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -13,12 +14,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.content.SharedPreferences.*;
+
 public class LoginActivity extends AppCompatActivity {
-
-    private Context context = getApplicationContext();
-    private SharedPreferences sharedPref = context.getSharedPreferences( // shared preferences are our persistence
-            getString(R.string.credentials_preference_file), Context.MODE_PRIVATE);
-
+    private Context context;
+    private SharedPreferences sharedPref;
     private String errorMessage = "";
 
     @BindView(R.id.editIPAddress) EditText _editIPAddress;
@@ -29,16 +29,28 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+         context = getApplicationContext();
+        SharedPreferences sharedPref = context.getSharedPreferences( // shared preferences are our persistence
+                getString(R.string.credentials_preference_file), Context.MODE_PRIVATE);
+//        SharedPreferences sharedPref = PreferenceManager
+//                .getDefaultSharedPreferences(this);
+
+        if (sharedPref == null)
+        Toast.makeText(context, "sgaredPref is NULL !", Toast.LENGTH_LONG).show();
+
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
 
         // Load from stored preferences
-        int savedPort = sharedPref.getInt(getString(R.string.saved_port_key), 0);
-        String savedIP = sharedPref.getString(getString(R.string.saved_ip_key), "192.168.1.");
-        String savedPassword = sharedPref.getString(getString(R.string.saved_password_key), "");
+//        String savedPort = String.valueOf(sharedPref.getInt(getString(R.string.saved_port_key), 0));
+        String savedPort = sharedPref.getString(getString(R.string.saved_port_key), "22");
+
+        String savedIP = sharedPref.getString(getString(R.string.saved_ip_key), "192.168.1.12");
+        String savedPassword = sharedPref.getString(getString(R.string.saved_password_key), "abcdef");
 
         _editIPAddress.setText(savedIP);
+//        _editPort.setText("4242");
         _editPort.setText(savedPort);
         _editPassword.setText(savedPassword);
     }
@@ -52,18 +64,8 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(this, DashboardActivity.class);
             // intent.putExtra(MESSAGE, jsonObject.toString());
 
-            // Save changes
-            SharedPreferences.Editor prefsEditor = sharedPref.edit();
 
-            int port = Integer.parseInt(_editPort.getText().toString());
-            String ip = _editIPAddress.getText().toString();
-            String password = _editPassword.getText().toString();
-
-            prefsEditor.putInt   (getString(R.string.saved_port_key), port);
-            prefsEditor.putString(getString(R.string.saved_ip_key), ip);
-            prefsEditor.putString(getString(R.string.saved_password_key), password);
-
-            prefsEditor.apply();
+            savePreferences();
 
             startActivity(intent);
 
@@ -73,6 +75,24 @@ public class LoginActivity extends AppCompatActivity {
         
 
 
+    }
+
+    private void savePreferences(){
+
+        sharedPref = context.getSharedPreferences( // shared preferences are our persistence
+                getString(R.string.credentials_preference_file), Context.MODE_PRIVATE);
+        
+        String port = _editPort.getText().toString();
+        String ip = _editIPAddress.getText().toString();
+        String password = _editPassword.getText().toString();
+
+        Editor prefsEditor = sharedPref.edit();
+
+        prefsEditor.putString   (getString(R.string.saved_port_key), port);
+        prefsEditor.putString(getString(R.string.saved_ip_key), ip);
+        prefsEditor.putString(getString(R.string.saved_password_key), password);
+
+        prefsEditor.apply();
     }
 
 
