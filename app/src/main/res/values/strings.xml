@@ -10,5 +10,9 @@
     <string name="saved_port_key">saved_port_key</string>
     <string name="saved_ip_key">saved_ip_key</string>
     <string name="saved_password_key">saved_password_key</string>
+    <string name="gallery">gallery</string>
+    <string name="tools">tools</string>
+    <string name="slideshow">slideshow</string>
+    <string name="importe">importe</string>
 
 </resources>
