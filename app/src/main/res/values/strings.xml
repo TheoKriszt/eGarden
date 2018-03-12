@@ -14,5 +14,6 @@
     <string name="tools">tools</string>
     <string name="slideshow">slideshow</string>
     <string name="importe">importe</string>
+    <string name="saved_username_key">username</string>
 
 </resources>
