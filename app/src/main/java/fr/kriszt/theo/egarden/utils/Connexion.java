@@ -2,6 +2,8 @@ package fr.kriszt.theo.egarden.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.icu.text.LocaleDisplayNames;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -133,53 +135,38 @@ public class Connexion {
         return retVal;
     }
 
-    public void sendPostRequest(String url, final HashMap<String, String> params){
+    public void sendPostRequest(final String url, final HashMap<String, String> params){
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, address + ":" + port  + url, new Response.Listener<String>() {
+        sendPostRequest(url, params, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println("Réponse obtenue : ");
-                System.out.println(response);
+                Log.d(TAG, "onResponse: " + response);
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
             }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+        });
+
+    }
+
+    public void sendPostRequest(final String url, final HashMap<String, String> params, Response.Listener<String> responseListener){
+
+        sendPostRequest(url, params, responseListener, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.err.println("Erreur : ");
-                System.err.println(error);
-                //This code is executed if there is an error.
+                Log.d(TAG, "onErrorResponse: " + error.getMessage());
             }
-        }) {
+        });
+
+    }
+
+    public void sendPostRequest(final String url, final HashMap<String, String> params, Response.Listener<String> responseListener, Response.ErrorListener errorListener){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, address + ":" + port  + url, responseListener, errorListener) {
             protected Map<String, String> getParams() {
-//                Map<String, String> payload = new HashMap<String, String>();
-//                payload.put("username", "pi");
-//                payload.put("password", "pi");
                 return params;
             }
         };
-
-
         requestQueue.add(stringRequest);
-
-//        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-//                new Response.Listener<JSONObject>()
-//                {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        // display response
-//                        Log.d("Response", response.toString());
-//                    }
-//                },
-//                new Response.ErrorListener()
-//                {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.d("Error.Response", response);
-//                    }
-//                }
-//        );
-
     }
 
 
