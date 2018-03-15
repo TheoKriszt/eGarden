@@ -37,7 +37,7 @@ public class PreferencesStorage {
     }
 
     public static String getSavedPort() {
-        return O.sharedPref.getString(String.valueOf(R.string.saved_port_key), "22");
+        return O.sharedPref.getString(String.valueOf(R.string.saved_port_key), "1880");
 
     }
 
@@ -47,11 +47,11 @@ public class PreferencesStorage {
     }
 
     public String getSavedUsername() {
-        return O.sharedPref.getString(String.valueOf(R.string.saved_username_key), "");
+        return O.sharedPref.getString(String.valueOf(R.string.saved_username_key), "userTest");
     }
 
     public static String getSavedPassword() {
-        return O.sharedPref.getString(String.valueOf(R.string.saved_password_key), "");
+        return O.sharedPref.getString(String.valueOf(R.string.saved_password_key), "secretPassword");
     }
 
     public static void savePreferences(String port, String ip, String username, String password) {

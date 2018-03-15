@@ -12,7 +12,7 @@ public class Security {
 
     private static String auth_token = null;
 
-    private static String LOGIN_URI = "http://sparklife.freeboxos.fr:1880/login";
+    private static String LOGIN_URI = "/login";
 
     public static String md5(String s) {
         // Create MD5 Hash
@@ -32,12 +32,15 @@ public class Security {
         return hexString.toString();
     }
 
-    public static void requestToken(String username, String password){
+    public static boolean requestToken(String username, String password){
 
         HashMap<String, String> postParams = new HashMap<>();
         postParams.put("username", username);
         postParams.put("password", md5(password));
-        Connexion.sendPostRequest(LOGIN_URI, postParams);
+//        Connexion.sendPostRequest(LOGIN_URI, postParams);
+        Connexion.O().sendPostRequest(LOGIN_URI, postParams);
+
+        return true;
     }
 
 
