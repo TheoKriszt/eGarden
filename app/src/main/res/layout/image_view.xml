@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f3f6f7"
+    >
+    <Button
+        android:id="@+id/btn_do"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Request Image From URL"
+        android:layout_margin="25dp"
+        android:layout_gravity="top|center_horizontal"
+        />
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_anchor="@id/btn_do"
+        app:layout_anchorGravity="bottom"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="#def4e3"
+        />
+    <ImageView
+        android:id="@+id/iv_internal"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        app:layout_anchor="@id/iv"
+        android:layout_gravity="bottom"
+        app:layout_anchorGravity="bottom"
+        android:background="#bcc7cc"
+        />
+</android.support.design.widget.CoordinatorLayout>
