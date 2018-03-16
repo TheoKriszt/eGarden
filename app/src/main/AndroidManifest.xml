@@ -26,16 +26,6 @@
             android:theme="@style/AppTheme.NoActionBar"
             ></activity>
 
-        <activity
-            android:name=".ListOfPlants">
-
-                <intent-filter>
-                    <action android:name="android.intent.action.MAIN" />
-
-                    <category android:name="android.intent.category.LAUNCHER" />
-                </intent-filter>
-            </activity>
-
         <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
