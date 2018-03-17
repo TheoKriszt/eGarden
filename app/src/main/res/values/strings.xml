@@ -30,4 +30,6 @@
     <string name="downloadCompleted">Download Completed…</string>
     <string name="downloadFailed">Download Failed…</string>
     <string name="downloadAgain">Download Again</string>
+
+    <string name="openZipFolder">Open Zip Folder</string>
 </resources>

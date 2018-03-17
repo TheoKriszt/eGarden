@@ -30,9 +30,10 @@ import java.net.URI;
 import fr.kriszt.theo.egarden.utils.CheckForSDCard;
 import fr.kriszt.theo.egarden.utils.DownloadTask;
 import fr.kriszt.theo.egarden.utils.Urls;
+import fr.kriszt.theo.egarden.utils.ZipManager;
 
 public class DownloadClientPlantsImgs extends AppCompatActivity implements View.OnClickListener {
-    private static Button downloadPdf, downloadDoc, downloadZip, downloadVideo, downloadMp3, openDownloadedFolder;
+    private static Button downloadPdf, downloadDoc, downloadZip, downloadVideo, downloadMp3, openDownloadedFolder,unzipFile;
     private static final String TAG = "DownloadClientPlantsImgs Activity";
     private ImageView imgRcvedView ;
     @Override
@@ -46,10 +47,10 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
 
     //Initialize al Views
     private void initViews() {
-        downloadZip = (Button) findViewById(R.id.downloadZip);
-        downloadVideo = (Button) findViewById(R.id.downloadVideo);
-        openDownloadedFolder = (Button) findViewById(R.id.openDownloadedFolder);
-
+        downloadZip = findViewById(R.id.downloadZip);
+        downloadVideo = findViewById(R.id.downloadVideo);
+        openDownloadedFolder = findViewById(R.id.openDownloadedFolder);
+        unzipFile = findViewById(R.id.openZipFolder);
     }
 
     //Set Listeners to Buttons
@@ -57,12 +58,12 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
         downloadZip.setOnClickListener(this);
         downloadVideo.setOnClickListener(this);
         openDownloadedFolder.setOnClickListener(this);
+        unzipFile.setOnClickListener(this);
     }
 
     @SuppressLint("LongLogTag")
     @Override
     public void onClick(View view) {
-        //Before starting any download check internet connection availability
         if (ContextCompat.checkSelfPermission(DownloadClientPlantsImgs.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.e(TAG , "WRITE EXTERNAL STORAGE PERMISSION NOT GRANTED");
@@ -73,6 +74,7 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
             return;
 
         }
+        //Before starting any download check internet connection availability
         switch (view.getId()) {
             case R.id.downloadZip:
                 if (isConnectingToInternet())
@@ -91,6 +93,19 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
                 imgRcvedView = findViewById(R.id.iv_element_test);
                 imgRcvedView.setImageURI(Uri.parse(Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS) + "/"
                         + Urls.downloadDirectory +"/"+"test_img.jpg"));
+                break;
+
+            case R.id.openZipFolder:
+                Log.e(TAG , "Unzip started ...");
+                Log.i(TAG , "Unzip started ...");
+                Log.d(TAG , "Unzip started ...");
+                Log.v(TAG , "Unzip started ...");
+                Log.w(TAG , "Unzip started ...");
+
+                ZipManager.unzipImage(DownloadClientPlantsImgs.this,Urls.downloadDirectory + "/" + "imgs.zip",
+                        Urls.downloadDirectory + "/" + "imgs");
+
+
                 break;
 
         }
