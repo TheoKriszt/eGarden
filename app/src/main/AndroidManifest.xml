@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <!--  Permission required for Reading Writing SD Card/Memory  -->;
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />;
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />;
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,7 +33,16 @@
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
         <activity
-            android:name=".RequestImagesPlants">
+            android:name=".RequestImagePlant">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DownloadClientPlantsImgs">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

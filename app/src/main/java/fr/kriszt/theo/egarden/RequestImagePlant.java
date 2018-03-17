@@ -36,7 +36,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
-public class RequestImagesPlants extends AppCompatActivity {
+public class RequestImagePlant extends AppCompatActivity {
     private Context mContext;
     private Activity mActivity;
 
@@ -56,7 +56,7 @@ public class RequestImagesPlants extends AppCompatActivity {
 
         // Get the application context
         mContext = getApplicationContext();
-        mActivity = RequestImagesPlants.this;
+        mActivity = RequestImagePlant.this;
 
         // Get the widget reference from XML layout
         mCLayout =  findViewById(R.id.coordinator_layout);
