@@ -5,7 +5,7 @@ import android.provider.SyncStateContract;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
 /**
- * Created by wizehunt on 26/02/18.
+ * Created by T.Kriszt on 26/02/18.
  */
 
 public class MQTTClient {

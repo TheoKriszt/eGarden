@@ -3,13 +3,15 @@ package fr.kriszt.theo.egarden;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +23,7 @@ import fr.kriszt.theo.egarden.utils.Security;
 public class LoginActivity extends AppCompatActivity {
 
 
+    private static final String TAG = "eGardenLoginActivity";
     private String errorMessage = "";
 
     @BindView(R.id.editIPAddress) EditText _editIPAddress;
@@ -35,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
@@ -55,98 +57,63 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.connectButton)
     public void submit() {
 
-//        _progressBar.setVisibility(View.VISIBLE);
-
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-//                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-//
-//        When you are done you can undo this by clearing the flag:
-//
-//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//            _progressBar.setBackground(null);
-//        }
-//        ProgressDialog dialog=new ProgressDialog(LoginActivity.this);
-//        dialog.setMessage("Tentative de connexion");
-//        dialog.setIndeterminate(false);
-//        dialog.setMax(100);
-//        dialog.setProgress(50);
-//
-//        dialog.setCancelable(false);
-//        dialog.setInverseBackgroundForced(false);
-//        dialog.show();
-
-        String port = _editPort.getText().toString();
-        String ip = _editIPAddress.getText().toString();
-        String username = _editUsername.getText().toString();
-        String password = _editPassword.getText().toString();
+        final String port = _editPort.getText().toString();
+        final String ip = _editIPAddress.getText().toString();
+        final String username = _editUsername.getText().toString();
+        final String password = _editPassword.getText().toString();
 
         Connexion.O(this, port, ip);
 
-        if(Security.requestToken(username, password)){
-            Toast.makeText(this, "Requete envoyee", Toast.LENGTH_SHORT).show();
 
+        if(!Connexion.O().isOnline()){
+            Toast.makeText(this, "Pas de connexion internet", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        if (validate()){ // is form even valid ?
-            Toast.makeText(this, "TODO : \"VRAIE\" Authentification", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, DashboardActivity.class);
-            // intent.putExtra(MESSAGE, jsonObject.toString());
-
-        PreferencesStorage.O(this).savePreferences(port, ip, username, password);
-        startActivity(intent);
-
-        }else {
+        if (validateForm(port, ip, username, password)){
+            _progressBar.setVisibility(View.VISIBLE);
+            Security.requestToken(username, password, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    PreferencesStorage.O(LoginActivity.this).savePreferences(port, ip, username, password);
+                    _progressBar.setVisibility(View.GONE);
+                    startDashboardActivity();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "onErrorResponse: ", error);
+                    Toast.makeText(LoginActivity.this, "Erreur " + error.networkResponse.statusCode + " : \"" + error.getClass().getSimpleName() + "\"", Toast.LENGTH_LONG).show();
+                    _progressBar.setVisibility(View.GONE);
+                }
+            });
+        }else { // invalid form
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         }
 
+
     }
 
-    private void addProgressBar() {
-//        ProgressBar progressBar = new ProgressBar(LoginActivity.this, null, android.R.attr.progressBarStyleHorizontal);
-////        ProgressBar progressBar = new ProgressBar(LoginActivity.this, null, android.R.attr.progressBarStyleLarge);
-////        progressBar.setHorizontalScrollBarEnabled(true);
-//        progressBar.setMax(100);
-//        progressBar.setProgress(25);
-//        progressBar.setMessage();
-//
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
-//        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-//        RelativeLayout layout = findViewById(R.id.loginView);
-//        layout.addView(progressBar,params);
-//        progressBar.show
-//        progressBar.setVisibility(View.VISIBLE);  //To show ProgressBar
-//        progressBar.setVisibility(View.GONE);     // To Hide ProgressBar
+    private void startDashboardActivity() {
+            Intent intent = new Intent(this, DashboardActivity.class);
+            // intent.putExtra(MESSAGE, jsonObject.toString());
+
+        startActivity(intent);
     }
 
-    public boolean validate(){
-        String ip = _editIPAddress.getText().toString();
-        int port = -1;
-        try{
-            port = Integer.parseInt(_editPort.getText().toString());
-        }catch (NumberFormatException e){
-            errorMessage = "Numéro de port invalide";
+    public boolean validateForm(String port, String ip, String username, String password){
+
+        if (port.isEmpty()){
+            port = "80";
+            _editPort.setText(port);
         }
 
-        String password = _editPassword.getText().toString();
-        String username = _editUsername.getText().toString();
-
-        if (!Connexion.checkIP(ip, errorMessage)
-                || !Connexion.checkPort(port)
-                || !checkCredentials(username, password)){
+        if (ip.isEmpty() || password.isEmpty() || username.isEmpty()){
+            errorMessage = "Un champ est manquant";
             return false;
-        }else return true;
-    }
-
-    private boolean checkCredentials(String username, String password) {
-
-
+        }
 
         return true;
     }
-
-
-
 
 }

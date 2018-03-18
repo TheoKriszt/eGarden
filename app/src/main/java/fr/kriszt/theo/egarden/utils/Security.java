@@ -1,11 +1,17 @@
 package fr.kriszt.theo.egarden.utils;
 
+import android.net.sip.SipSession;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 /**
- * Created by wizehunt on 12/03/18.
+ * Created by T.Kriszt on 12/03/18.
  */
 
 public class Security {
@@ -32,13 +38,21 @@ public class Security {
         return hexString.toString();
     }
 
-    public static boolean requestToken(String username, String password){
+    public static boolean requestToken(String username, String password, final Response.Listener<String> responseListener, Response.ErrorListener errorListener){
 
         HashMap<String, String> postParams = new HashMap<>();
         postParams.put("username", username);
         postParams.put("password", md5(password));
-//        Connexion.sendPostRequest(LOGIN_URI, postParams);
-        Connexion.O().sendPostRequest(LOGIN_URI, postParams);
+
+        Response.Listener<String> responseWrapper = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                auth_token = response;
+                responseListener.onResponse(response);
+            }
+        };
+
+        Connexion.O().sendPostRequest(LOGIN_URI, postParams, responseWrapper, errorListener);
 
         return true;
     }

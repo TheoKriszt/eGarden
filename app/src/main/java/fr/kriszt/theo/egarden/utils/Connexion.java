@@ -3,6 +3,8 @@ package fr.kriszt.theo.egarden.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.icu.text.LocaleDisplayNames;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -28,7 +30,7 @@ import java.util.Map;
 public class Connexion {
 
     private static final String TAG = "eGardenConnexion";
-    private static final String prefixURL = "http://sparklife.freeboxos.fr:1880";
+    private Context context;
     private static String port = null;
     private static String address = null;
 
@@ -36,14 +38,13 @@ public class Connexion {
     private static Connexion O = null;
     public RequestQueue requestQueue;
 
-//    private Connexion(Context context){
-//        requestQueue = Volley.newRequestQueue(context.getApplicationContext());
-//    }
+
 
     public static synchronized Connexion O(Context context, String p, String addr){
         if (O == null){
             O = new Connexion();
         }
+        O.context = context;
         O.requestQueue = Volley.newRequestQueue(context);
         port = p;
         address = (addr.startsWith("http://") ? "" : "http://") + addr;
@@ -59,42 +60,11 @@ public class Connexion {
         return O;
     }
 
-
-
-    /**
-     * @deprecated
-     */
-    public static void sendPost(String path, HashMap<String, String> postParams){
-        URL url = null;
-        HttpURLConnection client = null;
-
-        try {
-            url = new URL(path);
-
-            client = (HttpURLConnection) url.openConnection();
-
-            client.setRequestMethod("POST");
-
-            for (String k : postParams.keySet()){
-                client.setRequestProperty(k, postParams.get(k));
-            }
-
-            client.setDoOutput(true);
-
-            OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
-
-//        writeStream(outputPost);
-
-            outputPost.flush();
-            outputPost.close();
-        }catch (IOException e){
-            e.printStackTrace();
-        }finally {
-            if (client != null){
-                client.disconnect();
-            }
-        }
-
+    public  boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        Log.d(TAG, "isOnline: "  + (null != netInfo ? netInfo.getExtraInfo() : "False"));
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public static boolean checkPort(int port) {
@@ -140,9 +110,6 @@ public class Connexion {
         sendPostRequest(url, params, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "onResponse: " + response);
-                //This code is executed if the server responds, whether or not the response contains data.
-                //The String 'response' contains the server's response.
             }
         });
 
@@ -153,7 +120,7 @@ public class Connexion {
         sendPostRequest(url, params, responseListener, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: " + error.getMessage());
+                Log.e(TAG, "onErrorResponse: " + error.getMessage());
             }
         });
 
@@ -161,13 +128,17 @@ public class Connexion {
 
     public void sendPostRequest(final String url, final HashMap<String, String> params, Response.Listener<String> responseListener, Response.ErrorListener errorListener){
 
+        Log.d(TAG, "sendPostRequest: "  +address + ":" + port  + url);
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, address + ":" + port  + url, responseListener, errorListener) {
             protected Map<String, String> getParams() {
                 return params;
             }
         };
+
         requestQueue.add(stringRequest);
     }
+
 
 
 }

@@ -8,7 +8,7 @@ import android.widget.Toast;
 import fr.kriszt.theo.egarden.R;
 
 /**
- * Created by wizehunt on 12/03/18.
+ * Created by T.Kriszt on 12/03/18.
  */
 
 public class PreferencesStorage {
@@ -36,6 +36,13 @@ public class PreferencesStorage {
         return O;
     }
 
+    public static PreferencesStorage O(){
+        if(O == null){
+            throw new IllegalStateException(Connexion.class.getSimpleName() + "is not initialized, call O(Activity activity) first ");
+        }
+        return O;
+    }
+
     public static String getSavedPort() {
         return O.sharedPref.getString(String.valueOf(R.string.saved_port_key), "1880");
 
@@ -47,11 +54,11 @@ public class PreferencesStorage {
     }
 
     public String getSavedUsername() {
-        return O.sharedPref.getString(String.valueOf(R.string.saved_username_key), "userTest");
+        return O.sharedPref.getString(String.valueOf(R.string.saved_username_key), "userTest"); // Todo : make empty
     }
 
     public static String getSavedPassword() {
-        return O.sharedPref.getString(String.valueOf(R.string.saved_password_key), "secretPassword");
+        return O.sharedPref.getString(String.valueOf(R.string.saved_password_key), "secretPassword"); // Todo : make empty
     }
 
     public static void savePreferences(String port, String ip, String username, String password) {
