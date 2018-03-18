@@ -1,20 +1,23 @@
 <resources>
-    <string name="app_name">eGarden</string>
-    <string name="login">Login</string>
+    <string name="app_name" translatable="false">eGarden</string>
+    <string name="title_activity_dashboard">Tableau de bord</string>
+
+    <string name="login" translatable="false">Login</string>
+    <string name="username">utilisateur</string>
     <string name="connexion">Connexion</string>
     <string name="port">port</string>
-    <string name="password">password</string>
-    <string name="ipaddress">IPaddress</string>
-    <string name="title_activity_dashboard">DashboardActivity</string>
-    <string name="credentials_preference_file">fr.kriszt.theo.egarden.PREFERENCE_FILE_KEY</string>
-    <string name="saved_port_key">saved_port_key</string>
-    <string name="saved_ip_key">saved_ip_key</string>
-    <string name="saved_password_key">saved_password_key</string>
-    <string name="gallery">gallery</string>
-    <string name="tools">tools</string>
+    <string name="password">mot de passe</string>
+    <string name="ipaddress">IP / hôte</string>
+
+    <string name="credentials_preference_file" translatable="false">fr.kriszt.theo.egarden.PREFERENCE_FILE_KEY</string>
+    <string name="saved_port_key" translatable="false">saved_port_key</string>
+    <string name="saved_ip_key" translatable="false">saved_ip_key</string>
+    <string name="saved_password_key" translatable="false">saved_password_key</string>
+    <string name="saved_username_key" translatable="false">saved_username_key</string>
+
+    <string name="gallery">Gallerie</string>
+    <string name="tools">Preferences</string>
     <string name="slideshow">slideshow</string>
     <string name="importe">importe</string>
-    <string name="saved_username_key">username</string>
-    <string name="username">username</string>
 
 </resources>

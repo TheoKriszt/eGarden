@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">eGarden</string>
+    <string name="title_activity_dashboard">Dashboard</string>
+    <string name="username">username</string>
+    <string name="connexion">Log in</string>
+    <string name="port">port</string>
+    <string name="password">password</string>
+    <string name="ipaddress">IP / host</string>
+    <string name="gallery">Gallery</string>
+    <string name="tools">Preferences</string>
+</resources>
