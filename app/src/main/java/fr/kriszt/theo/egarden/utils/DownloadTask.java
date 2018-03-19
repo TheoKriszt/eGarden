@@ -38,8 +38,8 @@ public class DownloadTask {
         this.downloadUrl = downloadUrl;
 
         //downloadFileName = downloadUrl.replace(Urls.mainImageUrl, "");//Create file name by picking download file name from URL
-        downloadFileName = "test_img.jpg";
-        Log.e(TAG, downloadFileName);
+        downloadFileName = "plants_images.zip";
+        Log.e(TAG, "downloading " + downloadFileName);
 
         //Start Downloading Task
         new DownloadingTask().execute();
@@ -101,10 +101,13 @@ public class DownloadTask {
             try {
                 URL url = new URL(downloadUrl);//Create Download URl
                 HttpURLConnection c = (HttpURLConnection) url.openConnection();//Open Url Connection
-                c.setRequestMethod("GET");//Set Request Method to "GET" since we are grtting data
+                c.setDoOutput(true);
+                c.setRequestMethod("POST");//Set Request Method to "GET" since we are grtting data
+                c.addRequestProperty("user_name" , "user_test");
                 c.connect();//connect the URL Connection
 
-                //If Connection response is not OK then show Logs
+
+//If Connection response is not OK then show Logs
                 if (c.getResponseCode() != HttpURLConnection.HTTP_OK) {
                     Log.e(TAG, "Server returned HTTP " + c.getResponseCode()
                             + " " + c.getResponseMessage());
@@ -116,8 +119,7 @@ public class DownloadTask {
                 if (CheckForSDCard.isSDCardPresent()) {
 
                     apkStorage = new File(
-                            Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS) + "/"
-                                    + Urls.downloadDirectory +"/");
+                            Urls.downloadDirectory +"/");
                 } else
                     Toast.makeText(context, "Oops!! There is no SD Card.", Toast.LENGTH_SHORT).show();
 
@@ -131,12 +133,11 @@ public class DownloadTask {
 
                 //Create New File if not present
                 if (!outputFile.exists()) {
-                    Log.e(TAG, "File creation...");
-                    Log.e(TAG , outputFile.toString());
+//                    Log.e(TAG, "File creation...");
+                    Log.e(TAG , "outputFile = "+outputFile.toString());
                     outputFile.createNewFile();
-                    Log.e(TAG, "File Created");
+//                    Log.e(TAG, "File Created");
                 }
-                Log.e(TAG, "File OK");
                 FileOutputStream fos = new FileOutputStream(outputFile);//Get OutputStream for NewFile Location
 
                 InputStream is = c.getInputStream();//Get InputStream for connection
@@ -151,6 +152,7 @@ public class DownloadTask {
                 fos.close();
                 is.close();
 
+                Log.e(TAG , "Download of"+ outputFile.getAbsolutePath() +" completed");
 
 
 

@@ -18,6 +18,8 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,9 +35,16 @@ import fr.kriszt.theo.egarden.utils.Urls;
 import fr.kriszt.theo.egarden.utils.ZipManager;
 
 public class DownloadClientPlantsImgs extends AppCompatActivity implements View.OnClickListener {
-    private static Button downloadPdf, downloadDoc, downloadZip, downloadVideo, downloadMp3, openDownloadedFolder,unzipFile;
+    private static Button downloadZip, openDownloadedFolder,unzipFile;
     private static final String TAG = "DownloadClientPlantsImgs Activity";
     private ImageView imgRcvedView ;
+
+//    Attributs to display large set of data images
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,16 +57,26 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
     //Initialize al Views
     private void initViews() {
         downloadZip = findViewById(R.id.downloadZip);
-        downloadVideo = findViewById(R.id.downloadVideo);
-        openDownloadedFolder = findViewById(R.id.openDownloadedFolder);
-        unzipFile = findViewById(R.id.openZipFolder);
+        unzipFile = findViewById(R.id.unZipFolder);
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+
     }
 
     //Set Listeners to Buttons
     private void setListeners() {
         downloadZip.setOnClickListener(this);
-        downloadVideo.setOnClickListener(this);
-        openDownloadedFolder.setOnClickListener(this);
+
         unzipFile.setOnClickListener(this);
     }
 
@@ -78,31 +97,17 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
         switch (view.getId()) {
             case R.id.downloadZip:
                 if (isConnectingToInternet())
+                {
+                    Log.e(TAG , "Download started ...");
                     new DownloadTask(DownloadClientPlantsImgs.this, downloadZip, Urls.downloadZipImgsUrl);
-                else
-                    Toast.makeText(DownloadClientPlantsImgs.this, "Oops!! There is no internet connection. Please enable internet connection and try again.", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.downloadVideo:
-                if (isConnectingToInternet())
-                    new DownloadTask(DownloadClientPlantsImgs.this, downloadVideo, Urls.downloadVideoUrl);
-                else
-                    Toast.makeText(DownloadClientPlantsImgs.this, "Oops!! There is no internet connection. Please enable internet connection and try again.", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.openDownloadedFolder:
-                //openDownloadedFolder();
-                imgRcvedView = findViewById(R.id.iv_element_test);
-                imgRcvedView.setImageURI(Uri.parse(Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS) + "/"
-                        + Urls.downloadDirectory +"/"+"test_img.jpg"));
-                break;
 
-            case R.id.openZipFolder:
+                }
+                else
+                    Toast.makeText(DownloadClientPlantsImgs.this, "Oops!! There is no internet connection. Please enable internet connection and try again.", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.unZipFolder:
                 Log.e(TAG , "Unzip started ...");
-                Log.i(TAG , "Unzip started ...");
-                Log.d(TAG , "Unzip started ...");
-                Log.v(TAG , "Unzip started ...");
-                Log.w(TAG , "Unzip started ...");
-
-                ZipManager.unzipImage(DownloadClientPlantsImgs.this,Urls.downloadDirectory + "/" + "imgs.zip",
+                ZipManager.unzip(DownloadClientPlantsImgs.this,Urls.downloadDirectory + "/" + "plants_images.zip",
                         Urls.downloadDirectory + "/" + "imgs");
 
 
@@ -112,37 +117,6 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
 
     }
 
-    //Open downloaded folder
-    private void openDownloadedFolder() {
-        //First check if SD Card is present or not
-        if (CheckForSDCard.isSDCardPresent()) {
-
-            //Get Download Directory File
-            File apkStorage = new File(
-                    Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS) + "/"
-                            + Urls.downloadDirectory +"/");
-
-            //If file is not present then display Toast
-            if (!apkStorage.exists())
-                Toast.makeText(DownloadClientPlantsImgs.this, "Right now there is no directory. Please download some file first.", Toast.LENGTH_SHORT).show();
-
-            else {
-
-                //If directory is present Open Folder
-
-                /** Note: Directory will open only if there is a app to open directory like File Manager, etc.  **/
-
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                Uri uri = Uri.parse(Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS) + "/"
-                        + Urls.downloadDirectory +"/");
-                intent.setDataAndType(uri, "file/*");
-                startActivity(Intent.createChooser(intent, "Open Download Folder"));
-            }
-
-        } else
-            Toast.makeText(DownloadClientPlantsImgs.this, "Oops!! There is no SD Card.", Toast.LENGTH_SHORT).show();
-
-    }
 
     //Check if internet is present or not
     private boolean isConnectingToInternet() {

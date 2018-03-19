@@ -54,6 +54,14 @@
         <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
+
+        <activity android:name=".RequestImgsRecycled">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 
