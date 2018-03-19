@@ -45,4 +45,14 @@
 
     <string name="action_settings">Settings</string>
 
+
+
+    <string name="download_name">Android Download Demo</string>
+
+    <string name="download_zip">Download Zip</string>
+    <string name="downloadStarted">Download Started…</string>
+    <string name="downloadCompleted">Download Completed…</string>
+    <string name="downloadFailed">Download Failed…</string>
+    <string name="downloadAgain">Download Again</string>
+    <string name="unZipFolder">Unzip Folder</string>
 </resources>
