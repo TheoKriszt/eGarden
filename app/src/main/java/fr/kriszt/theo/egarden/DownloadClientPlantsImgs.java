@@ -98,7 +98,7 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
             case R.id.downloadZip:
                 if (isConnectingToInternet())
                 {
-                    Log.e(TAG , "Download started ...");
+                    Log.e(TAG , "Download started from "+Urls.downloadZipImgsUrl+"...");
                     new DownloadTask(DownloadClientPlantsImgs.this, downloadZip, Urls.downloadZipImgsUrl);
 
                 }
@@ -108,7 +108,7 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
             case R.id.unZipFolder:
                 Log.e(TAG , "Unzip started ...");
                 ZipManager.unzip(DownloadClientPlantsImgs.this,Urls.downloadDirectory + "/" + "plants_images.zip",
-                        Urls.downloadDirectory + "/" + "imgs");
+                        Urls.downloadDirectory + "/" + "plants_images");
 
 
                 break;

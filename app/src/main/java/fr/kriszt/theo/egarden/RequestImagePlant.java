@@ -62,7 +62,7 @@ public class RequestImagePlant extends AppCompatActivity {
         mCLayout =  findViewById(R.id.coordinator_layout);
         mButtonDo =  findViewById(R.id.btn_do);
         mImageView =findViewById(R.id.iv);
-        mImageViewInternal =  findViewById(R.id.iv_internal);
+
 
         // Set a click listener for button widget
         mButtonDo.setOnClickListener(new View.OnClickListener() {

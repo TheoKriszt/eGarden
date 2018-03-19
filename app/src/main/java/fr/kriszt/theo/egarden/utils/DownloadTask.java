@@ -101,9 +101,9 @@ public class DownloadTask {
             try {
                 URL url = new URL(downloadUrl);//Create Download URl
                 HttpURLConnection c = (HttpURLConnection) url.openConnection();//Open Url Connection
-                c.setDoOutput(true);
-                c.setRequestMethod("POST");//Set Request Method to "GET" since we are grtting data
-                c.addRequestProperty("user_name" , "user_test");
+                c.setRequestMethod("GET");//Set Request Method to "GET" since we are grtting data
+                Log.e(TAG,"connecting to "+ url.toString());
+//                url.openConnection();
                 c.connect();//connect the URL Connection
 
 
