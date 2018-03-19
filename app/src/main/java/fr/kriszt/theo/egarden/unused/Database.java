@@ -1,9 +1,9 @@
-package fr.kriszt.theo.egarden;
+package fr.kriszt.theo.egarden.unused;
 
 import android.provider.BaseColumns;
 
 /**
- * Created by wizehunt on 26/02/18.
+ * Created by T.Kriszt on 26/02/18.
  */
 
 public final class Database {

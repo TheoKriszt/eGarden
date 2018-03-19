@@ -1,20 +1,43 @@
 <resources>
-    <string name="app_name">eGarden</string>
+    <string name="app_name" translatable="false">eGarden</string>
+    <string name="title_activity_dashboard">Dashboard</string>
+
     <string name="login">Login</string>
-    <string name="connexion">Connexion</string>
+    <string name="username">username</string>
+    <string name="connexion">connection</string>
     <string name="port">port</string>
     <string name="password">password</string>
-    <string name="ipaddress">IPaddress</string>
-    <string name="title_activity_dashboard">DashboardActivity</string>
-    <string name="credentials_preference_file">fr.kriszt.theo.egarden.PREFERENCE_FILE_KEY</string>
-    <string name="saved_port_key">saved_port_key</string>
-    <string name="saved_ip_key">saved_ip_key</string>
-    <string name="saved_password_key">saved_password_key</string>
-    <string name="gallery">gallery</string>
-    <string name="tools">tools</string>
-    <string name="slideshow">slideshow</string>
-    <string name="importe">importe</string>
-    <string name="saved_username_key">username</string>
+    <string name="ipaddress">ipaddress</string>
+
+    <string name="credentials_preference_file" translatable="false">fr.kriszt.theo.egarden.PREFERENCE_FILE_KEY</string>
+    <string name="saved_port_key" translatable="false">saved_port_key</string>
+    <string name="saved_ip_key" translatable="false">saved_ip_key</string>
+    <string name="saved_password_key" translatable="false">saved_password_key</string>
+    <string name="saved_username_key" translatable="false">saved_username_key</string>
+
+    <string name="preferences">preferences</string>
+    <string name="shooting">shootings</string>
+    <string name="no_internet_connection">no internet connection</string>
+    <string name="dashboard">dashboard</string>
+    <string name="notifications">notifications</string>
+    <string name="settings">settings</string>
+    <string name="navigation">navigation</string>
+    <string name="statistics">statistics</string>
+
+
+    <!-- Toolbar titles when navigation menu item is selected -->
+    <string-array name="nav_item_activity_titles">
+        <item>Dashboard</item>
+        <item>Notifications</item>
+        <item>Shootings</item>
+        <item>Stats</item>
+        <item>Settings</item>
+    </string-array>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_activity_dashboard">Tableau de bord</string>
+    <string name="username">utilisateur</string>
+    <string name="connexion">connexion</string>
+    <string name="password">mot de passe</string>
+    <string name="ipaddress">IP / hôte</string>
+    <string name="shooting">Prises de vues</string>
+    <string name="no_internet_connection">Pas de connexion internet</string>
+    <string name="dashboard">Tableau de bord</string>
+    <string name="notifications">Alertes</string>
+    <string name="settings">Parametres</string>
+    <string name="statistics">Statistiques</string>
+    <string name="port">port</string>
+    <string name="preferences">preferences</string>
+    <string name="navigation">navigation</string>
+    <string name="login">Login</string>
+
+    <string-array name="nav_item_activity_titles">
+        <item>Tableau de bord</item>
+        <item>Alertes</item>
+        <item>Prises de vues</item>
+        <item>Statistiques</item>
+        <item>Parametres</item>
+    </string-array>
+
+</resources>
