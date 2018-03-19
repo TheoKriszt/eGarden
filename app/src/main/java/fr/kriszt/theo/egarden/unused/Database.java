@@ -1,4 +1,4 @@
-package fr.kriszt.theo.egarden;
+package fr.kriszt.theo.egarden.unused;
 
 import android.provider.BaseColumns;
 

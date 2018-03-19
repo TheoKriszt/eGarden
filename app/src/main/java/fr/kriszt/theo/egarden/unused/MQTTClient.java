@@ -1,8 +1,8 @@
-package fr.kriszt.theo.egarden;
+package fr.kriszt.theo.egarden.unused;
 
 import android.provider.SyncStateContract;
 
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+
 
 /**
  * Created by T.Kriszt on 26/02/18.

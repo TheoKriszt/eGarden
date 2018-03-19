@@ -1,24 +1,35 @@
-package fr.kriszt.theo.egarden;
+package fr.kriszt.theo.egarden.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 //import android.support.design.widget.FloatingActionButton;
 //import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class DashboardActivity extends AppCompatActivity {
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
+import fr.kriszt.theo.egarden.R;
+import fr.kriszt.theo.egarden.utils.Connexion;
+import fr.kriszt.theo.egarden.utils.Security;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "eGardenDashBoard";
     private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,7 +61,6 @@ public class DashboardActivity extends AppCompatActivity {
 
 
 
-
     }
 
 
@@ -66,4 +76,39 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        Toast.makeText(this, "Menu selected", Toast.LENGTH_SHORT).show();
+        return super.onMenuOpened(featureId, menu);
+    }
+
+    @Override
+    public void onPanelClosed(int featureId, Menu menu) {
+        Toast.makeText(this, "onPanelClosed", Toast.LENGTH_SHORT).show();
+        super.onPanelClosed(featureId, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        Toast.makeText(this, "onContextItemSelected", Toast.LENGTH_SHORT).show();
+        return super.onContextItemSelected(item);
+    }
+
+    public void getDHT() {
+        Connexion.O(this);
+        Log.e(TAG, "getDHT: ");
+        Log.e(TAG, "getDHT: token : " + Security.getToken(), null);
+        Connexion.O().sendPostRequest("/DHT", null, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(MainActivity.this, "DHT : " + response, Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "onErrorResponse: " , error);
+                Toast.makeText(MainActivity.this, "Erreur : " + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

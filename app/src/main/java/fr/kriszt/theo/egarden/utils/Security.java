@@ -58,5 +58,7 @@ public class Security {
     }
 
 
-
+    public static String getToken() {
+        return auth_token;
+    }
 }

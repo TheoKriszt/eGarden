@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="fr.kriszt.theo.egarden.DashboardActivity"
-    tools:showIn="@layout/activity_dashboard">
+    tools:showIn="@layout/activity_main">
 
 </android.support.constraint.ConstraintLayout>

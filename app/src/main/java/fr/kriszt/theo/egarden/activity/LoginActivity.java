@@ -1,4 +1,4 @@
-package fr.kriszt.theo.egarden;
+package fr.kriszt.theo.egarden.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
 import fr.kriszt.theo.egarden.utils.PreferencesStorage;
 import fr.kriszt.theo.egarden.utils.Security;
@@ -66,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if(!Connexion.O().isOnline()){
-            Toast.makeText(this, "Pas de connexion internet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -83,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e(TAG, "onErrorResponse: ", error);
-                    Toast.makeText(LoginActivity.this, "Erreur " + error.networkResponse.statusCode + " : \"" + error.getClass().getSimpleName() + "\"", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(LoginActivity.this, "Erreur " + error.networkResponse.statusCode + " : \"" + error.getClass().getSimpleName() + "\"", Toast.LENGTH_LONG).show();
                     _progressBar.setVisibility(View.GONE);
                 }
             });
@@ -95,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void startDashboardActivity() {
-            Intent intent = new Intent(this, DashboardActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             // intent.putExtra(MESSAGE, jsonObject.toString());
 
         startActivity(intent);
