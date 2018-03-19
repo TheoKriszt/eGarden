@@ -44,21 +44,20 @@ public class PreferencesStorage {
     }
 
     public static String getSavedPort() {
-        return O.sharedPref.getString(String.valueOf(R.string.saved_port_key), "1880");
+        return O.sharedPref.getString(String.valueOf(R.string.saved_port_key), "");
 
     }
 
     public static String getSavedIP() {
-        return O.sharedPref.getString(String.valueOf(R.string.saved_ip_key), "192.168.1.12");
-
+        return O.sharedPref.getString(String.valueOf(R.string.saved_ip_key), "");
     }
 
     public String getSavedUsername() {
-        return O.sharedPref.getString(String.valueOf(R.string.saved_username_key), "userTest"); // Todo : make empty
+        return O.sharedPref.getString(String.valueOf(R.string.saved_username_key), "");
     }
 
     public static String getSavedPassword() {
-        return O.sharedPref.getString(String.valueOf(R.string.saved_password_key), "secretPassword"); // Todo : make empty
+        return O.sharedPref.getString(String.valueOf(R.string.saved_password_key), "");
     }
 
     public static void savePreferences(String port, String ip, String username, String password) {

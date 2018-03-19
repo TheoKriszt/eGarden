@@ -1,10 +1,8 @@
 package fr.kriszt.theo.egarden.utils;
 
-import android.net.sip.SipSession;
+import android.util.Log;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -17,6 +15,7 @@ import java.util.HashMap;
 public class Security {
 
     private static String auth_token = null;
+    public static final String TAG = "eGardenSecurity";
 
     private static String LOGIN_URI = "/login";
 
@@ -48,6 +47,7 @@ public class Security {
             @Override
             public void onResponse(String response) {
                 auth_token = response;
+                Log.i(TAG, "Auth token : " + response);
                 responseListener.onResponse(response);
             }
         };
@@ -56,6 +56,7 @@ public class Security {
 
         return true;
     }
+
 
 
     public static String getToken() {
