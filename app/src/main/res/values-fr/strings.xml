@@ -14,7 +14,7 @@
     <string name="statistics">Statistiques</string>
     <string name="port">port</string>
     <string name="preferences">preferences</string>
-    <string name="navigation">navigation</string>
+    <string name="navigation">Navigation</string>
     <string name="login">Login</string>
 
     <string-array name="nav_item_activity_titles">

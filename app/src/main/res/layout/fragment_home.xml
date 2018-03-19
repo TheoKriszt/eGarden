@@ -3,18 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.kriszt.theo.egarden.fragment.NotificationsFragment">
+    tools:context="fr.kriszt.theo.egarden.fragment.HomeFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Fragment de Notifications" />
+        android:text="Fragment de Dashboard" />
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:alpha="0.3"
-        app:srcCompat="@drawable/ic_notifications" />
+        app:srcCompat="@drawable/ic_dashboard" />
 
 </FrameLayout>

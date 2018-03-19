@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     tools:context="fr.kriszt.theo.egarden.fragment.StatsFragment">
 
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:text="@string/hello_blank_fragment" />-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Fragment de stats" />
 
     <ImageView
         android:layout_width="100dp"

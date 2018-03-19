@@ -11,10 +11,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.fragment.HomeFragment;
@@ -27,10 +27,12 @@ import fr.kriszt.theo.egarden.fragment.StatsFragment;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "eGardenDashBoard";
+    private static boolean TEST = true;
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private Handler mHandler;
+
 
     // toolbar titles respected to selected nav menu item
     private String[] activityTitles;
@@ -51,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mHandler = new Handler();
@@ -61,10 +62,8 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-
 
         // load toolbar titles from string resources
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
@@ -77,24 +76,6 @@ public class MainActivity extends AppCompatActivity {
             loadHomeFragment();
         }
 
-//        navigationView.setNavigationItemSelectedListener(
-//                new NavigationView.OnNavigationItemSelectedListener() {
-//                    @Override
-//                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-//                        // set item as selected to persist highlight
-//                        menuItem.setChecked(true);
-//                        // close drawer when item is tapped
-//                        drawer.closeDrawers();
-//
-//                        // Add code here to update the UI based on the item selected
-//                        // For example, swap UI fragments here
-//
-//                        return true;
-//                    }
-//                });
-
-
-
     }
 
     /***
@@ -102,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
      * selected from navigation menu
      */
     private void loadHomeFragment() {
-        Toast.makeText(this, "loadHomeFragment", Toast.LENGTH_SHORT).show();
         // selecting appropriate nav menu item
         selectNavMenu();
 
@@ -138,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
             mHandler.post(mPendingRunnable);
         }
 
-
         //Closing drawer on item click
         drawer.closeDrawers();
 
@@ -147,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Fragment getHomeFragment() {
-//        Toast.makeText(this, "navItemIndex : " + navItemIndex, Toast.LENGTH_SHORT).show();
         switch (navItemIndex) {
             case 0:
                 HomeFragment homeFragment = new HomeFragment();
@@ -186,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
 
+                Log.w(TAG, "onNavigationItemSelected: old tag : " + CURRENT_TAG);
+
+
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()) {
                     //Replacing the main content with ContentFragment Which is our Inbox View;
@@ -220,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
 //                        drawer.closeDrawers();
 //                        return true;
                     default:
+//                        Log.e(TAG, "onNavigationItemSelected: CAS DEFAUT");
                         navItemIndex = 0;
                 }
 
@@ -231,6 +213,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 menuItem.setChecked(true);
 
+                Log.w(TAG, "onNavigationItemSelected() returned: " + CURRENT_TAG);
+
                 loadHomeFragment();
 
                 return true;
@@ -240,21 +224,22 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
-//            @Override
-//            public void onDrawerClosed(View drawerView) {
-//                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
-//                super.onDrawerClosed(drawerView);
-//            }
-//
-//            @Override
-//            public void onDrawerOpened(View drawerView) {
-//                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-//                super.onDrawerOpened(drawerView);
-//            }
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+                super.onDrawerOpened(drawerView);
+            }
         };
 
         //Setting the actionbarToggle to drawer layout
-        drawer.setDrawerListener(actionBarDrawerToggle);
+        drawer.setDrawerListener(actionBarDrawerToggle); // deprecated
+//        drawer.addDrawerListener(actionBarDrawerToggle);
 
         //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
@@ -309,6 +294,24 @@ public class MainActivity extends AppCompatActivity {
                 drawer.openDrawer(GravityCompat.START);
                 return true;
         }
+
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_logout) {
+//            Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
+//            return true;
+//        }
+//
+//        // user is in notifications fragment
+//        // and selected 'Mark all as Read'
+//        if (id == R.id.action_mark_all_read) {
+//            Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
+//        }
+//
+//        // user is in notifications fragment
+//        // and selected 'Clear All'
+//        if (id == R.id.action_clear_notifications) {
+//            Toast.makeText(getApplicationContext(), "Clear all notifications!", Toast.LENGTH_LONG).show();
+//        }
         return super.onOptionsItemSelected(item);
     }
 

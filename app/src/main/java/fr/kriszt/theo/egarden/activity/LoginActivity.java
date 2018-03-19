@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e(TAG, "onErrorResponse: ", error);
-//                    Toast.makeText(LoginActivity.this, "Erreur " + error.networkResponse.statusCode + " : \"" + error.getClass().getSimpleName() + "\"", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Erreur " + " : \"" + error.getClass().getSimpleName() + "\"", Toast.LENGTH_LONG).show();
                     _progressBar.setVisibility(View.GONE);
                 }
             });
