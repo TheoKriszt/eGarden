@@ -16,4 +16,13 @@
     <string name="preferences">preferences</string>
     <string name="navigation">navigation</string>
     <string name="login">Login</string>
+
+    <string-array name="nav_item_activity_titles">
+        <item>Tableau de bord</item>
+        <item>Alertes</item>
+        <item>Prises de vues</item>
+        <item>Statistiques</item>
+        <item>Parametres</item>
+    </string-array>
+
 </resources>

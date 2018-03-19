@@ -5,7 +5,7 @@
     android:id="@+id/loginView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.kriszt.theo.egarden.LoginActivity">
+    tools:context="fr.kriszt.theo.egarden.activity.LoginActivity">
 
     <ImageView
         android:id="@+id/logoView"
