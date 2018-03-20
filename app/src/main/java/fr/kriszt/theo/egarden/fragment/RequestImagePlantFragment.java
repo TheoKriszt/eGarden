@@ -1,66 +1,76 @@
-package fr.kriszt.theo.egarden;
+package fr.kriszt.theo.egarden.fragment;
 
 /**
  * Created by mike on 3/16/18.
  */
 
 
-import android.app.Activity;
-import android.content.Context;
+//import android.app.Fragment;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 
+import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
 
-public class RequestImagePlant extends AppCompatActivity {
-//    private Context mContext;
-//    private Activity mActivity;
+import static android.content.Context.MODE_PRIVATE;
 
-//    private CoordinatorLayout mCLayout;
+public class RequestImagePlantFragment extends Fragment {
+
     private ImageView mImageView;
-//    private ImageView mImageViewInternal;
-    //private String mImageURLString = "http://michaelcorp.zzzz.io/photos/";
     private String mImageURLString = "raspi.jpg"; // Câblé automatiquement vers  "/home/pi/egarden/images/<nom_image.jpg>" par NodeRed via [GET]/img/<nom_image.jpg>
 //    private String mImageURLString = "http://michaelcorp.zzzz.io:1880/img/test_user";
-    //private String mImageURLString = "https://cdn.nurserylive.com/images/stories/virtuemart/product/nurserylive-top-five-plants-to-attract-money.jpg";
+
+    public RequestImagePlantFragment(){
+        // Required empty public constructor
+    }
+
+    public static NotificationsFragment newInstance(String param1, String param2) {
+        NotificationsFragment fragment = new NotificationsFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.image_view);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_request_image, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         // Get the widget reference from XML layout
 //        mCLayout = findViewById(R.id.coordinator_layout);
-        Button mButtonDo = findViewById(R.id.btn_do);
-        mImageView = findViewById(R.id.iv);
+        Button mButtonDo = view.findViewById(R.id.btn_do);
+        mImageView = view.findViewById(R.id.iv);
 
 
         // Set a click listener for button widget
@@ -71,15 +81,16 @@ public class RequestImagePlant extends AppCompatActivity {
                 downloadImage();
             }
         });
+
     }
 
     private void downloadImage() {
-        Connexion.O(this, "1880", "sparklife.freeboxos.fr"); //TODO : virer quand cablé derrière MainActivity
+//        Connexion.O(this, "1880", "sparklife.freeboxos.fr"); //TODO : virer quand cablé derrière MainActivity
 
         Connexion.O().downloadImage(mImageURLString, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
-                Toast.makeText(RequestImagePlant.this, "Image téléchargée", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(RequestImagePlantFragment.this, "Image téléchargée", Toast.LENGTH_SHORT).show();
                 mImageView.setImageBitmap(response);
 
                 // Save this downloaded bitmap to internal storage
@@ -91,7 +102,7 @@ public class RequestImagePlant extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(RequestImagePlant.this, "Erreur de telechargement pour l'image", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(RequestImagePlantFragment.this, "Erreur de telechargement pour l'image", Toast.LENGTH_SHORT).show();
 //                Snackbar.make(mCLayout, "Error", Snackbar.LENGTH_LONG).show();
 
             }
@@ -102,7 +113,7 @@ public class RequestImagePlant extends AppCompatActivity {
     // Custom method to save a bitmap into internal storage
     protected Uri saveImageToInternalStorage(Bitmap bitmap) {
         // Initialize ContextWrapper
-        ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
+        ContextWrapper wrapper = new ContextWrapper(getView().getContext());
 
         // Initializing a new file
         // The bellow line return a directory in internal storage

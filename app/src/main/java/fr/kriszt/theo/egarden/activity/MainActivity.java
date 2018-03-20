@@ -19,6 +19,7 @@ import android.view.View;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
 import fr.kriszt.theo.egarden.fragment.NotificationsFragment;
+import fr.kriszt.theo.egarden.fragment.RequestImagePlantFragment;
 import fr.kriszt.theo.egarden.fragment.SettingsFragment;
 import fr.kriszt.theo.egarden.fragment.ShootingsFragment;
 import fr.kriszt.theo.egarden.fragment.StatsFragment;
@@ -134,8 +135,10 @@ public class MainActivity extends AppCompatActivity {
                 NotificationsFragment notificationsFragment = new NotificationsFragment();
                 return notificationsFragment;
             case 2:
-                ShootingsFragment shootingsFragment= new ShootingsFragment();
-                return shootingsFragment;
+//                ShootingsFragment shootingsFragment= new ShootingsFragment();
+//                return shootingsFragment;
+                RequestImagePlantFragment requestImagePlantFragment = new RequestImagePlantFragment();
+                return requestImagePlantFragment;
             case 3:
                 StatsFragment statsFragment = new StatsFragment();
                 return statsFragment;
