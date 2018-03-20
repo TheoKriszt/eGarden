@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fr.kriszt.theo.egarden.fragment.DashboardFragment">
+
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:text="Fragment de Dashboard" />-->
+
+    <!--<ImageView-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:alpha="0.3"-->
+        <!--app:srcCompat="@drawable/ic_dashboard" />-->
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/dht_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/dashboard_dht_progressbar"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="visible"
+            android:layout_centerInParent="true" />
+
+    </com.github.mikephil.charting.charts.LineChart>
+
+    <RelativeLayout
+        android:id="@+id/dashboard_commands"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </RelativeLayout>
+
+</FrameLayout>

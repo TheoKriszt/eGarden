@@ -30,13 +30,14 @@ import java.io.File;
 import java.net.URI;
 
 import fr.kriszt.theo.egarden.utils.CheckForSDCard;
+import fr.kriszt.theo.egarden.utils.Connexion;
 import fr.kriszt.theo.egarden.utils.DownloadTask;
 import fr.kriszt.theo.egarden.utils.Urls;
 import fr.kriszt.theo.egarden.utils.ZipManager;
 
 public class DownloadClientPlantsImgs extends AppCompatActivity implements View.OnClickListener {
     private static Button downloadZip, openDownloadedFolder,unzipFile;
-    private static final String TAG = "DownloadClientPlantsImgs Activity";
+    private static final String TAG = "DownloadPlantsImgs";
     private ImageView imgRcvedView ;
 
 //    Attributs to display large set of data images
@@ -54,7 +55,7 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
         setListeners();
     }
 
-    //Initialize al Views
+    //Initialize all Views
     private void initViews() {
         downloadZip = findViewById(R.id.downloadZip);
         unzipFile = findViewById(R.id.unZipFolder);
@@ -69,8 +70,6 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-
-
     }
 
     //Set Listeners to Buttons
@@ -80,7 +79,6 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
         unzipFile.setOnClickListener(this);
     }
 
-    @SuppressLint("LongLogTag")
     @Override
     public void onClick(View view) {
         if (ContextCompat.checkSelfPermission(DownloadClientPlantsImgs.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -96,7 +94,7 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
         //Before starting any download check internet connection availability
         switch (view.getId()) {
             case R.id.downloadZip:
-                if (isConnectingToInternet())
+                if (Connexion.O().isOnline())
                 {
                     Log.e(TAG , "Download started from "+Urls.downloadZipImgsUrl+"...");
                     new DownloadTask(DownloadClientPlantsImgs.this, downloadZip, Urls.downloadZipImgsUrl);
@@ -109,25 +107,9 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
                 Log.e(TAG , "Unzip started ...");
                 ZipManager.unzip(DownloadClientPlantsImgs.this,Urls.downloadDirectory + "/" + "plants_images.zip",
                         Urls.downloadDirectory + "/" + "plants_images");
-
-
                 break;
-
         }
 
     }
-
-
-    //Check if internet is present or not
-    private boolean isConnectingToInternet() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager
-                .getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
-    }
-
 
 }

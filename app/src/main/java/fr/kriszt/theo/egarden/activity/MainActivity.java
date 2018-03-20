@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import fr.kriszt.theo.egarden.R;
-import fr.kriszt.theo.egarden.fragment.HomeFragment;
+import fr.kriszt.theo.egarden.fragment.DashboardFragment;
 import fr.kriszt.theo.egarden.fragment.NotificationsFragment;
 import fr.kriszt.theo.egarden.fragment.SettingsFragment;
 import fr.kriszt.theo.egarden.fragment.ShootingsFragment;
@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
     private Fragment getHomeFragment() {
         switch (navItemIndex) {
             case 0:
-                HomeFragment homeFragment = new HomeFragment();
-                return homeFragment;
+                DashboardFragment dashboardFragment = new DashboardFragment();
+                return dashboardFragment;
             case 1:
                 NotificationsFragment notificationsFragment = new NotificationsFragment();
                 return notificationsFragment;
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 SettingsFragment settingsFragment = new SettingsFragment();
                 return settingsFragment;
             default:
-                return new HomeFragment();
+                return new DashboardFragment();
         }
     }
 

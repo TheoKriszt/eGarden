@@ -1,22 +1,30 @@
 package fr.kriszt.theo.egarden.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -120,16 +128,40 @@ public class Connexion {
 
         };
 
-//        Log.e(TAG, "sendHttpRequest: methode : " + stringRequest.getMethod(), null);
-//        try {
-//            Log.e(TAG, "sendHttpRequest: headers : " + stringRequest.getHeaders(), null);
-//        } catch (AuthFailureError authFailureError) {
-//
-//        }
-
         requestQueue.add(stringRequest);
     }
 
 
+    /**
+     * Télécharge l'image stockée dans /home/pi/egarden/images/imgUrl
+     * @param imgUrl le nom du fichier
+     * @param responseListener quoi faire en cas de succès
+     * @param errorListener que faire en cas d'échec
+     */
+    public void downloadImage(String imgUrl, Response.Listener<Bitmap> responseListener, Response.ErrorListener errorListener) {
 
+        ImageRequest imageRequest = new ImageRequest(address + ":" + port + "/img/" + imgUrl, responseListener, 0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.RGB_565, errorListener);
+        requestQueue.add(imageRequest);
+    }
+
+    public JSONObject decodeError(VolleyError error){
+        NetworkResponse response = error.networkResponse;
+        if (error instanceof ServerError && response != null) {
+            try {
+                String res = new String(response.data,
+                        HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                // Now you can use any deserializer to make sense of data
+                JSONObject obj = new JSONObject(res);
+                return obj;
+//                System.out.println(obj.toString());
+            } catch (UnsupportedEncodingException e1) {
+                // Couldn't properly decode data to string
+                e1.printStackTrace();
+            } catch (JSONException e2) {
+                // returned data is not JSONObject?
+                e2.printStackTrace();
+            }
+        }
+        return null;
+    }
 }
