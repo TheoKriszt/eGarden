@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class RequestImagePlantFragment extends Fragment {
 
+    private static final String TAG = "RequestImagePlant";
     private ImageView mImageView;
     private String mImageURLString = "img/raspi.jpg"; // Câblé automatiquement vers  "/home/pi/egarden/images/<nom_image.jpg>" par NodeRed via [GET]/img/<nom_image.jpg>
 //    private String mImageURLString = "http://michaelcorp.zzzz.io:1880/img/test_user";
@@ -85,12 +87,9 @@ public class RequestImagePlantFragment extends Fragment {
     }
 
     private void downloadImage() {
-//        Connexion.O(this, "1880", "sparklife.freeboxos.fr"); //TODO : virer quand cablé derrière MainActivity
-
         Connexion.O().downloadImage(mImageURLString, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
-//                Toast.makeText(RequestImagePlantFragment.this, "Image téléchargée", Toast.LENGTH_SHORT).show();
                 mImageView.setImageBitmap(response);
 
                 // Save this downloaded bitmap to internal storage
@@ -102,7 +101,7 @@ public class RequestImagePlantFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(RequestImagePlantFragment.this, "Erreur de telechargement pour l'image", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onErrorResponse: " + Connexion.O().decodeError(error));
 //                Snackbar.make(mCLayout, "Error", Snackbar.LENGTH_LONG).show();
 
             }
