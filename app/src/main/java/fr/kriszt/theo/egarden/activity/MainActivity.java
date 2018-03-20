@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import fr.kriszt.theo.egarden.DownloadClientPlantsImgsFragment;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.RequestImgsRecycledFragment;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
@@ -141,21 +142,25 @@ public class MainActivity extends AppCompatActivity {
                 NotificationsFragment notificationsFragment = new NotificationsFragment();
                 return notificationsFragment;
             case 2:
-//                ShootingsFragment shootingsFragment= new ShootingsFragment();
-//                return shootingsFragment;
-                RequestImagePlantFragment requestImagePlantFragment = new RequestImagePlantFragment();
-                return requestImagePlantFragment;
+                RequestImagePlantFragment reqImagePlantFragment = new RequestImagePlantFragment();
+                return reqImagePlantFragment;
+
             case 3:
                 RequestImgsRecycledFragment requestImagesRecycledFragment = new RequestImgsRecycledFragment();
                 return requestImagesRecycledFragment;
 
             case 4:
+                DownloadClientPlantsImgsFragment dlClientsPlantsImgsFragment= new DownloadClientPlantsImgsFragment();
+                return dlClientsPlantsImgsFragment;
+
+            case 5:
                 StatsFragment statsFragment = new StatsFragment();
                 return statsFragment;
 
-            case 5:
+            case 6:
                 SettingsFragment settingsFragment = new SettingsFragment();
                 return settingsFragment;
+
             default:
                 return new DashboardFragment();
         }
@@ -199,18 +204,19 @@ public class MainActivity extends AppCompatActivity {
                         navItemIndex = 3;
                         CURRENT_TAG = TAG_STREAM_IMGS;
                         break;
-                    case R.id.nav_statistics:
+                    case R.id.dwn_imgs:
                         navItemIndex = 4;
+                        CURRENT_TAG = TAG_DWNLOAD;
+                        break;
+                    case R.id.nav_statistics:
+                        navItemIndex = 5;
                         CURRENT_TAG = TAG_STATS;
                         break;
                     case R.id.nav_settings:
-                        navItemIndex = 5;
+                        navItemIndex = 6;
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
-                    case R.id.dwn_imgs:
-                        navItemIndex = 6;
-                        CURRENT_TAG = TAG_DWNLOAD;
-                        break;
+
 //                    case R.id.nav_about_us:
 //                        // launch new intent instead of loading fragment
 //                        startActivity(new Intent(MainActivity.this, AboutUsActivity.class));

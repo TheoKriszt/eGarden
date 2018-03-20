@@ -24,9 +24,7 @@
         <item
             android:id="@+id/dwn_imgs"
             android:icon="@drawable/ic_file_download_black_24dp"
-            android:title="@string/stream_imgs"/>
-
-
+            android:title="@string/dwn_imgs"/>
 
 
         <item

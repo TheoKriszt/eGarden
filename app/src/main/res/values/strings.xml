@@ -30,6 +30,8 @@
         <item>Dashboard</item>
         <item>Notifications</item>
         <item>Shootings</item>
+        <item>Stream my plants</item>
+        <item>Download all plants images</item>
         <item>Stats</item>
         <item>Settings</item>
     </string-array>
@@ -56,4 +58,5 @@
     <string name="downloadAgain">Download Again</string>
     <string name="unZipFolder">Unzip Folder</string>
     <string name="stream_imgs">Stream my plants</string>
+    <string name="dwn_imgs">Download all my images</string>
 </resources>
