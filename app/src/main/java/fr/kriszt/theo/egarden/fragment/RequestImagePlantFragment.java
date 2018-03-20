@@ -38,7 +38,8 @@ public class RequestImagePlantFragment extends Fragment {
 
     private static final String TAG = "RequestImagePlant";
     private ImageView mImageView;
-    private String mImageURLString = "img/raspi.jpg"; // Câblé automatiquement vers  "/home/pi/egarden/images/<nom_image.jpg>" par NodeRed via [GET]/img/<nom_image.jpg>
+    private String mImageURLString = "snapshot";
+    // OUTDATED // Câblé automatiquement vers  "/home/pi/egarden/images/<nom_image.jpg>" par NodeRed via [GET]/img/<nom_image.jpg>
 //    private String mImageURLString = "http://michaelcorp.zzzz.io:1880/img/test_user";
 
     public RequestImagePlantFragment(){
