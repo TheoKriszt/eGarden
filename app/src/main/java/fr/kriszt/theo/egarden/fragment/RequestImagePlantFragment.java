@@ -36,7 +36,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class RequestImagePlantFragment extends Fragment {
 
     private ImageView mImageView;
-    private String mImageURLString = "raspi.jpg"; // Câblé automatiquement vers  "/home/pi/egarden/images/<nom_image.jpg>" par NodeRed via [GET]/img/<nom_image.jpg>
+    private String mImageURLString = "img/raspi.jpg"; // Câblé automatiquement vers  "/home/pi/egarden/images/<nom_image.jpg>" par NodeRed via [GET]/img/<nom_image.jpg>
 //    private String mImageURLString = "http://michaelcorp.zzzz.io:1880/img/test_user";
 
     public RequestImagePlantFragment(){

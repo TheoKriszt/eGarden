@@ -140,7 +140,7 @@ public class Connexion {
      */
     public void downloadImage(String imgUrl, Response.Listener<Bitmap> responseListener, Response.ErrorListener errorListener) {
 
-        ImageRequest imageRequest = new ImageRequest(address + ":" + port + "/img/" + imgUrl, responseListener, 0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.RGB_565, errorListener);
+        ImageRequest imageRequest = new ImageRequest(address + ":" + port + "/" + imgUrl, responseListener, 0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.RGB_565, errorListener);
         requestQueue.add(imageRequest);
     }
 
