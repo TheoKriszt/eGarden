@@ -81,6 +81,7 @@ public class DownloadClientPlantsImgs extends AppCompatActivity implements View.
 
     @Override
     public void onClick(View view) {
+        // TODO : refactorer dans CheckForSDCard et renommer en SDUtils
         if (ContextCompat.checkSelfPermission(DownloadClientPlantsImgs.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.e(TAG , "WRITE EXTERNAL STORAGE PERMISSION NOT GRANTED");

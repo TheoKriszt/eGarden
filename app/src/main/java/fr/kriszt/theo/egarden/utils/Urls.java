@@ -12,4 +12,5 @@ public class Urls {
     public static final String mainImageUrl = "http://michaelcorp.zzzz.io";
     public static final String downloadZipImgsUrl = "http://michaelcorp.zzzz.io:1880/my_plants_imgs/user_test";
 
+
 }

@@ -3,6 +3,7 @@ package fr.kriszt.theo.egarden.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import fr.kriszt.theo.egarden.R;
@@ -13,6 +14,7 @@ import fr.kriszt.theo.egarden.R;
 
 public class PreferencesStorage {
 
+    private static final String TAG = "Security";
     private SharedPreferences sharedPref;
     private Context context;
     private static PreferencesStorage O = null;
@@ -25,8 +27,9 @@ public class PreferencesStorage {
 //        SharedPreferences sharedPref = PreferenceManager
 //                .getDefaultSharedPreferences(this);
 
-        if (sharedPref == null)
-            Toast.makeText(context, "sharedPref is NULL !", Toast.LENGTH_LONG).show();
+        if (sharedPref == null) {
+            Log.wtf(TAG, "sharedPref is NULL !");
+        }
     }
 
     public static PreferencesStorage O(Activity activity){

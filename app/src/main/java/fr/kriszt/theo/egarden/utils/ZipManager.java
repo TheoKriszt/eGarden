@@ -35,7 +35,7 @@ public class ZipManager {
             while (zipFileEntries.hasMoreElements()) {
                 // grab a zip file entry
 
-                ZipEntry entry = (ZipEntry) zipFileEntries.nextElement();
+                ZipEntry entry = (ZipEntry) zipFileEntries.nextElement(); // Todo [Refactor] : refactorer en SDUtils.storeZipEntry(entry, extractFolder)
                 String currentEntry = entry.getName();
 
                 currentEntry = currentEntry.replace('\\', '/');
@@ -65,10 +65,10 @@ public class ZipManager {
                     dest.flush();
                     dest.close();
                     is.close();
-                }
+                } // Todo fin [Refactor]
             }
             zip.close();
-            Log.e(TAG, "File " + zipFile + " unziped");
+            Log.d(TAG, "File " + zipFile + " unziped");
             Toast.makeText(context, "Sucess Unziping "+ zipFile , Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Log.e(TAG, "" + e.getMessage());

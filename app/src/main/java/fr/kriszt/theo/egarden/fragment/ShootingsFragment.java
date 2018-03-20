@@ -18,6 +18,7 @@ import fr.kriszt.theo.egarden.R;
  * to handle interaction events.
  * Use the {@link ShootingsFragment#newInstance} factory method to
  * create an instance of this fragment.
+ * @deprecated
  */
 public class ShootingsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
