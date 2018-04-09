@@ -41,15 +41,9 @@ import fr.kriszt.theo.egarden.utils.Connexion;
  * create an instance of this fragment.
  */
 public class DashboardFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String TAG = "DashboardFragment";
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
     private LineChart lineChart;
@@ -59,20 +53,11 @@ public class DashboardFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DashboardFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static DashboardFragment newInstance(String param1, String param2) {
         DashboardFragment fragment = new DashboardFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,8 +66,8 @@ public class DashboardFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
 
@@ -92,6 +77,7 @@ public class DashboardFragment extends Fragment {
         Connexion.O().sendGetRequest("/DHT", null, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 ArrayList<Entry> solEntries = new ArrayList<>();
                 ArrayList<Entry> humEntries = new ArrayList<>();
                 ArrayList<Entry> tempEntries = new ArrayList<>();
@@ -113,30 +99,57 @@ public class DashboardFragment extends Fragment {
                     }
 
                 } catch (JSONException e) {
-                    Log.e(TAG, "onResponse: ", e);
+                    Log.e(TAG, "DHT JSONException: ", e);
                 }
 
-                LineDataSet humDataSet = new LineDataSet(humEntries, "humidity");
-                LineDataSet solDataSet = new LineDataSet(humEntries, "Solar");
-                solDataSet.setColor(Color.YELLOW);
-                LineDataSet tempDataSet = new LineDataSet(humEntries, "Temperature");
-                tempDataSet.setColor(Color.RED);
+//                Log.e(TAG, "hum  : " + humEntries);
+//                Log.e(TAG, "temp : " + tempEntries);
+//                Log.e(TAG, "sol  : " + solEntries);
 
-                LineData data = new LineData();
+                //Humidity
+                LineDataSet humDataSet = new LineDataSet(humEntries, "humidity %HR");
+                humDataSet.setDrawCircles(false);
+                humDataSet.setColor(Color.BLUE);
+                humDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-                data.addDataSet(solDataSet);
-                data.addDataSet(humDataSet);
-                data.addDataSet(tempDataSet);
-                lineChart.setData(data);
+                //Solar
+                LineDataSet solDataSet = new LineDataSet(solEntries, "Solar");
+                solDataSet.setDrawValues(false);
+                solDataSet.setDrawCircles(false);
+//                solDataSet.setDrawCircleHole(false);
+                
+                solDataSet.setColor(Color.rgb(255, 102, 0));
+                solDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
+                //Temperature
+                LineDataSet tempDataSet = new LineDataSet(tempEntries, "Temperature °C");
+                tempDataSet.setDrawCircles(false);
+                tempDataSet.setColor(Color.GREEN);
+                tempDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
+                lineChart.animateX(1000);
+
+                LineData lineData = new LineData(humDataSet, tempDataSet, solDataSet);
+
+//                LineData lineData = new LineData(solDataSet, humDataSet, tempDataSet);
+
+                //Description
                 Description description = new Description();
                 description.setText("DHT values");
                 lineChart.setDescription(description);
+                lineChart.invalidate();
+                lineChart.setData(lineData);
+
+                //lineChart.invalidate();
+
                 getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getContext(), "Erreur lors de la recuperationn des DHTs", Toast.LENGTH_SHORT).show();
+                getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
             }
         });
     }
