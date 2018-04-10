@@ -16,6 +16,8 @@
     <string name="preferences">preferences</string>
     <string name="navigation">Navigation</string>
     <string name="login">Login</string>
+    <string name="to">à</string>
+    <string name="loadDHT">Chargement des données environnementales</string>
 
     <string-array name="nav_item_activity_titles">
         <item>Tableau de bord</item>

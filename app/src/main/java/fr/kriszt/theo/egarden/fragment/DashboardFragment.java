@@ -1,6 +1,5 @@
 package fr.kriszt.theo.egarden.fragment;
 
-//import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -13,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -27,8 +27,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
 
@@ -41,23 +44,26 @@ import fr.kriszt.theo.egarden.utils.Connexion;
  * create an instance of this fragment.
  */
 public class DashboardFragment extends Fragment {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String TAG = "DashboardFragment";
-
+    private View view;
 
     private OnFragmentInteractionListener mListener;
     private LineChart lineChart;
+    @BindView(R.id.weather_alert) TextView _weatherAlert;
+    @BindView(R.id.temperature_alert) TextView _temperatureAlert;
+    @BindView(R.id.hygrometry_alert) TextView _hygrometryAlert;
+    @BindView(R.id.temperature_value) TextView _temperatureValue;
+    @BindView(R.id.hydrometry_value) TextView _hygrometryValue;
+    @BindView(R.id.weather_value) TextView _weatherValue;
 
 
     public DashboardFragment() {
         // Required empty public constructor
     }
 
-    public static DashboardFragment newInstance(String param1, String param2) {
+    public static DashboardFragment newInstance() {
         DashboardFragment fragment = new DashboardFragment();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,12 +71,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
     }
 
     private void fetchDHTValues() {
@@ -102,9 +102,6 @@ public class DashboardFragment extends Fragment {
                     Log.e(TAG, "DHT JSONException: ", e);
                 }
 
-//                Log.e(TAG, "hum  : " + humEntries);
-//                Log.e(TAG, "temp : " + tempEntries);
-//                Log.e(TAG, "sol  : " + solEntries);
 
                 //Humidity
                 LineDataSet humDataSet = new LineDataSet(humEntries, "humidity %HR");
@@ -148,43 +145,66 @@ public class DashboardFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "Erreur lors de la recuperationn des DHTs", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Erreur lors de la récupérationn des données environnementales", Toast.LENGTH_SHORT).show();
                 getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
             }
         });
     }
 
+    private void fetchWeatherAPI(){
+
+
+
+        Connexion.O().sendGetRequest("/weather", null, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject json = new JSONObject(response);
+//                    Log.e(TAG, response, null);
+                    JSONObject weather = (JSONObject) json.get("weather");
+                    JSONObject temperature = (JSONObject) json.get("temperature");
+                    JSONObject humidity = (JSONObject) json.get("humidity");
+
+                    String humidityValue = humidity.getString("value");
+                    String tempMin = temperature.getString("min");
+                    String tempMax = temperature.getString("max");
+                    String tempAlert = temperature.getString("alert");
+                    String weatherMsg = weather.getString("msg");
+                    String weatherAlert = weather.getString("alert");
+                    String weatherIcon = weather.getString("icon");
+
+//                    Toast.makeText(view.getContext(), response , Toast.LENGTH_SHORT).show();
+
+                    _weatherValue.setText( weatherMsg );
+                    _weatherAlert.setText( weatherAlert );
+
+                    // TODO : set weather icon
+
+                    _temperatureValue.setText(MessageFormat.format("{0} à {1} (°C)", tempMin, tempMax));
+                    _temperatureAlert.setText( tempAlert );
+
+                    _hygrometryValue.setText(MessageFormat.format("{0} (% HR)", humidityValue));
+                    // TODO : fetch & process hygro Alerts
+
+
+                } catch (JSONException e) {
+//                    Toast.makeText(view.getContext() , "erreur parsing JSON ", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onResponse: ", e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "" + Connexion.O().decodeError(error));
+            }
+        });
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-
-//        ArrayList<Entry> entries = new ArrayList<>();
-//        entries.add(new Entry(4, 0));
-//        entries.add(new Entry(8, 1));
-//        entries.add(new Entry(6, 2));
-//        entries.add(new Entry(2, 3));
-//        entries.add(new Entry(18, 4));
-//        entries.add(new Entry(9, 5));
-//
-//        LineDataSet dataSet = new LineDataSet(entries, "# of calls");
-//        ArrayList<String> labels = new ArrayList<>();
-//        labels.add("Jan");
-//        labels.add("Fev");
-//        labels.add("Mar");
-//        labels.add("Avr");
-//        labels.add("Mai");
-//        labels.add("Juin");
-//
-//        LineData data = new LineData();
-//        data.addDataSet(dataSet);
-//        data.set
-
-
-
-
+        view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         return view;
     }
@@ -193,7 +213,10 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         lineChart = view.findViewById(R.id.dht_chart);
+        lineChart.setNoDataText("");
+        ButterKnife.bind(this, view);
         fetchDHTValues();
+        fetchWeatherAPI();
 
 
     }
@@ -208,12 +231,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
 

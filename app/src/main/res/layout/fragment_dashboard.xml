@@ -1,43 +1,172 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="fr.kriszt.theo.egarden.fragment.DashboardFragment">
 
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:text="Fragment de Dashboard" />-->
-
-    <!--<ImageView-->
-        <!--android:layout_width="100dp"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:alpha="0.3"-->
-        <!--app:srcCompat="@drawable/ic_dashboard" />-->
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/dht_chart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ProgressBar
-            android:id="@+id/dashboard_dht_progressbar"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="visible"
-            android:layout_centerInParent="true" />
-
-    </com.github.mikephil.charting.charts.LineChart>
-
     <RelativeLayout
-        android:id="@+id/dashboard_commands"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/dht_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/dashboard_dht_progressbar"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:visibility="visible" />
+
+        </com.github.mikephil.charting.charts.LineChart>
 
     </RelativeLayout>
 
-</FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/dashboard_summary"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/hydrometry_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintBottom_toTopOf="@+id/hygrometry_alert"
+                app:layout_constraintStart_toEndOf="@+id/hygrometry_icon"
+                app:layout_constraintTop_toTopOf="@+id/hygrometry_icon"
+                android:layout_marginLeft="8dp" />
+
+            <TextView
+                android:id="@+id/temperature_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:lines="2"
+                android:maxLines="4"
+                app:layout_constraintBottom_toBottomOf="@+id/temperature_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toEndOf="@+id/temperature_icon"
+                app:layout_constraintTop_toBottomOf="@+id/temperature_value" />
+
+            <TextView
+                android:id="@+id/weather_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintBottom_toTopOf="@+id/weather_alert"
+                app:layout_constraintStart_toEndOf="@+id/weather_icon"
+                app:layout_constraintTop_toTopOf="@+id/weather_icon"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="1dp"
+                android:layout_marginLeft="8dp" />
+
+            <ImageView
+                android:id="@+id/hygrometry_icon"
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/temperature_icon"
+                app:srcCompat="@drawable/ic_hygrometry" />
+
+            <ImageView
+                android:id="@+id/weather_icon"
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/temperature_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_weather_01d"
+                tools:layout_conversion_absoluteHeight="1dp"
+                tools:layout_conversion_absoluteWidth="1dp" />
+
+            <ImageView
+                android:id="@+id/temperature_icon"
+                android:layout_width="@android:dimen/app_icon_size"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:adjustViewBounds="true"
+                android:cropToPadding="false"
+                app:layout_constraintBottom_toTopOf="@+id/hygrometry_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/weather_icon"
+                app:srcCompat="@drawable/ic_temperature" />
+
+            <TextView
+                android:id="@+id/weather_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/weather_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/weather_icon"
+                app:layout_constraintTop_toBottomOf="@+id/weather_value"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="1dp" />
+
+            <TextView
+                android:id="@+id/temperature_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintBottom_toTopOf="@+id/temperature_alert"
+                app:layout_constraintStart_toEndOf="@+id/temperature_icon"
+                app:layout_constraintTop_toTopOf="@+id/temperature_icon"
+                android:layout_marginLeft="8dp" />
+
+            <TextView
+                android:id="@+id/hygrometry_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="@+id/hygrometry_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/hygrometry_icon"
+                app:layout_constraintTop_toBottomOf="@+id/hydrometry_value" />
+
+            <!--<EditText-->
+                <!--android:id="@+id/editText"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="textMultiLine" />-->
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>
