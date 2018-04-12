@@ -59,4 +59,12 @@
     <string name="unZipFolder">Unzip Folder</string>
     <string name="stream_imgs">Stream my plants</string>
     <string name="dwn_imgs">Download all my images</string>
+    <string name="hygrometry">hygrometry</string>
+    <string name="to">à</string>
+    <string name="loadDHT">Chargement des données environnementales</string>
+    <string name="plantsNeedWater">Des plantes manquent d\'eau</string>
+    <string name="sunlight">Ensoleillement</string>
+    <string name="temperature">Temperature</string>
+    <string name="humidity">humidity</string>
+    <string name="errorGetDHT">Erreur lors de la récupération des données environnementales</string>
 </resources>

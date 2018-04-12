@@ -23,7 +23,6 @@ import fr.kriszt.theo.egarden.fragment.DashboardFragment;
 import fr.kriszt.theo.egarden.fragment.NotificationsFragment;
 import fr.kriszt.theo.egarden.fragment.RequestImagePlantFragment;
 import fr.kriszt.theo.egarden.fragment.SettingsFragment;
-import fr.kriszt.theo.egarden.fragment.ShootingsFragment;
 import fr.kriszt.theo.egarden.fragment.StatsFragment;
 
 
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
 
-                Log.w(TAG, "onNavigationItemSelected: old tag : " + CURRENT_TAG);
+//                Log.w(TAG, "onNavigationItemSelected: old tag : " + CURRENT_TAG);
 
 
                 //Check to see which item was being clicked and perform appropriate action

@@ -17,44 +17,67 @@
         android:layout_centerHorizontal="true"
         />
 
-    <EditText
-        android:id="@+id/editIPAddress"
-        android:hint="@string/ipaddress"
-        android:inputType="text"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/logoView"
+        android:id="@+id/editIPAddressLayout"
+        android:layout_below="@+id/logoView"
+        android:layout_centerHorizontal="true">
+        <EditText
+            android:id="@+id/editIPAddress"
+            android:hint="@string/ipaddress"
+            android:inputType="text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            />
+    </android.support.design.widget.TextInputLayout>
 
-        />
 
-    <EditText
-        android:id="@+id/editPort"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/port"
-        android:inputType="number"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/editIPAddress"
-    />
+        android:id="@+id/editPortLayout"
+        android:layout_below="@id/editIPAddressLayout"
+        android:layout_centerHorizontal="true">
+        <EditText
+            android:id="@+id/editPort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/port"
+            android:inputType="number"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            />
+    </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editUsername"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/username"
-        android:inputType="textPersonName"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/editPort"
+        android:id="@+id/editUsernameLayout"
+        android:layout_below="@id/editPortLayout"
+        android:layout_centerHorizontal="true">
+        <EditText
+            android:id="@+id/editUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/username"
+            android:inputType="textPersonName"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            />
+    </android.support.design.widget.TextInputLayout>
 
-    />
-
+<android.support.design.widget.TextInputLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/editPasswordLayout"
+    android:layout_below="@id/editUsernameLayout"
+    android:layout_centerHorizontal="true">
     <EditText
         android:id="@+id/editPassword"
         android:layout_width="wrap_content"
@@ -64,9 +87,8 @@
         android:inputType="textPassword"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/editUsername"
-         />
-
+        />
+</android.support.design.widget.TextInputLayout>
 
     <Button
     android:id="@+id/connectButton"
@@ -75,7 +97,7 @@
     android:text="@string/connexion"
     android:layout_marginTop="20dp"
     android:layout_centerHorizontal="true"
-    android:layout_below="@id/editPassword"
+    android:layout_below="@id/editPasswordLayout"
     />
 
 
