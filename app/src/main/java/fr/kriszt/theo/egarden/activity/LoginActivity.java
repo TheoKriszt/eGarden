@@ -24,7 +24,7 @@ import fr.kriszt.theo.egarden.utils.Security;
 public class LoginActivity extends AppCompatActivity {
 
 
-    private static final String TAG = "eGardenLoginActivity";
+    private static final String TAG = "eGardenLogin";
     private String errorMessage = "";
 
     @BindView(R.id.editIPAddress) EditText _editIPAddress;

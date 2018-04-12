@@ -18,6 +18,9 @@
     <string name="login">Login</string>
     <string name="to">à</string>
     <string name="loadDHT">Chargement des données environnementales</string>
+    <string name="plantsNeedWater">Des plantes manquent d\'eau</string>
+    <string name="sunlight">Ensoleillement</string>
+    <string name="errorGetDHT">Erreur lors de la récupération des données environnementales</string>
 
     <string-array name="nav_item_activity_titles">
         <item>Tableau de bord</item>

@@ -12,16 +12,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +60,7 @@ public class DashboardFragment extends Fragment {
     @BindView(R.id.temperature_value) TextView _temperatureValue;
     @BindView(R.id.hydrometry_value) TextView _hygrometryValue;
     @BindView(R.id.weather_value) TextView _weatherValue;
+    @BindView(R.id.weather_icon) ImageView _weatherIcon;
 
 
     public DashboardFragment() {
@@ -81,7 +87,7 @@ public class DashboardFragment extends Fragment {
                 ArrayList<Entry> solEntries = new ArrayList<>();
                 ArrayList<Entry> humEntries = new ArrayList<>();
                 ArrayList<Entry> tempEntries = new ArrayList<>();
-                ArrayList<String> dateLabels = new ArrayList<>();
+                final ArrayList<String> dateLabels = new ArrayList<>();
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     Log.w(TAG, "JSONARRAY: " + jsonArray.length() + " rows fetched");
@@ -104,31 +110,43 @@ public class DashboardFragment extends Fragment {
 
 
                 //Humidity
-                LineDataSet humDataSet = new LineDataSet(humEntries, "humidity %HR");
+                LineDataSet humDataSet = new LineDataSet(humEntries, getString(R.string.humidity) + " %HR");
                 humDataSet.setDrawCircles(false);
                 humDataSet.setColor(Color.BLUE);
                 humDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
                 //Solar
-                LineDataSet solDataSet = new LineDataSet(solEntries, "Solar");
+                LineDataSet solDataSet = new LineDataSet(solEntries, getString(R.string.sunlight));
                 solDataSet.setDrawValues(false);
                 solDataSet.setDrawCircles(false);
-//                solDataSet.setDrawCircleHole(false);
                 
                 solDataSet.setColor(Color.rgb(255, 102, 0));
                 solDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
                 //Temperature
-                LineDataSet tempDataSet = new LineDataSet(tempEntries, "Temperature °C");
+                LineDataSet tempDataSet = new LineDataSet(tempEntries, getString(R.string.temperature) + " °C");
                 tempDataSet.setDrawCircles(false);
                 tempDataSet.setColor(Color.GREEN);
                 tempDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
                 lineChart.animateX(1000);
+                YAxis leftAxis = lineChart.getAxisLeft();
+                YAxis rightAxis = lineChart.getAxisRight();
+                XAxis xAxis = lineChart.getXAxis();
+//                xAxis.setLabelRotationAngle(45f);
+                xAxis.setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return dateLabels.get((int) value).substring(11, 16);
+                    }
+                });
+
+                tempDataSet.setAxisDependency(leftAxis.getAxisDependency());
+                solDataSet.setAxisDependency(rightAxis.getAxisDependency());
+                humDataSet.setAxisDependency(rightAxis.getAxisDependency());
+
 
                 LineData lineData = new LineData(humDataSet, tempDataSet, solDataSet);
-
-//                LineData lineData = new LineData(solDataSet, humDataSet, tempDataSet);
 
                 //Description
                 Description description = new Description();
@@ -137,7 +155,7 @@ public class DashboardFragment extends Fragment {
                 lineChart.invalidate();
                 lineChart.setData(lineData);
 
-                //lineChart.invalidate();
+
 
                 getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
 
@@ -145,15 +163,13 @@ public class DashboardFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "Erreur lors de la récupérationn des données environnementales", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.errorGetDHT, Toast.LENGTH_SHORT).show();
                 getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
             }
         });
     }
 
     private void fetchWeatherAPI(){
-
-
 
         Connexion.O().sendGetRequest("/weather", null, new Response.Listener<String>() {
             @Override
@@ -178,13 +194,17 @@ public class DashboardFragment extends Fragment {
                     _weatherValue.setText( weatherMsg );
                     _weatherAlert.setText( weatherAlert );
 
-                    // TODO : set weather icon
+                    int iconResource = getResources().getIdentifier(
+                            "ic_weather_" + weatherIcon, "drawable", getContext().getPackageName() );
+                    _weatherIcon.setImageResource(iconResource);
+
 
                     _temperatureValue.setText(MessageFormat.format("{0} à {1} (°C)", tempMin, tempMax));
                     _temperatureAlert.setText( tempAlert );
 
                     _hygrometryValue.setText(MessageFormat.format("{0} (% HR)", humidityValue));
-                    // TODO : fetch & process hygro Alerts
+                    // TODO : fetch & process hygro plants Alerts
+
 
 
                 } catch (JSONException e) {
@@ -217,8 +237,37 @@ public class DashboardFragment extends Fragment {
         ButterKnife.bind(this, view);
         fetchDHTValues();
         fetchWeatherAPI();
+        fetchPlantsStatuses();
 
 
+    }
+
+    private void fetchPlantsStatuses() {
+        Connexion.O().sendGetRequest("/plants", null, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                int plantsWarnings = 0;
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject plant = (JSONObject) jsonArray.get(i);
+                        int threshold = plant.getInt("threshold");
+                        int moisture = plant.getInt("value");
+                        if (moisture < threshold){
+                            plantsWarnings++;
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    Log.e(TAG, "fetchPlantsStatuses: ", e);
+                }
+
+                if (plantsWarnings > 0){
+                    _hygrometryAlert.setText(R.string.plantsNeedWater);
+                }
+            }
+        }, null);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
