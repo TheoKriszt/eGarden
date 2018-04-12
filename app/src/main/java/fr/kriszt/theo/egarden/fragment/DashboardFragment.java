@@ -137,7 +137,7 @@ public class DashboardFragment extends Fragment {
                 xAxis.setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        return dateLabels.get((int) value).substring(11, 16);
+                        return dateLabels.get((int) value);
                     }
                 });
 
