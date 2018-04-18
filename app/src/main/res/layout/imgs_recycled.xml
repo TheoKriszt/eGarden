@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:id="@+id/activity_main"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context="fr.kriszt.theo.egarden.fragment.RequestImagePlantFragment">-->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.kriszt.theo.egarden.RequestImgsRecycled">
+    tools:context="fr.kriszt.theo.egarden.fragment.RequestImagePlantFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview1"
+        android:id="@+id/plantsRecycler"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+</FrameLayout>
 
-</RelativeLayout>
+<!--</RelativeLayout>-->

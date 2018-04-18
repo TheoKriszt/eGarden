@@ -253,7 +253,7 @@ public class DashboardFragment extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++){
                         JSONObject plant = (JSONObject) jsonArray.get(i);
                         int threshold = plant.getInt("threshold");
-                        int moisture = plant.getInt("value");
+                        int moisture = plant.getInt("hygrometry");
                         if (moisture < threshold){
                             plantsWarnings++;
                         }
