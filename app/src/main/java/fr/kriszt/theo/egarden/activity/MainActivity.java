@@ -18,7 +18,7 @@ import android.view.View;
 
 import fr.kriszt.theo.egarden.DownloadClientPlantsImgsFragment;
 import fr.kriszt.theo.egarden.R;
-import fr.kriszt.theo.egarden.RequestImgsRecycledFragment;
+import fr.kriszt.theo.egarden.fragment.PlantsListFragment;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
 import fr.kriszt.theo.egarden.fragment.NotificationsFragment;
 import fr.kriszt.theo.egarden.fragment.RequestImagePlantFragment;
@@ -113,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 // update the main content by replacing fragments
                 Fragment fragment = getHomeFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out);
+//                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+//                        android.R.anim.fade_out);
                 fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
                 fragmentTransaction.commitAllowingStateLoss();
             }
@@ -135,30 +135,23 @@ public class MainActivity extends AppCompatActivity {
     private Fragment getHomeFragment() {
         switch (navItemIndex) {
             case 0:
-                DashboardFragment dashboardFragment = new DashboardFragment();
-                return dashboardFragment;
+                return new DashboardFragment();
             case 1:
-                NotificationsFragment notificationsFragment = new NotificationsFragment();
-                return notificationsFragment;
+                return new NotificationsFragment();
             case 2:
-                RequestImagePlantFragment reqImagePlantFragment = new RequestImagePlantFragment();
-                return reqImagePlantFragment;
+                return new RequestImagePlantFragment();
 
             case 3:
-                RequestImgsRecycledFragment requestImagesRecycledFragment = new RequestImgsRecycledFragment();
-                return requestImagesRecycledFragment;
+                return new PlantsListFragment();
 
             case 4:
-                DownloadClientPlantsImgsFragment dlClientsPlantsImgsFragment= new DownloadClientPlantsImgsFragment();
-                return dlClientsPlantsImgsFragment;
+                return new DownloadClientPlantsImgsFragment();
 
             case 5:
-                StatsFragment statsFragment = new StatsFragment();
-                return statsFragment;
+                return new StatsFragment();
 
             case 6:
-                SettingsFragment settingsFragment = new SettingsFragment();
-                return settingsFragment;
+                return new SettingsFragment();
 
             default:
                 return new DashboardFragment();

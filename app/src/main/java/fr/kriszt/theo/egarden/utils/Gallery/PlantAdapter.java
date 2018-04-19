@@ -8,6 +8,7 @@ public class PlantAdapter
 {
     private String imageURL;
     private String plantName;
+    private String plantId;
     private int hygrometry;
     private int threshold;
     private boolean autoWatering;
@@ -15,6 +16,7 @@ public class PlantAdapter
     public PlantAdapter(JSONObject json) throws JSONException {
         imageURL = json.getString("imgURI");
         plantName = json.getString("name");
+        plantId = json.getString("id");
         threshold = json.getInt("threshold");
         hygrometry = json.getInt("hygrometry");
         autoWatering = json.getInt("auto_watering") == 1;
@@ -45,5 +47,9 @@ public class PlantAdapter
 
     public boolean isAutoWatering() {
         return autoWatering;
+    }
+
+    public String getPlantId() {
+        return plantId;
     }
 }

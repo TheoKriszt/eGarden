@@ -1,4 +1,5 @@
-package fr.kriszt.theo.egarden;
+package fr.kriszt.theo.egarden.fragment;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import org.json.JSONArray;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -22,11 +25,14 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
 import fr.kriszt.theo.egarden.utils.Gallery.PlantAdapter;
 import fr.kriszt.theo.egarden.utils.Gallery.PlantsRecyclerAdapter;
 
-public class RequestImgsRecycledFragment extends Fragment {
+import static fr.kriszt.theo.egarden.activity.MainActivity.CURRENT_TAG;
+
+public class PlantsListFragment extends Fragment {
 
     private static final String TAG = "PlantsFragment";
 
@@ -61,6 +67,7 @@ public class RequestImgsRecycledFragment extends Fragment {
         recyclerView.setLayoutManager(recyclerLayoutManager);
 
         fetch_plants();
+        final Fragment fragment = this;
 
         // Implementing Click Listener on RecyclerView.
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener()
@@ -82,11 +89,31 @@ public class RequestImgsRecycledFragment extends Fragment {
 
                     //Getting RecyclerView Clicked Item value.
 //                    RecyclerViewItemPosition =
-                    int itemPosition = Recyclerview.getChildAdapterPosition(item);
+                    final int itemPosition = Recyclerview.getChildAdapterPosition(item);
 
                     // Showing RecyclerView Clicked Item value using Toast.
                     // Todo : get to given plant view
-//                    Toast.makeText(item.getContext(), ImageTitleNameArrayListForClick.get(RecyclerViewItemPosition), Toast.LENGTH_LONG).show();
+                    Toast.makeText(item.getContext(), "Item pos. : " + itemPosition, Toast.LENGTH_SHORT).show();
+
+                    ///////////////////
+                    Runnable mPendingRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            // update the main content by replacing fragments
+                            String plantId = adaptedPlants.get(itemPosition).getPlantId();
+                            Fragment plantFragment = PlantDetailsFragment .newInstance(plantId);
+                            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+//                        android.R.anim.fade_out);
+                            fragmentTransaction.replace(R.id.frame, plantFragment, CURRENT_TAG);
+                            fragmentTransaction.commitAllowingStateLoss();
+                        }
+                    };
+                    Handler mHandler = new Handler();
+                    if (mPendingRunnable != null) {
+                        mHandler.post(mPendingRunnable);
+                    }
+                    ///////////////////
                 }
 
                 return false;
@@ -128,25 +155,18 @@ public class RequestImgsRecycledFragment extends Fragment {
 
         for(int i = 0; i<plants.length(); i++) {
 
-//            PlantAdapter plantAdapter = new PlantAdapter();
-
             try {
 
                 JSONObject json;
                 json = plants.getJSONObject(i);
                 adaptedPlants.add(new PlantAdapter(json));
-//                plantAdapter.setPlantName(json.getString("name"));
-
                 // Adding image title name in array to display on RecyclerView click event.
 //                ImageTitleNameArrayListForClick.add(json.getString(Image_Name_JSON));
-
-
 
             } catch (JSONException e) {
 
                 e.printStackTrace();
             }
-//            adaptedPlants.add(plantAdapter);
         }
 
         recyclerViewAdapter = new PlantsRecyclerAdapter(adaptedPlants, getView().getContext());
