@@ -36,7 +36,7 @@ import static fr.kriszt.theo.egarden.activity.MainActivity.CURRENT_TAG;
 
 public class PlantsListFragment extends Fragment {
 
-    private static final String TAG = "PlantsFragment";
+    public static final String TAG = "PlantsFragment";
 
     private List<PlantAdapter> adaptedPlants = new ArrayList<>();
 
@@ -106,7 +106,9 @@ public class PlantsListFragment extends Fragment {
                             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
 //                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
 //                        android.R.anim.fade_out);
-                            fragmentTransaction.replace(R.id.frame, plantFragment, CURRENT_TAG);
+                            fragmentTransaction.replace(R.id.frame, plantFragment, PlantDetailsFragment.TAG);
+                            CURRENT_TAG = PlantDetailsFragment.TAG;
+//                            fragmentTransaction.replace(R.id.frame, plantFragment, CURRENT_TAG);
                             fragmentTransaction.commitAllowingStateLoss();
                         }
                     };

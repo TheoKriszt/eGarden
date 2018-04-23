@@ -15,9 +15,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import fr.kriszt.theo.egarden.DownloadClientPlantsImgsFragment;
 import fr.kriszt.theo.egarden.R;
+import fr.kriszt.theo.egarden.fragment.PlantDetailsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantsListFragment;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
 import fr.kriszt.theo.egarden.fragment.NotificationsFragment;
@@ -275,6 +277,16 @@ public class MainActivity extends AppCompatActivity {
         // This code loads home fragment when back key is pressed
         // when user is in other fragment than home
         boolean shouldLoadHomeFragOnBackPress = true;
+
+
+        //Toast.makeText(this, "BackPressed from " + CURRENT_TAG, Toast.LENGTH_SHORT).show();
+        if (CURRENT_TAG.equals(PlantDetailsFragment.TAG)){
+            navItemIndex = 3;
+            CURRENT_TAG = TAG_STREAM_IMGS;
+            loadHomeFragment();
+            return;
+        }
+
         if (shouldLoadHomeFragOnBackPress) {
             // checking if user is on other navigation menu
             // rather than home

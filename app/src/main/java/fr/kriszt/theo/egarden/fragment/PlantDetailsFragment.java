@@ -49,7 +49,7 @@ import fr.kriszt.theo.egarden.utils.Gallery.PlantAdapter;
 
 public class PlantDetailsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String TAG = "PlantDetailsFragment";
+    public static final String TAG = "PlantDetailsFragment";
 
     private static final String PLANT_ID = "plantId";
 
