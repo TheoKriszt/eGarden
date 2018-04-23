@@ -45,14 +45,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name=".FirebaseGardenNotifier">
+            android:name=".firebaseMessaging.FirebaseGardenNotifier">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
         <service
-            android:name=".FirebaseGardenIDService">
+            android:name=".firebaseMessaging.FirebaseGardenIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

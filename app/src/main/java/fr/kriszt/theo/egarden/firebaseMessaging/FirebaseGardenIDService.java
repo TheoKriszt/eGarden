@@ -1,4 +1,4 @@
-package fr.kriszt.theo.egarden;
+package fr.kriszt.theo.egarden.firebaseMessaging;
 
 import android.app.Service;
 import android.util.Log;
