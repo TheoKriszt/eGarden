@@ -24,6 +24,8 @@
     <string name="navigation">navigation</string>
     <string name="statistics">statistics</string>
 
+    <string name="defaultNotificationChannel">egarden_notification_channel_DEFAULT</string>
+
 
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">

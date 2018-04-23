@@ -3,6 +3,8 @@ package fr.kriszt.theo.egarden.utils;
 import android.util.Log;
 
 import com.android.volley.Response;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,7 +14,7 @@ import java.util.HashMap;
  * Created by T.Kriszt on 12/03/18.
  */
 
-public class Security {
+public class Security  extends FirebaseInstanceIdService{
 
     private static String auth_token = null;
     public static final String TAG = "eGardenSecurity";
@@ -42,6 +44,7 @@ public class Security {
         HashMap<String, String> postParams = new HashMap<>();
         postParams.put("username", username);
         postParams.put("password", md5(password));
+        postParams.put("firebaseToken", FirebaseInstanceId.getInstance().getToken());
 
         Response.Listener<String> responseWrapper = new Response.Listener<String>() {
             @Override
