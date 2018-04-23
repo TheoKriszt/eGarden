@@ -163,8 +163,16 @@ public class DashboardFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), R.string.errorGetDHT, Toast.LENGTH_SHORT).show();
-                getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
+
+                try {
+                    Log.e(TAG, "get DHT: \n" + Connexion.O().decodeError(error));
+//                    Log.e(TAG, "get DHT: \n" + error.);
+                    Toast.makeText(getContext(), R.string.errorGetDHT, Toast.LENGTH_SHORT).show();
+                    getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
+                }catch (NullPointerException e){
+                    Log.e(TAG, "onErrorResponse: ", e);
+                }
+
             }
         });
     }

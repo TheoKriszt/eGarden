@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,6 +36,7 @@ import java.util.Map;
 public class Connexion {
 
     private static final String TAG = "eGardenConnexion";
+    private static final int TIMEOUT_MS = 5000;
     private Context context;
     private static String port = null;
     private static String address = null;
@@ -127,6 +129,11 @@ public class Connexion {
             }
 
         };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(stringRequest);
     }

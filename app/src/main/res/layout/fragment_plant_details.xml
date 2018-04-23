@@ -1,33 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="false">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            >
+            <Button
+                android:id="@+id/plant_detail_water_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Arroser maintenant"
+                app:layout_constraintBottom_toTopOf="@+id/plant_detail_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plant_detail_image" />
 
             <ImageView
                 android:id="@+id/plant_detail_image"
                 android:layout_width="100dip"
                 android:layout_height="100dip"
                 android:layout_below="@+id/plant_detail_name"
+                android:layout_marginBottom="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@+id/plant_detail_name"
                 android:layout_toRightOf="@+id/plant_detail_name"
                 android:contentDescription="@string/plant_image"
-                app:layout_constraintBottom_toTopOf="@+id/plant_detail_description"
+                app:layout_constraintBottom_toTopOf="@+id/plant_detail_water_button"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -57,35 +69,37 @@
                 android:layout_marginTop="8dp"
                 android:text="Etat : inconnu"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintBottom_toBottomOf="@+id/plant_detail_image"
+                app:layout_constraintBottom_toTopOf="@+id/plant_detail_water_button"
                 app:layout_constraintEnd_toEndOf="@+id/plant_detail_name"
                 app:layout_constraintStart_toStartOf="@+id/plant_detail_name"
                 app:layout_constraintTop_toBottomOf="@+id/plant_detail_name" />
 
             <TextView
                 android:id="@+id/plant_detail_description"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="16dp"
-                android:text="Description de la plante"
-                app:layout_constraintBottom_toTopOf="@+id/plant_detail_autowater_switch"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/plant_detail_image"
-                android:layout_marginLeft="60dp" />
 
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text=""
+                app:layout_constraintBottom_toTopOf="@+id/plant_detail_autowater_switch"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plant_detail_water_button" />
+            <!--android:text="Description de la plante"-->
             <Switch
                 android:id="@+id/plant_detail_autowater_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="60dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
                 android:text="autowater"
                 app:layout_constraintBottom_toTopOf="@+id/plant_detail_threshold_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/plant_detail_description"
-                android:layout_marginLeft="60dp" />
+                android:layout_marginLeft="16dp" />
 
             <SeekBar
                 android:id="@+id/plant_detail_threshold_seekbar"
@@ -104,26 +118,31 @@
                 android:id="@+id/plant_detail_threshold_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="72dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/threshold"
                 app:layout_constraintBottom_toTopOf="@+id/plant_detail_save_button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/plant_detail_autowater_switch"
-                app:layout_constraintVertical_bias="0.727"
-                android:layout_marginLeft="72dp" />
+                android:layout_marginLeft="16dp" />
 
             <ImageView
                 android:id="@+id/plant_detail_auto_image"
                 android:layout_width="@android:dimen/app_icon_size"
-                android:layout_height="@android:dimen/app_icon_size"
-                android:layout_marginStart="32dp"
-                app:layout_constraintBottom_toBottomOf="@+id/plant_detail_autowater_switch"
+                android:layout_height="46dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/plant_detail_threshold_seekbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.606"
                 app:layout_constraintStart_toEndOf="@+id/plant_detail_autowater_switch"
-                app:layout_constraintTop_toTopOf="@+id/plant_detail_autowater_switch"
+                app:layout_constraintTop_toBottomOf="@+id/plant_detail_description"
+                app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/auto_off"
-                android:layout_marginLeft="32dp" />
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="48dp" />
 
             <Button
                 android:id="@+id/plant_detail_save_button"
@@ -134,27 +153,23 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/plant_detail_threshold_text" />
+                app:layout_constraintStart_toStartOf="parent" />
         </android.support.constraint.ConstraintLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/plant_detail_hygrometry_chart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:minHeight="200dp"
+            android:layout_weight="1">
+
             <ProgressBar
                 android:id="@+id/plant_detail_hygrometry_progressbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="@android:dimen/app_icon_size" />
         </com.github.mikephil.charting.charts.LineChart>
-    </RelativeLayout>
 
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

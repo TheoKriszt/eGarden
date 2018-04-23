@@ -1,11 +1,14 @@
 package fr.kriszt.theo.egarden.utils.Gallery;
 
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PlantAdapter
 {
+    private static final String TAG = "PlantAdapter";
     private String imageURL;
     private String plantName;
     private String plantId;
@@ -14,12 +17,17 @@ public class PlantAdapter
     private boolean autoWatering;
 
     public PlantAdapter(JSONObject json) throws JSONException {
+
         imageURL = json.getString("imgURI");
         plantName = json.getString("name");
         plantId = json.getString("id");
         threshold = json.getInt("threshold");
         hygrometry = json.getInt("hygrometry");
-        autoWatering = json.getInt("auto_watering") == 1;
+
+        autoWatering = json.getString("auto_watering").equals("true")
+                ||     json.getString("auto_watering").equals("1");
+
+
     }
 
 

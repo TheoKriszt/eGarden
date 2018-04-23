@@ -1,9 +1,11 @@
 package fr.kriszt.theo.egarden.utils.Gallery;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 
@@ -58,11 +60,14 @@ public class PlantsRecyclerAdapter extends RecyclerView.Adapter<PlantsRecyclerAd
         Viewholder.VollyImageView.setImageUrl(plantAdapterOBJ.getImageUrl(), imageLoader);
 
         Viewholder.ImageTitleTextView.setText(plantAdapterOBJ.getPlantName());
-        // TODO : paramtrer l'affichage
 
-        if (plantAdapterOBJ.isThirsty()){
-            // passer l'affichage en rouge
-        }
+
+
+        Viewholder.itemLayout.setBackgroundColor(
+                plantAdapterOBJ.isThirsty() ?
+                        Color.rgb(220, 120, 120) :
+                        Color.rgb(46, 185, 113)
+        );
 
         if (plantAdapterOBJ.isAutoWatering()){
             // mettre l'icone auto watering : ON
@@ -86,13 +91,15 @@ public class PlantsRecyclerAdapter extends RecyclerView.Adapter<PlantsRecyclerAd
         public TextView ImageTitleTextView;
         public NetworkImageView VollyImageView ;
         public ImageView autoIconView ;
+        public RelativeLayout itemLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ImageTitleTextView = itemView.findViewById(R.id.ImageNameTextView);
             VollyImageView = itemView.findViewById(R.id.VolleyImageView);
             autoIconView = itemView.findViewById(R.id.auto_watering_icon);
-            // Todo : parametrer l'affichage
+            itemLayout = itemView.findViewById(R.id.plantItemLayout);
+
 
         }
     }

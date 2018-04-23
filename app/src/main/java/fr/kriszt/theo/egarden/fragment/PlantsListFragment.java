@@ -25,6 +25,8 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.security.auth.login.LoginException;
+
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
 import fr.kriszt.theo.egarden.utils.Gallery.PlantAdapter;
@@ -67,7 +69,6 @@ public class PlantsListFragment extends Fragment {
         recyclerView.setLayoutManager(recyclerLayoutManager);
 
         fetch_plants();
-        final Fragment fragment = this;
 
         // Implementing Click Listener on RecyclerView.
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener()
@@ -93,7 +94,7 @@ public class PlantsListFragment extends Fragment {
 
                     // Showing RecyclerView Clicked Item value using Toast.
                     // Todo : get to given plant view
-                    Toast.makeText(item.getContext(), "Item pos. : " + itemPosition, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(item.getContext(), "Item pos. : " + itemPosition, Toast.LENGTH_SHORT).show();
 
                     ///////////////////
                     Runnable mPendingRunnable = new Runnable() {
@@ -140,12 +141,15 @@ public class PlantsListFragment extends Fragment {
                 try {
                     JSONArray res = new JSONArray(response);
                     parsePlantsList(res);
+                    //Toast.makeText(getContext(), "Reçu : " + res.length() + " elements", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
+                    Log.e(TAG, "onResponse: ", e);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "Error fetching plants", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: " + Connexion.O().decodeError(error));
             }
         });
@@ -164,10 +168,11 @@ public class PlantsListFragment extends Fragment {
 //                ImageTitleNameArrayListForClick.add(json.getString(Image_Name_JSON));
 
             } catch (JSONException e) {
-
-                e.printStackTrace();
+                Log.e(TAG, "parse plants list : ", e);
             }
         }
+
+        //Toast.makeText(getContext(), adaptedPlants.size() + " adapted", Toast.LENGTH_SHORT).show();
 
         recyclerViewAdapter = new PlantsRecyclerAdapter(adaptedPlants, getView().getContext());
 
