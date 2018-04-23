@@ -137,7 +137,7 @@ public class DashboardFragment extends Fragment {
                 xAxis.setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        return dateLabels.get((int) value).substring(11, 16);
+                        return dateLabels.get((int) value);
                     }
                 });
 
@@ -163,8 +163,16 @@ public class DashboardFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), R.string.errorGetDHT, Toast.LENGTH_SHORT).show();
-                getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
+
+                try {
+                    Log.e(TAG, "get DHT: \n" + Connexion.O().decodeError(error));
+//                    Log.e(TAG, "get DHT: \n" + error.);
+                    Toast.makeText(getContext(), R.string.errorGetDHT, Toast.LENGTH_SHORT).show();
+                    getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
+                }catch (NullPointerException e){
+                    Log.e(TAG, "onErrorResponse: ", e);
+                }
+
             }
         });
     }
@@ -253,7 +261,7 @@ public class DashboardFragment extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++){
                         JSONObject plant = (JSONObject) jsonArray.get(i);
                         int threshold = plant.getInt("threshold");
-                        int moisture = plant.getInt("value");
+                        int moisture = plant.getInt("hygrometry");
                         if (moisture < threshold){
                             plantsWarnings++;
                         }
