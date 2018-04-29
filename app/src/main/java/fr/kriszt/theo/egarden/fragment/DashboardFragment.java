@@ -90,18 +90,33 @@ public class DashboardFragment extends Fragment {
                 final ArrayList<String> dateLabels = new ArrayList<>();
                 try {
                     JSONArray jsonArray = new JSONArray(response);
-                    Log.w(TAG, "JSONARRAY: " + jsonArray.length() + " rows fetched");
+                    Log.i(TAG, "JSONARRAY: " + jsonArray.length() + " rows fetched");
 
                     for (int i = 0; i < jsonArray.length(); i++){ // sol; hum, temp, date
-                        float sol = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("sol")));
-                        float hum = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("hum")));
-                        float temp = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("temp")));
-                        String date = String.valueOf(jsonArray.getJSONObject(i).get("date"));
+                        float sol = 0;
+                        float temp = 0;
+                        float hum = 0;
 
-                        solEntries.add(new Entry(i, sol));
-                        humEntries.add(new Entry(i, hum));
-                        tempEntries.add(new Entry(i, temp));
-                        dateLabels.add(date);
+                        try{
+                            sol = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("sol")));
+                        }
+                        catch(NumberFormatException e){}
+                        try{
+                            hum = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("hum")));
+                        }
+                        catch(NumberFormatException e){}
+                        try{
+                            temp = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("temp")));
+                        }
+                        catch(NumberFormatException e){}
+
+                            String date = String.valueOf(jsonArray.getJSONObject(i).get("date"));
+
+                            solEntries.add(new Entry(i, sol));
+                            humEntries.add(new Entry(i, hum));
+                            tempEntries.add(new Entry(i, temp));
+                            dateLabels.add(date);
+
                     }
 
                 } catch (JSONException e) {
@@ -211,7 +226,6 @@ public class DashboardFragment extends Fragment {
                     _temperatureAlert.setText( tempAlert );
 
                     _hygrometryValue.setText(MessageFormat.format("{0} (% HR)", humidityValue));
-                    // TODO : fetch & process hygro plants Alerts
 
 
 
