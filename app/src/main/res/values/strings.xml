@@ -29,10 +29,11 @@
 
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
+        <!--TODO : extract string ressources-->
         <item>Dashboard</item>
         <item>Notifications</item>
         <item>Shootings</item>
-        <item>Stream my plants</item>
+        <item>@string/stream_imgs</item>
         <item>Download all plants images</item>
         <item>Stats</item>
         <item>Settings</item>
@@ -59,7 +60,7 @@
     <string name="downloadFailed">Download Failed…</string>
     <string name="downloadAgain">Download Again</string>
     <string name="unZipFolder">Unzip Folder</string>
-    <string name="stream_imgs">Stream my plants</string>
+    <string name="stream_imgs">Etat des plantes</string>
     <string name="dwn_imgs">Download all my images</string>
     <string name="hygrometry">hygrometry</string>
     <string name="to">à</string>
