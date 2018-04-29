@@ -217,6 +217,7 @@ public class DashboardFragment extends Fragment {
                     _weatherValue.setText( weatherMsg );
                     _weatherAlert.setText( weatherAlert );
 
+
                     int iconResource = getResources().getIdentifier(
                             "ic_weather_" + weatherIcon, "drawable", getContext().getPackageName() );
                     _weatherIcon.setImageResource(iconResource);

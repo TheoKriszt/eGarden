@@ -1,6 +1,7 @@
 package fr.kriszt.theo.egarden.utils;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -9,6 +10,7 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by T.Kriszt on 12/03/18.
@@ -44,6 +46,7 @@ public class Security  extends FirebaseInstanceIdService{
         HashMap<String, String> postParams = new HashMap<>();
         postParams.put("username", username);
         postParams.put("password", md5(password));
+        postParams.put("lang", Locale.getDefault().getLanguage());
         postParams.put("firebaseToken", FirebaseInstanceId.getInstance().getToken());
 
         Response.Listener<String> responseWrapper = new Response.Listener<String>() {
