@@ -39,4 +39,6 @@
     <string name="general_notifications">General notifications</string>
     <string name="alert_thirsty">plant needing watering</string>
     <string name="general_enable_notifications">Receive alerts</string>
+    <string name="minutes">minutes</string>
+    <string name="timelapse">Timelapse</string>
 </resources>
