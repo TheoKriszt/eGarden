@@ -90,30 +90,52 @@ public class DashboardFragment extends Fragment {
                 final ArrayList<String> dateLabels = new ArrayList<>();
                 try {
                     JSONArray jsonArray = new JSONArray(response);
-                    Log.w(TAG, "JSONARRAY: " + jsonArray.length() + " rows fetched");
+                    Log.i(TAG, "JSONARRAY: " + jsonArray.length() + " rows fetched");
 
                     for (int i = 0; i < jsonArray.length(); i++){ // sol; hum, temp, date
-                        float sol = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("sol")));
-                        float hum = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("hum")));
-                        float temp = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("temp")));
-                        String date = String.valueOf(jsonArray.getJSONObject(i).get("date"));
+                        float sol = 0;
+                        float temp = 0;
+                        float hum = 0;
 
-                        solEntries.add(new Entry(i, sol));
-                        humEntries.add(new Entry(i, hum));
-                        tempEntries.add(new Entry(i, temp));
-                        dateLabels.add(date);
+                        try{
+                            sol = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("sol")));
+                        }
+                        catch(NumberFormatException e){}
+                        try{
+                            hum = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("hum")));
+                        }
+                        catch(NumberFormatException e){}
+                        try{
+                            temp = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("temp")));
+                        }
+                        catch(NumberFormatException e){}
+
+                            String date = String.valueOf(jsonArray.getJSONObject(i).get("date"));
+
+                            solEntries.add(new Entry(i, sol));
+                            humEntries.add(new Entry(i, hum));
+                            tempEntries.add(new Entry(i, temp));
+                            dateLabels.add(date);
+
                     }
 
                 } catch (JSONException e) {
                     Log.e(TAG, "DHT JSONException: ", e);
                 }
 
+                LineDataSet humDataSet = null;
 
+                try {
+                    humDataSet = new LineDataSet(humEntries, getString(R.string.humidity) + " %HR");
+                    humDataSet.setDrawCircles(false);
+                    humDataSet.setColor(Color.BLUE);
+                    humDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                }catch (IllegalStateException e){
+                    Log.e(TAG, "onResponse: perte de contexte", e);
+                    return;
+                }
                 //Humidity
-                LineDataSet humDataSet = new LineDataSet(humEntries, getString(R.string.humidity) + " %HR");
-                humDataSet.setDrawCircles(false);
-                humDataSet.setColor(Color.BLUE);
-                humDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
 
                 //Solar
                 LineDataSet solDataSet = new LineDataSet(solEntries, getString(R.string.sunlight));
@@ -202,6 +224,7 @@ public class DashboardFragment extends Fragment {
                     _weatherValue.setText( weatherMsg );
                     _weatherAlert.setText( weatherAlert );
 
+
                     int iconResource = getResources().getIdentifier(
                             "ic_weather_" + weatherIcon, "drawable", getContext().getPackageName() );
                     _weatherIcon.setImageResource(iconResource);
@@ -211,12 +234,14 @@ public class DashboardFragment extends Fragment {
                     _temperatureAlert.setText( tempAlert );
 
                     _hygrometryValue.setText(MessageFormat.format("{0} (% HR)", humidityValue));
-                    // TODO : fetch & process hygro plants Alerts
 
 
 
                 } catch (JSONException e) {
 //                    Toast.makeText(view.getContext() , "erreur parsing JSON ", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onResponse: ", e);
+                }
+                catch (IllegalStateException e){
                     Log.e(TAG, "onResponse: ", e);
                 }
             }

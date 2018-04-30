@@ -147,7 +147,21 @@ public class Connexion {
      */
     public void downloadImage(String imgUrl, Response.Listener<Bitmap> responseListener, Response.ErrorListener errorListener) {
 
-        ImageRequest imageRequest = new ImageRequest(address + ":" + port + "/" + imgUrl, responseListener, 0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.RGB_565, errorListener);
+        boolean absolutePath = imgUrl.startsWith("http");
+        String uri;
+
+        if (!absolutePath){
+            uri = address + ":" + port + "/" + imgUrl;
+        } else {
+            uri = imgUrl;
+        }
+
+        ImageRequest imageRequest = new ImageRequest(uri, responseListener, 0, 0, ImageView.ScaleType.CENTER_CROP, Bitmap.Config.RGB_565, errorListener);
+
+        imageRequest.setRetryPolicy(new DefaultRetryPolicy(
+                TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(imageRequest);
     }
 

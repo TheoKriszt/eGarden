@@ -2,6 +2,7 @@ package fr.kriszt.theo.egarden.fragment;
 
 //import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -67,6 +68,7 @@ public class PlantDetailsFragment extends Fragment {
     @BindView(R.id.plant_detail_water_button) Button _waterButton;
     @BindView(R.id.plant_detail_hygrometry_progressbar) ProgressBar _hygroProgressBar;
     @BindView(R.id.plant_detail_hygrometry_chart) LineChart _lineChart;
+    @BindView(R.id.plant_detail_image) ImageView _plantImage;
 
 
     private boolean autowater;
@@ -98,30 +100,9 @@ public class PlantDetailsFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        Connexion.O().sendGetRequest("/plant/" + plantId, null, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    //Toast.makeText(getContext(), "Infos : " + response, Toast.LENGTH_SHORT).show();
-                    JSONObject json = new JSONObject(response);
-                    //name, threshold, value, last_updated
-                    _plantName.setText(json.getString("name"));
-                    int threshold = Integer.parseInt(json.getString("threshold"));
-                    _autoThresholdBar.setProgress(threshold);
-                    _autoSwitch.setChecked(json.getString("auto_watering").equals("true")
-                    || json.getString("auto_watering").equals("1"));
+        updatePlantInfo();
 
-                    _plantDescription.setText(json.getString("description"));
-                    int lastHygrometry = (int) json.getDouble("value");
-                    boolean isThirsty = lastHygrometry < threshold;
-                    // TODO : extract ressource
-                    _plantState.setText("Etat : " + (isThirsty ? "en manque d'eau" : "arrosé(e)") );
 
-                } catch (JSONException e) {
-                    Log.e(TAG, "onResponse: ", e);
-                }
-            }
-        }, null);
 
         Connexion.O().sendGetRequest("/soil/" + plantId, null, new Response.Listener<String>() {
             @Override
@@ -137,7 +118,7 @@ public class PlantDetailsFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "Erreur en recuperant l'hygrometrie de la plante", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Erreur en recuperant l'hygrometrie de la plante", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: " + Connexion.O().decodeError(error));
                 _hygroProgressBar.setVisibility(View.GONE);
             }
@@ -153,6 +134,62 @@ public class PlantDetailsFragment extends Fragment {
                     _autoImage.setImageResource(R.drawable.auto_off);
                 }
 
+            }
+        });
+
+    }
+
+    private void updatePlantInfo() {
+        Connexion.O().sendGetRequest("/plant/" + plantId, null, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    //Toast.makeText(getContext(), "Infos : " + response, Toast.LENGTH_SHORT).show();
+                    JSONObject json = new JSONObject(response);
+                    //name, threshold, value, last_updated
+                    _plantName.setText(json.getString("name"));
+                    int threshold = Integer.parseInt(json.getString("threshold"));
+                    _autoThresholdBar.setProgress(threshold);
+                    _autoSwitch.setChecked(json.getString("auto_watering").equals("true")
+                            || json.getString("auto_watering").equals("1"));
+
+                    _plantDescription.setText(json.getString("description"));
+                    int lastHygrometry = (int) json.getDouble("value");
+                    boolean isThirsty = lastHygrometry < threshold;
+
+                    try {
+                        String stateWord = getActivity().getResources().getString(R.string.state);
+                        String stateString = getActivity().getResources().getString(PlantState.PLANT_UNKNOWN.getDescriptionRessource());
+
+                        PlantState plantState = PlantState.valueOf( json.getString("plantState"));
+                        if (plantState != null){
+                            stateString = getResources().getString(plantState.getDescriptionRessource());
+                        }
+                        _plantState.setText(String.format("%s : %s", stateWord, stateString));
+
+                        updateImageView(json.get("imgURI").toString());
+                    }catch (IllegalStateException e){
+                        Log.e(TAG, "onResponse: perte de contexte", e);
+                    }
+
+
+                } catch (JSONException e) {
+                    Log.e(TAG, "onResponse: ", e);
+                }
+            }
+        }, null);
+    }
+
+    private void updateImageView(String imgURI) {
+
+        Connexion.O().downloadImage(imgURI, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                _plantImage.setImageBitmap(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
             }
         });
 
@@ -223,7 +260,8 @@ public class PlantDetailsFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 // TODO : extract string ressource
-                Toast.makeText(getContext(), "Preferences mises à jour", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.saved_confirmation), Toast.LENGTH_SHORT).show();
+                updatePlantInfo();
             }
         }, null);
 
@@ -234,7 +272,12 @@ public class PlantDetailsFragment extends Fragment {
         Connexion.O().sendPostRequest("/soil/" + plantId, null, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
+                try {
+
+                    Toast.makeText(getActivity().getBaseContext(), response, Toast.LENGTH_SHORT).show();
+                }catch (NullPointerException e){
+                    Log.e(TAG, "onResponse, perte de contexte: ",e );
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -245,6 +288,7 @@ public class PlantDetailsFragment extends Fragment {
         });
     }
 
+    // TODO : remove all unused functions like this one
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -265,5 +309,23 @@ public class PlantDetailsFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    enum PlantState{
+
+        PLANT_THIRSTY (R.string.plant_thirsty),
+        PLANT_HYDRATED (R.string.plant_hydrated),
+        PLANT_WATERING (R.string.plant_watering),
+        PLANT_UNKNOWN (R.string.plant_unknown);
+
+        private final int desc;
+
+        PlantState(int res){
+            this.desc = res;
+        }
+
+        public int getDescriptionRessource(){
+            return desc;
+        }
     }
 }

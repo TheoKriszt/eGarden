@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,10 +44,11 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // Load from stored preferences
-        String savedPort = PreferencesStorage.O(this).getSavedPort();
-        String savedIP = PreferencesStorage.O(this).getSavedIP();
-        String savedUsername = PreferencesStorage.O(this).getSavedUsername();
-        String savedPassword = PreferencesStorage.O(this).getSavedPassword();
+        PreferencesStorage PSinstance = PreferencesStorage.O(this);
+        String savedPort = PSinstance.getSavedPort();
+        String savedIP = PSinstance.getSavedIP();
+        String savedUsername = PSinstance.getSavedUsername();
+        String savedPassword = PSinstance.getSavedPassword();
 
         _editIPAddress.setText(savedIP);
         _editPort.setText(savedPort);
