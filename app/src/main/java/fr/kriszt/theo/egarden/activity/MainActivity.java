@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 menuItem.setChecked(true);
 
-                Log.w(TAG, "onNavigationItemSelected() returned: " + CURRENT_TAG);
+//                Log.w(TAG, "onNavigationItemSelected() returned: " + CURRENT_TAG);
 
                 loadHomeFragment();
 

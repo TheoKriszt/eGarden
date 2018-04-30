@@ -17,4 +17,26 @@
     <string name="login">Login</string>
     <string name="humidity">humidity</string>
     <string name="save">save</string>
+    <string name="hygrometry">hygrometry</string>
+    <string name="to">to</string>
+    <string name="loadDHT">Loading environmental data</string>
+    <string name="plantsNeedWater">Plants need watering</string>
+    <string name="sunlight">Sunlight</string>
+    <string name="temperature">Temperature</string>
+    <string name="errorGetDHT">Error fecthing local data</string>
+    <string name="plant_image">plant picture</string>
+    <string name="threshold">"seuil : "</string>
+    <string name="state">State</string>
+    <string name="plant_thirsty">needs watering</string>
+    <string name="plant_hydrated">hydrated</string>
+    <string name="plant_watering">watering in progress</string>
+    <string name="plant_unknown">unknown</string>
+    <string name="delay_between_alerts">Delay between alerts</string>
+    <string name="min_storage_threshold">Min. remaining storage thresh.</string>
+    <string name="meteo_condition">Meteo condition</string>
+    <string name="remaining_storage">Remaining disk storage</string>
+    <string name="reservoir_empty">Empty reservoir</string>
+    <string name="general_notifications">General notifications</string>
+    <string name="alert_thirsty">plant needing watering</string>
+    <string name="general_enable_notifications">Receive alerts</string>
 </resources>
