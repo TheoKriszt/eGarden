@@ -123,12 +123,19 @@ public class DashboardFragment extends Fragment {
                     Log.e(TAG, "DHT JSONException: ", e);
                 }
 
+                LineDataSet humDataSet = null;
 
+                try {
+                    humDataSet = new LineDataSet(humEntries, getString(R.string.humidity) + " %HR");
+                    humDataSet.setDrawCircles(false);
+                    humDataSet.setColor(Color.BLUE);
+                    humDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                }catch (IllegalStateException e){
+                    Log.e(TAG, "onResponse: perte de contexte", e);
+                    return;
+                }
                 //Humidity
-                LineDataSet humDataSet = new LineDataSet(humEntries, getString(R.string.humidity) + " %HR");
-                humDataSet.setDrawCircles(false);
-                humDataSet.setColor(Color.BLUE);
-                humDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
 
                 //Solar
                 LineDataSet solDataSet = new LineDataSet(solEntries, getString(R.string.sunlight));

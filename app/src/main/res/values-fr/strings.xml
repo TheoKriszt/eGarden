@@ -51,5 +51,16 @@
     <string name="temperature">Temperature</string>
     <string name="threshold">"threshold : "</string>
     <string name="saved_confirmation">Preferences mises à jour</string>
+    <string name="in_less_than">Dans moins de</string>
+    <string name="heures">heures</string>
+    <string name="arroser_pendant">Arroser pendant</string>
+    <string name="enable_timelapse">Activer le timelapse</string>
+    <string name="all_the">Toutes les</string>
+    <string name="minutes">minutes</string>
+    <string name="watering">Arrosage</string>
+    <string name="timelapse">Timelapse</string>
+    <string name="reporter_si_pluie_pr_vue">Reporter si pluie prévue</string>
+    <string name="arroser_uniquement_le_soir">Arroser uniquement le soir</string>
+    <string name="autowater">arrosage auto.</string>
 
 </resources>
