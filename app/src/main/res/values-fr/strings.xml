@@ -22,14 +22,34 @@
     <string name="sunlight">Ensoleillement</string>
     <string name="errorGetDHT">Erreur lors de la récupération des données environnementales</string>
     <string name="plant_image">image de la plante</string>
+    <string name="state">Etat</string>
+    <string name="plant_thirsty">en manque d\'eau</string>
+    <string name="plant_hydrated">arrosée</string>
+    <string name="plant_watering">arrosage en cours</string>
+    <string name="plant_unknown">inconnu</string>
+    <string name="delay_between_alerts">Intervalle entre les notifications</string>
+    <string name="min_storage_threshold">espace restant avant alerte</string>
+    <string name="meteo_condition">Evenement meteo</string>
+    <string name="remaining_storage">Espace disque restant</string>
+    <string name="reservoir_empty">Reservoir vide</string>
+    <string name="general_notifications">Notifications générales</string>
+    <string name="alert_thirsty">plante en manque d\'eau</string>
+    <string name="general_enable_notifications">Recevoir des notifications</string>
 
     <string-array name="nav_item_activity_titles">
         <item>Tableau de bord</item>
         <item>Alertes</item>
         <item>Prises de vues</item>
-        <item>Telechargement de mes images</item>
+        <item>Etat des plantes</item>
+        <item>Telecharger les photos</item>
         <item>Statistiques</item>
         <item>Parametres</item>
     </string-array>
+    <string name="humidity">humidité</string>
+    <string name="save">enregistrer</string>
+    <string name="hygrometry">hygrométrie</string>
+    <string name="temperature">Temperature</string>
+    <string name="threshold">"threshold : "</string>
+    <string name="saved_confirmation">Preferences mises à jour</string>
 
 </resources>
