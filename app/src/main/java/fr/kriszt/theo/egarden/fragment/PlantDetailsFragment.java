@@ -118,7 +118,7 @@ public class PlantDetailsFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "Erreur en recuperant l'hygrometrie de la plante", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Erreur en recuperant l'hygrometrie de la plante", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "onErrorResponse: " + Connexion.O().decodeError(error));
                 _hygroProgressBar.setVisibility(View.GONE);
             }
@@ -156,17 +156,22 @@ public class PlantDetailsFragment extends Fragment {
                     _plantDescription.setText(json.getString("description"));
                     int lastHygrometry = (int) json.getDouble("value");
                     boolean isThirsty = lastHygrometry < threshold;
-                    // TODO : extract ressource
-                    String stateWord = getResources().getString(R.string.state);
-                    String stateString = getResources().getString(PlantState.PLANT_UNKNOWN.getDescriptionRessource());
 
-                    PlantState plantState = PlantState.valueOf( json.getString("plantState"));
-                    if (plantState != null){
-                        stateString = getResources().getString(plantState.getDescriptionRessource());
+                    try {
+                        String stateWord = getActivity().getResources().getString(R.string.state);
+                        String stateString = getActivity().getResources().getString(PlantState.PLANT_UNKNOWN.getDescriptionRessource());
+
+                        PlantState plantState = PlantState.valueOf( json.getString("plantState"));
+                        if (plantState != null){
+                            stateString = getResources().getString(plantState.getDescriptionRessource());
+                        }
+                        _plantState.setText(String.format("%s : %s", stateWord, stateString));
+
+                        updateImageView(json.get("imgURI").toString());
+                    }catch (IllegalStateException e){
+                        Log.e(TAG, "onResponse: perte de contexte", e);
                     }
-                    _plantState.setText(String.format("%s : %s", stateWord, stateString));
 
-                    updateImageView(json.get("imgURI").toString());
 
                 } catch (JSONException e) {
                     Log.e(TAG, "onResponse: ", e);
@@ -267,7 +272,12 @@ public class PlantDetailsFragment extends Fragment {
         Connexion.O().sendPostRequest("/soil/" + plantId, null, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
+                try {
+
+                    Toast.makeText(getActivity().getBaseContext(), response, Toast.LENGTH_SHORT).show();
+                }catch (NullPointerException e){
+                    Log.e(TAG, "onResponse, perte de contexte: ",e );
+                }
             }
         }, new Response.ErrorListener() {
             @Override
