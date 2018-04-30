@@ -1,4 +1,4 @@
-package fr.kriszt.theo.egarden;
+package fr.kriszt.theo.egarden.fragment;
 
 /**
  * Created by mike on 3/17/18.
@@ -34,6 +34,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.net.URI;
 
+import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.CheckForSDCard;
 import fr.kriszt.theo.egarden.utils.Connexion;
 import fr.kriszt.theo.egarden.utils.DownloadTask;
