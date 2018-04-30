@@ -24,7 +24,7 @@
     <string name="navigation">navigation</string>
     <string name="statistics">statistics</string>
 
-    <string name="defaultNotificationChannel">egarden_notification_channel_DEFAULT</string>
+    <string name="defaultNotificationChannel" translatable="false">egarden_notification_channel_DEFAULT</string>
 
 
     <!-- Toolbar titles when navigation menu item is selected -->
@@ -73,4 +73,31 @@
     <string name="plant_image">image de la plante</string>
     <string name="threshold">threshold :</string>
     <string name="save">save</string>
+    <string name="state">Etat</string>
+    <string name="plant_thirsty">en manque d\'eau</string>
+    <string name="plant_hydrated">arrosée</string>
+    <string name="plant_watering">arrosage en cours</string>
+    <string name="plant_unknown">inconnu</string>
+    <string name="delay_between_alerts">Intervalle entre les notifications</string>
+    <string name="min_storage_threshold">espace restant avant alerte</string>
+    <string name="meteo_condition">Evenement meteo</string>
+    <string name="remaining_storage">Espace disque restant</string>
+    <string name="reservoir_empty">Reservoir vide</string>
+    <string name="general_notifications">Notifications générales</string>
+    <string name="alert_thirsty">plante en manque d\'eau</string>
+    <string name="general_enable_notifications">Recevoir des notifications</string>
+    <string name="saved_confirmation">Préférences enregistrées</string>
+
+    <string-array name="notification_storage_sizes">
+        <item>%</item>
+        <item>MB</item>
+        <item>GB</item>
+    </string-array>
+
+    <string-array name="notification_delay_types">
+        <item>minutes</item>
+        <item>hours</item>
+        <item>days</item>
+    </string-array>
+
 </resources>

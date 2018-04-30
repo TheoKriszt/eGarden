@@ -234,6 +234,9 @@ public class DashboardFragment extends Fragment {
 //                    Toast.makeText(view.getContext() , "erreur parsing JSON ", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "onResponse: ", e);
                 }
+                catch (IllegalStateException e){
+                    Log.e(TAG, "onResponse: ", e);
+                }
             }
         }, new Response.ErrorListener() {
             @Override

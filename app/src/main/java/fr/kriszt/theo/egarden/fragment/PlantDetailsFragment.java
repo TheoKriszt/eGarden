@@ -157,7 +157,14 @@ public class PlantDetailsFragment extends Fragment {
                     int lastHygrometry = (int) json.getDouble("value");
                     boolean isThirsty = lastHygrometry < threshold;
                     // TODO : extract ressource
-                    _plantState.setText("Etat : " + (isThirsty ? "en manque d'eau" : "arrosé(e)") );
+                    String stateWord = getResources().getString(R.string.state);
+                    String stateString = getResources().getString(PlantState.PLANT_UNKNOWN.getDescriptionRessource());
+
+                    PlantState plantState = PlantState.valueOf( json.getString("plantState"));
+                    if (plantState != null){
+                        stateString = getResources().getString(plantState.getDescriptionRessource());
+                    }
+                    _plantState.setText(String.format("%s : %s", stateWord, stateString));
 
                     updateImageView(json.get("imgURI").toString());
 
@@ -169,8 +176,6 @@ public class PlantDetailsFragment extends Fragment {
     }
 
     private void updateImageView(String imgURI) {
-
-
 
         Connexion.O().downloadImage(imgURI, new Response.Listener<Bitmap>() {
             @Override
@@ -250,7 +255,7 @@ public class PlantDetailsFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 // TODO : extract string ressource
-                Toast.makeText(getContext(), "Preferences mises à jour", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.saved_confirmation), Toast.LENGTH_SHORT).show();
                 updatePlantInfo();
             }
         }, null);
@@ -294,5 +299,23 @@ public class PlantDetailsFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    enum PlantState{
+
+        PLANT_THIRSTY (R.string.plant_thirsty),
+        PLANT_HYDRATED (R.string.plant_hydrated),
+        PLANT_WATERING (R.string.plant_watering),
+        PLANT_UNKNOWN (R.string.plant_unknown);
+
+        private final int desc;
+
+        PlantState(int res){
+            this.desc = res;
+        }
+
+        public int getDescriptionRessource(){
+            return desc;
+        }
     }
 }
