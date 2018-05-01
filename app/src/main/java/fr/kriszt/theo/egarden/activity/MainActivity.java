@@ -11,14 +11,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
 import fr.kriszt.theo.egarden.R;
-import fr.kriszt.theo.egarden.fragment.GardenDetails;
+import fr.kriszt.theo.egarden.fragment.GardenImgs;
 import fr.kriszt.theo.egarden.fragment.PlantDetailsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantsListFragment;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
@@ -150,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             case 3:
                 return new PlantsListFragment();
             case 4:
-                return new GardenDetails();
+                return new GardenImgs();
 
             case 5:
                 return new DownloadClientPlantsImgsFragment();
