@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import fr.kriszt.theo.egarden.DownloadClientPlantsImgsFragment;
+import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.fragment.PlantDetailsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantsListFragment;
