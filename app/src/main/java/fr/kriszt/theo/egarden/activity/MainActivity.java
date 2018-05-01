@@ -15,10 +15,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import fr.kriszt.theo.egarden.DownloadClientPlantsImgsFragment;
+import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
 import fr.kriszt.theo.egarden.R;
+import fr.kriszt.theo.egarden.fragment.GardenDetails;
 import fr.kriszt.theo.egarden.fragment.PlantDetailsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantsListFragment;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
@@ -31,25 +31,26 @@ import fr.kriszt.theo.egarden.fragment.StatsFragment;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "eGardenDashBoard";
-
-
     private static boolean TEST = true;
+
+
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private Handler mHandler;
-
-
     // toolbar titles respected to selected nav menu item
     private String[] activityTitles;
+
 
     // index to identify current nav menu item
     public static int navItemIndex = 0;
 
     // tags used to attach the fragments
     private static final String TAG_DASHBOARD = "dashboard";
+
     private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_SHOOTINGS = "shootings";
+    private static final String TAG_GARDEN = "garden_details";
     private static final String TAG_STATS = "stats";
     private static final String TAG_SETTINGS = "settings";
     private static final String TAG_STREAM_IMGS ="stream_imgs" ;
@@ -76,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
         // load toolbar titles from string resources
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
+
+
+
 
         setUpNavigationView();
 
@@ -145,14 +149,16 @@ public class MainActivity extends AppCompatActivity {
 
             case 3:
                 return new PlantsListFragment();
-
             case 4:
-                return new DownloadClientPlantsImgsFragment();
+                return new GardenDetails();
 
             case 5:
-                return new StatsFragment();
+                return new DownloadClientPlantsImgsFragment();
 
             case 6:
+                return new StatsFragment();
+
+            case 7:
                 return new SettingsFragment();
 
             default:
@@ -198,16 +204,20 @@ public class MainActivity extends AppCompatActivity {
                         navItemIndex = 3;
                         CURRENT_TAG = TAG_STREAM_IMGS;
                         break;
-                    case R.id.dwn_imgs:
+                    case R.id.garden:
                         navItemIndex = 4;
+                        CURRENT_TAG = TAG_GARDEN;
+                        break;
+                    case R.id.dwn_imgs:
+                        navItemIndex = 5;
                         CURRENT_TAG = TAG_DWNLOAD;
                         break;
                     case R.id.nav_statistics:
-                        navItemIndex = 5;
+                        navItemIndex = 6;
                         CURRENT_TAG = TAG_STATS;
                         break;
                     case R.id.nav_settings:
-                        navItemIndex = 6;
+                        navItemIndex = 7;
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
 
