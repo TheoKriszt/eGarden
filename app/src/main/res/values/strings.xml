@@ -98,6 +98,7 @@
     <string name="reporter_si_pluie_pr_vue">Reporter si pluie prévue</string>
     <string name="arroser_uniquement_le_soir">Arroser uniquement le soir</string>
     <string name="autowater">arrosage auto.</string>
+    <string name="water_now">Arroser maintenant</string>
 
     <string-array name="notification_storage_sizes">
         <item>%</item>

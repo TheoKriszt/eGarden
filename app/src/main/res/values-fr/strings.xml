@@ -49,7 +49,7 @@
     <string name="save">enregistrer</string>
     <string name="hygrometry">hygrométrie</string>
     <string name="temperature">Temperature</string>
-    <string name="threshold">"threshold : "</string>
+    <string name="threshold">limite : </string>
     <string name="saved_confirmation">Preferences mises à jour</string>
     <string name="in_less_than">Dans moins de</string>
     <string name="heures">heures</string>
@@ -62,5 +62,6 @@
     <string name="reporter_si_pluie_pr_vue">Reporter si pluie prévue</string>
     <string name="arroser_uniquement_le_soir">Arroser uniquement le soir</string>
     <string name="autowater">arrosage auto.</string>
+    <string name="water_now">Arroser maintenant</string>
 
 </resources>
