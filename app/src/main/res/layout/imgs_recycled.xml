@@ -16,6 +16,15 @@
         android:id="@+id/plantsRecycler"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+
+    <ProgressBar
+        android:id="@+id/plantsList_progressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:indeterminate="true"
+        android:visibility="visible" />
+
 </FrameLayout>
 
 <!--</RelativeLayout>-->

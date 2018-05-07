@@ -17,8 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import fr.kriszt.theo.egarden.DownloadClientPlantsImgsFragment;
+//import fr.kriszt.theo.egarden.DownloadClientPlantsImgsFragment;
 import fr.kriszt.theo.egarden.R;
+import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantDetailsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantsListFragment;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
@@ -26,6 +27,7 @@ import fr.kriszt.theo.egarden.fragment.NotificationsFragment;
 import fr.kriszt.theo.egarden.fragment.RequestImagePlantFragment;
 import fr.kriszt.theo.egarden.fragment.SettingsFragment;
 import fr.kriszt.theo.egarden.fragment.StatsFragment;
+import fr.kriszt.theo.egarden.fragment.TimelapseViewFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_SETTINGS = "settings";
     private static final String TAG_STREAM_IMGS ="stream_imgs" ;
     private static final String TAG_DWNLOAD ="download_imgs" ;
+    private static final String TAG_TIMELAPSE ="timelapse" ;
 
     public static String CURRENT_TAG = TAG_DASHBOARD;
 
@@ -154,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
 
             case 6:
                 return new SettingsFragment();
+            case 7 :
+                return new TimelapseViewFragment();
 
             default:
                 return new DashboardFragment();
@@ -209,6 +214,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_settings:
                         navItemIndex = 6;
                         CURRENT_TAG = TAG_SETTINGS;
+                        break;
+                    case R.id.nav_timelapse:
+                        navItemIndex = 7;
+                        CURRENT_TAG = TAG_TIMELAPSE;
                         break;
 
 //                    case R.id.nav_about_us:

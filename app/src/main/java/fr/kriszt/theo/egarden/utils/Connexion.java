@@ -185,4 +185,13 @@ public class Connexion {
         }
         return null;
     }
+
+    public static void cancellAll() {
+        O.requestQueue.cancelAll(new RequestQueue.RequestFilter() {
+            @Override
+            public boolean apply(Request<?> request) {
+                return true;
+            }
+        });
+    }
 }

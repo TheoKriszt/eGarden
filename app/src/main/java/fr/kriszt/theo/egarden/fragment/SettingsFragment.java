@@ -200,4 +200,10 @@ public class SettingsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Connexion.cancellAll();
+    }
 }

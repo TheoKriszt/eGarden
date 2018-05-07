@@ -37,6 +37,11 @@
             android:icon="@drawable/ic_settings"
             android:title="@string/settings" />
 
+        <item
+            android:id="@+id/nav_timelapse"
+            android:icon="@drawable/ic_videocam"
+            android:title="@string/timelapse" />
+
 
 
 

@@ -328,4 +328,10 @@ public class PlantDetailsFragment extends Fragment {
             return desc;
         }
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Connexion.cancellAll();
+    }
 }

@@ -44,6 +44,7 @@
         <item>Telecharger les photos</item>
         <item>Statistiques</item>
         <item>Parametres</item>
+        <item>Timelapses</item>
     </string-array>
     <string name="humidity">humidité</string>
     <string name="save">enregistrer</string>
@@ -63,5 +64,10 @@
     <string name="arroser_uniquement_le_soir">Arroser uniquement le soir</string>
     <string name="autowater">arrosage auto.</string>
     <string name="water_now">Arroser maintenant</string>
+    <string name="load">Charger</string>
+    <string name="prise_secteur">Prise secteur</string>
+    <string name="view">Vue :</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
 
 </resources>
