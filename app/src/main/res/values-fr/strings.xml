@@ -41,10 +41,12 @@
         <item>Alertes</item>
         <item>Prises de vues</item>
         <item>Etat des plantes</item>
+        <item>Observer le jardin</item>
         <item>Telecharger les photos</item>
         <item>Statistiques</item>
         <item>Parametres</item>
         <item>Timelapses</item>
+
     </string-array>
     <string name="humidity">humidité</string>
     <string name="save">enregistrer</string>

@@ -1,6 +1,7 @@
 package fr.kriszt.theo.egarden.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,8 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.MediaController;
 
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
 
@@ -43,6 +48,8 @@ public class TimelapseViewFragment extends Fragment {
     @BindView(R.id.video_progressBar) ProgressBar _progressBar;
     @BindView(R.id.weekDaySpinner) Spinner _weekdaySpinner;
     @BindView(R.id.selectSpinner) Spinner _selectSpinner;
+    @BindView(R.id.imageView) ImageView _imageView;
+    @BindView(R.id.loadButton) Button _loadButton;
 
     String vidAddress = "https://archive.org/download/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
     Uri vidUri = Uri.parse(vidAddress);
@@ -84,7 +91,7 @@ public class TimelapseViewFragment extends Fragment {
                 _progressBar.setVisibility(GONE);
             }
         });
-        _videoView.start();
+//        _videoView.start();
 
         WeekDayTypesAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.timelapse_weekday_select, android.R.layout.simple_spinner_item);
@@ -93,9 +100,9 @@ public class TimelapseViewFragment extends Fragment {
         // Apply the adapter to the spinner
         _weekdaySpinner.setAdapter(WeekDayTypesAdapter);
 
-        _weekdaySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        _weekdaySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String type = "direct";
                 switch (position){
                     case 1: // week
@@ -106,6 +113,24 @@ public class TimelapseViewFragment extends Fragment {
                         break;
                     default: // direct
 
+                }
+
+                if (type.equals("direct")){
+                    _videoView.setVisibility(View.INVISIBLE);
+                    _imageView.setVisibility(View.VISIBLE);
+                    Connexion.O().downloadImage("snapshot", new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap response) {
+                            _imageView.setImageBitmap(response);
+                            _progressBar.setVisibility(View.INVISIBLE);
+                        }
+                    }, null);
+
+                    return;
+                }else {
+                    _videoView.setVisibility(View.VISIBLE);
+                    _imageView.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getContext(), "TODO : lister les timelapses disponibles", Toast.LENGTH_SHORT).show();
                 }
 
                 Connexion.O(getContext()).sendGetRequest("/timelapses/" + type, null, new Response.Listener<String>() {
@@ -142,7 +167,18 @@ public class TimelapseViewFragment extends Fragment {
                     }
                 }, null);
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
+//        _weekdaySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//            }
+//        });
 
 //        WeekDayTypesAdapter = ArrayAdapter.createFromResource(getContext(),
 //                R.array.timelapse_weekday_select, android.R.layout.simple_spinner_item);
@@ -151,8 +187,11 @@ public class TimelapseViewFragment extends Fragment {
 //        // Apply the adapter to the spinner
 //        _weekdaySpinner.setAdapter(WeekDayTypesAdapter);
 
+    }
 
-
+    @OnClick(R.id.loadButton)
+    public void onLoadButtonPressed(){
+        Toast.makeText(getContext(), "TODO  charger la video correspondante", Toast.LENGTH_SHORT).show();
     }
 
     public void onButtonPressed(Uri uri) {
