@@ -32,8 +32,9 @@
         <!--TODO : extract string ressources-->
         <item>Dashboard</item>
         <item>Notifications</item>
-        <item>Shootings</item>
+        <item>@string/observe_garden</item>
         <item>@string/stream_imgs</item>
+        <item>@string/garden</item>
         <item>Download all plants images</item>
         <item>Stats</item>
         <item>Settings</item>
@@ -61,6 +62,7 @@
     <string name="downloadAgain">Download Again</string>
     <string name="unZipFolder">Unzip Folder</string>
     <string name="stream_imgs">Etat des plantes</string>
+    <string name="garden">Jardin</string>
     <string name="dwn_imgs">Download all my images</string>
     <string name="hygrometry">hygrometry</string>
     <string name="to">à</string>
@@ -98,6 +100,7 @@
     <string name="reporter_si_pluie_pr_vue">Reporter si pluie prévue</string>
     <string name="arroser_uniquement_le_soir">Arroser uniquement le soir</string>
     <string name="autowater">arrosage auto.</string>
+    <string name="observe_garden">Observer le jardin</string>
     <string name="water_now">Arroser maintenant</string>
     <string name="load">Charger</string>
     <string name="prise_secteur">Prise secteur</string>

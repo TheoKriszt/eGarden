@@ -17,9 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-//import fr.kriszt.theo.egarden.DownloadClientPlantsImgsFragment;
+//import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
+import fr.kriszt.theo.egarden.fragment.GardenImgs;
 import fr.kriszt.theo.egarden.fragment.PlantDetailsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantsListFragment;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_DASHBOARD = "dashboard";
     private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_SHOOTINGS = "shootings";
+    private static final String TAG_GARDEN = "garden_details";
     private static final String TAG_STATS = "stats";
     private static final String TAG_SETTINGS = "settings";
     private static final String TAG_STREAM_IMGS ="stream_imgs" ;
@@ -150,14 +152,18 @@ public class MainActivity extends AppCompatActivity {
                 return new PlantsListFragment();
 
             case 4:
-                return new DownloadClientPlantsImgsFragment();
+                return new GardenImgs();
 
             case 5:
-                return new StatsFragment();
+                return new DownloadClientPlantsImgsFragment();
 
             case 6:
+                return new StatsFragment();
+
+            case 7:
                 return new SettingsFragment();
-            case 7 :
+
+            case 8 :
                 return new TimelapseViewFragment();
 
             default:
@@ -203,20 +209,24 @@ public class MainActivity extends AppCompatActivity {
                         navItemIndex = 3;
                         CURRENT_TAG = TAG_STREAM_IMGS;
                         break;
-                    case R.id.dwn_imgs:
+                    case R.id.garden:
                         navItemIndex = 4;
+                        CURRENT_TAG = TAG_GARDEN;
+                        break;
+                    case R.id.dwn_imgs:
+                        navItemIndex = 5;
                         CURRENT_TAG = TAG_DWNLOAD;
                         break;
                     case R.id.nav_statistics:
-                        navItemIndex = 5;
+                        navItemIndex = 6;
                         CURRENT_TAG = TAG_STATS;
                         break;
                     case R.id.nav_settings:
-                        navItemIndex = 6;
+                        navItemIndex = 7;
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
                     case R.id.nav_timelapse:
-                        navItemIndex = 7;
+                        navItemIndex = 8;
                         CURRENT_TAG = TAG_TIMELAPSE;
                         break;
 
