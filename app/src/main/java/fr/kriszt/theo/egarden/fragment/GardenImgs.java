@@ -37,8 +37,8 @@ public class GardenImgs extends Fragment {
 
     RecyclerView recyclerView;
 
-    String HTTP_JSON_URL = "http://sparklife.freeboxos.fr:1880/garden/imgs";
-
+    String HTTP_JSON_URL = "http://sparklife.freeboxos.fr/garden/imgs";
+//    String HTTP_JSON_URL = "http://michaelCorp.zzzz.io:1880/garden/imgs";
     String Image_Name_JSON = "image_title";
 
     String Image_URL_JSON = "image_url";
@@ -66,7 +66,7 @@ public class GardenImgs extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
         ImageView goute = view.findViewById(R.id.auto_watering_icon);
-        goute.setVisibility(View.INVISIBLE);
+//        goute.setVisibility(View.INVISIBLE);
 
         ImageTitleNameArrayListForClick = new ArrayList<>();
 

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
 //import fr.kriszt.theo.egarden.fragment.GardenImgs;
+import fr.kriszt.theo.egarden.fragment.GardenImgs;
 import fr.kriszt.theo.egarden.fragment.PlantDetailsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantsListFragment;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 return new PlantsListFragment();
 
             case 4:
-                return null;//new GardenImgs();
+                return new GardenImgs();
 
             case 5:
                 return new DownloadClientPlantsImgsFragment();
