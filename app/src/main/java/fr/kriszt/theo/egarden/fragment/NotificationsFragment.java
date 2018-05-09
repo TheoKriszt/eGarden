@@ -276,4 +276,10 @@ public class NotificationsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Connexion.cancellAll();
+    }
 }

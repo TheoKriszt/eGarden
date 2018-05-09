@@ -92,6 +92,11 @@ public class DashboardFragment extends Fragment {
                     JSONArray jsonArray = new JSONArray(response);
                     Log.i(TAG, "JSONARRAY: " + jsonArray.length() + " rows fetched");
 
+                    if(jsonArray.length() == 0){
+                        getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
+                        return;
+                    }
+
                     for (int i = 0; i < jsonArray.length(); i++){ // sol; hum, temp, date
                         float sol = 0;
                         float temp = 0;
@@ -121,6 +126,7 @@ public class DashboardFragment extends Fragment {
 
                 } catch (JSONException e) {
                     Log.e(TAG, "DHT JSONException: ", e);
+
                 }
 
                 LineDataSet humDataSet = null;
@@ -335,5 +341,11 @@ public class DashboardFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Connexion.cancellAll();
     }
 }

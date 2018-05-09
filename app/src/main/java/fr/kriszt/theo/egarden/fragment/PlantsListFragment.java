@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -27,6 +29,8 @@ import org.json.JSONObject;
 
 import javax.security.auth.login.LoginException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
 import fr.kriszt.theo.egarden.utils.Gallery.PlantAdapter;
@@ -42,6 +46,8 @@ public class PlantsListFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
+    @BindView(R.id.plantsList_progressBar) ProgressBar _progressBar;
+
     private static final String plants_url = "/plants";
 
 //    int RecyclerViewItemPosition ;
@@ -56,6 +62,8 @@ public class PlantsListFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.imgs_recycled , container, false);
     }
+
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
@@ -133,10 +141,13 @@ public class PlantsListFragment extends Fragment {
             }
         });
 
+        ButterKnife.bind(this, view);
+
 
     }
 
     public void fetch_plants(){
+
         Connexion.O(getContext()).sendGetRequest(plants_url, null, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -179,5 +190,14 @@ public class PlantsListFragment extends Fragment {
         recyclerViewAdapter = new PlantsRecyclerAdapter(adaptedPlants, getView().getContext());
 
         recyclerView.setAdapter(recyclerViewAdapter);
+
+        _progressBar.setVisibility(View.GONE);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Connexion.cancellAll();
+    }
+
 }

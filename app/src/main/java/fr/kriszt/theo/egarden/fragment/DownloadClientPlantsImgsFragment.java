@@ -122,4 +122,10 @@ public class DownloadClientPlantsImgsFragment extends Fragment implements View.O
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        Connexion.cancellAll();
+    }
+
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import fr.kriszt.theo.egarden.R;
+import fr.kriszt.theo.egarden.utils.Connexion;
 
 
 public class StatsFragment extends Fragment {
@@ -61,5 +62,11 @@ public class StatsFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Connexion.cancellAll();
     }
 }

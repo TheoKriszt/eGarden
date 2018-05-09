@@ -149,4 +149,10 @@ public class RequestImagePlantFragment extends Fragment {
         // Return the saved image Uri
         return savedImageURI;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Connexion.cancellAll();
+    }
 }

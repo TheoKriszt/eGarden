@@ -11,13 +11,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
-import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
+//import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
 import fr.kriszt.theo.egarden.R;
-import fr.kriszt.theo.egarden.fragment.GardenImgs;
+import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
+//import fr.kriszt.theo.egarden.fragment.GardenImgs;
 import fr.kriszt.theo.egarden.fragment.PlantDetailsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantsListFragment;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
@@ -25,28 +28,29 @@ import fr.kriszt.theo.egarden.fragment.NotificationsFragment;
 import fr.kriszt.theo.egarden.fragment.RequestImagePlantFragment;
 import fr.kriszt.theo.egarden.fragment.SettingsFragment;
 import fr.kriszt.theo.egarden.fragment.StatsFragment;
+import fr.kriszt.theo.egarden.fragment.TimelapseViewFragment;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "eGardenDashBoard";
+
+
     private static boolean TEST = true;
-
-
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private Handler mHandler;
+
+
     // toolbar titles respected to selected nav menu item
     private String[] activityTitles;
-
 
     // index to identify current nav menu item
     public static int navItemIndex = 0;
 
     // tags used to attach the fragments
     private static final String TAG_DASHBOARD = "dashboard";
-
     private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_SHOOTINGS = "shootings";
     private static final String TAG_GARDEN = "garden_details";
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_SETTINGS = "settings";
     private static final String TAG_STREAM_IMGS ="stream_imgs" ;
     private static final String TAG_DWNLOAD ="download_imgs" ;
+    private static final String TAG_TIMELAPSE ="timelapse" ;
 
     public static String CURRENT_TAG = TAG_DASHBOARD;
 
@@ -76,9 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
         // load toolbar titles from string resources
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
-
-
-
 
         setUpNavigationView();
 
@@ -148,8 +150,9 @@ public class MainActivity extends AppCompatActivity {
 
             case 3:
                 return new PlantsListFragment();
+
             case 4:
-                return new GardenImgs();
+                return null;//new GardenImgs();
 
             case 5:
                 return new DownloadClientPlantsImgsFragment();
@@ -159,6 +162,9 @@ public class MainActivity extends AppCompatActivity {
 
             case 7:
                 return new SettingsFragment();
+
+            case 8 :
+                return new TimelapseViewFragment();
 
             default:
                 return new DashboardFragment();
@@ -218,6 +224,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_settings:
                         navItemIndex = 7;
                         CURRENT_TAG = TAG_SETTINGS;
+                        break;
+                    case R.id.nav_timelapse:
+                        navItemIndex = 8;
+                        CURRENT_TAG = TAG_TIMELAPSE;
                         break;
 
 //                    case R.id.nav_about_us:

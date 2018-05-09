@@ -41,4 +41,6 @@
     <string name="general_enable_notifications">Receive alerts</string>
     <string name="minutes">minutes</string>
     <string name="timelapse">Timelapse</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
 </resources>
