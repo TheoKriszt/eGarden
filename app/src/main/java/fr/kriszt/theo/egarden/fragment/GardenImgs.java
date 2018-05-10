@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fr.kriszt.theo.egarden.R;
+import fr.kriszt.theo.egarden.utils.Connexion;
 import fr.kriszt.theo.egarden.utils.Gallery.GardenAdapter;
 import fr.kriszt.theo.egarden.utils.Gallery.GardenRecyclerAdapter;
 
@@ -37,11 +38,12 @@ public class GardenImgs extends Fragment {
 
     RecyclerView recyclerView;
 
-    String HTTP_JSON_URL = "http://sparklife.freeboxos.fr/garden/imgs";
-//    String HTTP_JSON_URL = "http://michaelCorp.zzzz.io:1880/garden/imgs";
-    String Image_Name_JSON = "image_title";
+    final String garden_imgs_url = "http://sparklife.freeboxos.fr/garden/imgs";
+//    String garden_imgs_url = "http://michaelCorp.zzzz.io:1880/garden/imgs";
+    final String  garden_imgs_uri = "/garden/imgs";
 
-    String Image_URL_JSON = "image_url";
+    final String image_Name_JSON = "image_title";
+    final String image_URL_JSON = "image_url";
 
     JsonArrayRequest RequestOfJSonArray ;
 
@@ -129,7 +131,27 @@ public class GardenImgs extends Fragment {
 
     public void JSON_HTTP_CALL(){
 
-        RequestOfJSonArray = new JsonArrayRequest(HTTP_JSON_URL,
+//        Connexion.O(getContext()).sendGetRequest(garden_imgs_uri, null, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                try {
+//                    JSONArray res = new JSONArray(response);
+//                    ParseJSonResponse(res);
+//                    //Toast.makeText(getContext(), "Reçu : " + res.length() + " elements", Toast.LENGTH_SHORT).show();
+//                } catch (JSONException e) {
+//                    Log.e(TAG, "onResponse: ", e);
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(getContext(), "Error fetching plants", Toast.LENGTH_SHORT).show();
+//                Log.e(TAG, "onErrorResponse: " + Connexion.O().decodeError(error));
+//            }
+//        });
+
+
+        RequestOfJSonArray = new JsonArrayRequest(garden_imgs_url,
 
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -161,12 +183,12 @@ public class GardenImgs extends Fragment {
 
                 json = array.getJSONObject(i);
 
-                GetDataAdapter2.setImageTitle(json.getString(Image_Name_JSON));
+                GetDataAdapter2.setImageTitle(json.getString(image_Name_JSON));
 
                 // Adding image title name in array to display on RecyclerView click event.
-                ImageTitleNameArrayListForClick.add(json.getString(Image_Name_JSON));
+                ImageTitleNameArrayListForClick.add(json.getString(image_Name_JSON));
 
-                GetDataAdapter2.setImageUrl(json.getString(Image_URL_JSON));
+                GetDataAdapter2.setImageUrl(json.getString(image_URL_JSON));
 
             } catch (JSONException e) {
 
