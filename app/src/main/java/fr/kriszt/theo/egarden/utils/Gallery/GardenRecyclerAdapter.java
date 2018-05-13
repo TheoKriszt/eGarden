@@ -100,7 +100,8 @@ public class GardenRecyclerAdapter extends RecyclerView.Adapter<GardenRecyclerAd
 
             VollyImageView = (NetworkImageView) itemView.findViewById(R.id.VolleyImageView) ;
 
-//            autoIconView = itemView.findViewById(R.id.auto_watering_icon);
+            autoIconView = itemView.findViewById(R.id.auto_watering_icon);
+            autoIconView.setVisibility(View.INVISIBLE);
 //            itemLayout = itemView.findViewById(R.id.plantItemLayout);
 
 

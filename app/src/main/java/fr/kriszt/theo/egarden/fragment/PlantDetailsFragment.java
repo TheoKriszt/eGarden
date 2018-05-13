@@ -155,7 +155,7 @@ public class PlantDetailsFragment extends Fragment {
 
                     _plantDescription.setText(json.getString("description"));
                     int lastHygrometry = (int) json.getDouble("value");
-                    boolean isThirsty = lastHygrometry < threshold;
+//                    boolean isThirsty = lastHygrometry < threshold;
 
                     try {
                         String stateWord = getActivity().getResources().getString(R.string.state);

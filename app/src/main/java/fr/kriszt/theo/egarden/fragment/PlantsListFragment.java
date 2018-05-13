@@ -56,7 +56,7 @@ public class PlantsListFragment extends Fragment {
 
     RecyclerView.Adapter recyclerViewAdapter;
 
-    ArrayList<String> ImageTitleNameArrayListForClick = new ArrayList<>();
+//    ArrayList<String> ImageTitleNameArrayListForClick = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment

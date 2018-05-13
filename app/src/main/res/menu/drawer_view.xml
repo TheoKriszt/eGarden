@@ -8,43 +8,46 @@
             android:title="@string/dashboard" />
 
         <item
+            android:id="@+id/nav_plants_state"
+            android:icon="@drawable/ic_droplet"
+            android:title="@string/plants_states"/>
+
+        <item
+            android:id="@+id/nav_stream_imgs"
+            android:icon="@drawable/ic_photo_camera"
+            android:title="@string/observe_garden"/>
+
+        <item
+            android:id="@+id/nav_download_imgs"
+            android:icon="@drawable/ic_file_download_black_24dp"
+            android:title="@string/dwn_imgs"/>
+
+        <item
+            android:id="@+id/nav_timelapse"
+            android:icon="@drawable/ic_videocam"
+            android:title="@string/timelapse" />
+
+        <item
             android:id="@+id/nav_notifications"
             android:icon="@drawable/ic_notifications"
             android:title="@string/notifications" />
 
-        <item
-            android:id="@+id/nav_shooting"
-            android:icon="@drawable/ic_photo_camera"
-            android:title="@string/shooting" />
-        <item
-            android:id="@+id/nav_stream_imgs"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/stream_imgs"/>
-        <item
-            android:id="@+id/garden"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/observe_garden"/>
+        <!--<item-->
+            <!--android:id="@+id/nav_shooting"-->
+            <!--android:icon="@drawable/ic_photo_camera"-->
+            <!--android:title="@string/shooting" />-->
 
-        <item
-            android:id="@+id/dwn_imgs"
-            android:icon="@drawable/ic_file_download_black_24dp"
-            android:title="@string/dwn_imgs"/>
-
-
-        <item
-            android:id="@+id/nav_statistics"
-            android:icon="@drawable/ic_show_chart"
-            android:title="@string/statistics" />
+        <!--<item-->
+            <!--android:id="@+id/nav_statistics"-->
+            <!--android:icon="@drawable/ic_show_chart"-->
+            <!--android:title="@string/statistics" />-->
 
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/settings" />
 
-        <item
-            android:id="@+id/nav_timelapse"
-            android:icon="@drawable/ic_videocam"
-            android:title="@string/timelapse" />
+
 
 
 

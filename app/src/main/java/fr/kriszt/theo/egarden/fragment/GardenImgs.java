@@ -13,7 +13,6 @@ import java.util.List;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -34,6 +33,7 @@ public class GardenImgs extends Fragment {
 
     private static final String TAG = "GardenImgs";
     List<GardenAdapter> ListOfdataAdapter;
+//    List<GardenAdapter> ListOfdataAdapter;
 
     RecyclerView recyclerView;
 
@@ -70,7 +70,7 @@ public class GardenImgs extends Fragment {
 
         ImageTitleNameArrayListForClick = new ArrayList<>();
 
-        ListOfdataAdapter = new ArrayList<>();
+        ListOfdataAdapter = new ArrayList<GardenAdapter>();
 
         recyclerView = (RecyclerView) view.findViewById(R.id.gardenImgs
         );
@@ -100,6 +100,7 @@ public class GardenImgs extends Fragment {
             public boolean onInterceptTouchEvent(RecyclerView Recyclerview, MotionEvent motionEvent) {
 
                 View view = Recyclerview.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+
 
                 if(view != null && gestureDetector.onTouchEvent(motionEvent)) {
 
@@ -154,28 +155,33 @@ public class GardenImgs extends Fragment {
 
         for(int i = 0; i<array.length(); i++) {
 
-            GardenAdapter GetDataAdapter2 = new GardenAdapter();
+            GardenAdapter plantAdapter = new GardenAdapter();
 
             JSONObject json = null;
             try {
 
                 json = array.getJSONObject(i);
 
-                GetDataAdapter2.setImageTitle(json.getString(Image_Name_JSON));
-
-                // Adding image title name in array to display on RecyclerView click event.
                 ImageTitleNameArrayListForClick.add(json.getString(Image_Name_JSON));
 
-                GetDataAdapter2.setImageUrl(json.getString(Image_URL_JSON));
+
+                plantAdapter.setImageTitle(json.getString(Image_Name_JSON));
+
+                // Adding image title name in array to display on RecyclerView click event.
+
+                plantAdapter.setImageUrl(json.getString(Image_URL_JSON));
+
+//                ListOfdataAdapter.add(new PlantAdapter(json));
+                ListOfdataAdapter.add(plantAdapter);
 
             } catch (JSONException e) {
 
                 e.printStackTrace();
             }
-            ListOfdataAdapter.add(GetDataAdapter2);
         }
 
         recyclerViewadapter = new GardenRecyclerAdapter(ListOfdataAdapter, getView().getContext());
+
 
         recyclerView.setAdapter(recyclerViewadapter);
     }

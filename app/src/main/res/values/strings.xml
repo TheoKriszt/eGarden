@@ -29,16 +29,13 @@
 
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
-        <!--TODO : extract string ressources-->
         <item>Dashboard</item>
-        <item>Notifications</item>
-        <item>@string/observe_garden</item>
-        <item>@string/stream_imgs</item>
+        <item>@string/plants_states</item>
         <item>@string/garden</item>
         <item>Download all plants images</item>
-        <item>Stats</item>
-        <item>Settings</item>
         <item>Timelapses</item>
+        <item>Notifications</item>
+        <item>Settings</item>
     </string-array>
     <string name="openDrawer">open_drawer</string>
     <string name="closeDrawer">close_drawer</string>
@@ -61,9 +58,9 @@
     <string name="downloadFailed">Download Failed…</string>
     <string name="downloadAgain">Download Again</string>
     <string name="unZipFolder">Unzip Folder</string>
-    <string name="stream_imgs">Etat des plantes</string>
+    <string name="plants_states">Etat des plantes</string>
     <string name="garden">Jardin</string>
-    <string name="dwn_imgs">Download all my images</string>
+    <string name="dwn_imgs">Telecharger les images</string>
     <string name="hygrometry">hygrometry</string>
     <string name="to">à</string>
     <string name="loadDHT">Chargement des données environnementales</string>
