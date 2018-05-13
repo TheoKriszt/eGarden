@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ImageView;
@@ -193,5 +194,11 @@ public class Connexion {
                 return true;
             }
         });
+    }
+
+    public Uri getTimelapseURI(String videoFile, String feed) {
+        if (videoFile == null) return null;
+        String path  = address + ":" + port  + "/timelapse/" + feed + "/" +  videoFile;
+        return Uri.parse(path);
     }
 }

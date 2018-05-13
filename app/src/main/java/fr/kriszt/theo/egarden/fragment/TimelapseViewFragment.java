@@ -30,15 +30,18 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
+import fr.kriszt.theo.egarden.utils.Security;
 
 import static android.view.View.GONE;
 
@@ -48,7 +51,6 @@ public class TimelapseViewFragment extends Fragment {
 
     private static final String TAG = "Timelapse";
     private ArrayAdapter<CharSequence> WeekDayTypesAdapter;
-    private OnFragmentInteractionListener mListener;
     @BindView(R.id.videoView) VideoView _videoView;
     @BindView(R.id.video_progressBar) ProgressBar _progressBar;
     @BindView(R.id.weekDaySpinner) Spinner _weekdaySpinner;
@@ -59,9 +61,12 @@ public class TimelapseViewFragment extends Fragment {
 
     Handler refreshHandler = new Handler();
 
-    // video mp4 d'exemple
-    String vidAddress = "https://archive.org/download/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
-    Uri vidUri = Uri.parse(vidAddress);
+    private String feed = "direct";
+    private String[] videoFileNames;
+    private String videoFileName;
+    private String[] videoFilePaths;
+    private String videoFilePath;
+
 
     private Runnable refreshDirect = new Runnable() {
         @Override
@@ -89,13 +94,6 @@ public class TimelapseViewFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static TimelapseViewFragment newInstance() {
-        TimelapseViewFragment fragment = new TimelapseViewFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,15 +114,8 @@ public class TimelapseViewFragment extends Fragment {
         refreshHandler.post(refreshDirect);
 
         MediaController videoController = new MediaController(getContext());
+        videoController.setMediaPlayer(_videoView);
         videoController.setAnchorView(_videoView);
-        _videoView.setVideoURI(vidUri);
-        _videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                _progressBar.setVisibility(GONE);
-            }
-        });
-//        _videoView.start();
 
         WeekDayTypesAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.timelapse_weekday_select, android.R.layout.simple_spinner_item);
@@ -133,74 +124,23 @@ public class TimelapseViewFragment extends Fragment {
         // Apply the adapter to the spinner
         _weekdaySpinner.setAdapter(WeekDayTypesAdapter);
 
+        _selectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                videoFileName = videoFileNames[position];
+                videoFilePath = videoFilePaths[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                videoFileName = null;
+            }
+        });
+
         _weekdaySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getContext(), "Item selected  : " + position, Toast.LENGTH_SHORT).show();
-                String type = "direct";
-                switch (position){
-                    case 1:
-                        type = "day";
-                        break;
-                    case 2 :
-                        type = "week";
-                        break;
-                    default: // direct
-
-                }
-
-                if (type.equals("direct")){
-                    _videoView.setVisibility(View.INVISIBLE);
-                    _imageView.setVisibility(View.VISIBLE);
-                    _selectSpinner.setVisibility(View.INVISIBLE);
-                    refreshHandler.post(refreshDirect);
-//                    Connexion.O().downloadImage("snapshot", new Response.Listener<Bitmap>() {
-                    return;
-                }else {
-                    refreshHandler.removeCallbacks(refreshDirect);
-                    _videoView.setVisibility(View.VISIBLE);
-                    _imageView.setVisibility(View.INVISIBLE);
-                    _selectSpinner.setVisibility(View.VISIBLE);
-//                    Toast.makeText(getContext(), "TODO : lister les timelapses disponibles", Toast.LENGTH_SHORT).show();
-                }
-
-                Connexion.O(getContext()).sendGetRequest("/timelapses/" + type, null, new Response.Listener<String>() {
-
-
-                    @Override
-                    public void onResponse(String response) {
-//                        SelectTimelapseAdapter = ArrayAdapter.createFromResource(getContext(),
-//                                R.array.timelapse_weekday_select, android.R.layout.simple_spinner_item);
-//                        // Specify the layout to use when the list of choices appears
-//                        SelectTimelapseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                        // Apply the adapter to the spinner
-
-                        ArrayList<String> names = new ArrayList<>();
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                names.add(jsonArray.getString(i));
-                            }
-                            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
-                                    (getContext(), android.R.layout.simple_spinner_item, (String[]) names.toArray()); //selected item will look like a spinner set from XML
-                            spinnerArrayAdapter.setDropDownViewResource(android.R.layout
-                                    .simple_spinner_dropdown_item);
-                            _selectSpinner.setAdapter(spinnerArrayAdapter);
-
-                        } catch (JSONException e) {
-
-                            Log.e(TAG, "onResponse: ", e);
-                        }
-
-                        finally {
-                            Toast.makeText(getContext(), names.toString(), Toast.LENGTH_SHORT).show();
-                        }
-
-
-
-                    }
-                }, null);
+                selectWeekDayMode(position);
             }
 
             @Override
@@ -228,32 +168,96 @@ public class TimelapseViewFragment extends Fragment {
 
     }
 
+    private void selectWeekDayMode(int position) {
+
+        switch (position){
+            case 1:
+                feed = "day";
+                break;
+            case 2 :
+                feed = "week";
+                break;
+            default: // direct
+                feed = "direct";
+
+        }
+
+        if (feed.equals("direct")){
+            _videoView.setVisibility(View.INVISIBLE);
+            _imageView.setVisibility(View.VISIBLE);
+            _selectSpinner.setVisibility(View.INVISIBLE);
+            refreshHandler.post(refreshDirect);
+//                    Connexion.O().downloadImage("snapshot", new Response.Listener<Bitmap>() {
+            return;
+        }else {
+            refreshHandler.removeCallbacks(refreshDirect);
+            _videoView.setVisibility(View.VISIBLE);
+            _imageView.setVisibility(View.INVISIBLE);
+            _selectSpinner.setVisibility(View.VISIBLE);
+        }
+
+        Connexion.O(getContext()).sendGetRequest("/timelapses/" + feed, null, new Response.Listener<String>() {
+
+
+            @Override
+            public void onResponse(String response) {
+
+                ArrayList<String> names = new ArrayList<>();
+                ArrayList<String> paths = new ArrayList<>();
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+
+                        names.add(jsonObject.getString("name"));
+                        paths.add(jsonObject.getString("path"));
+                    }
+
+                    videoFileNames = names.toArray(new String[0]);
+                    videoFilePaths = paths.toArray(new String[0]);
+
+                    ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
+                            (getContext(), android.R.layout.simple_spinner_item, videoFileNames); //selected item will look like a spinner set from XML
+                    spinnerArrayAdapter.setDropDownViewResource(android.R.layout
+                            .simple_spinner_dropdown_item);
+                    _selectSpinner.setAdapter(spinnerArrayAdapter);
+
+                } catch (JSONException e) {
+
+                    Log.e(TAG, "onResponse: ", e);
+                }
+
+
+            }
+        }, null);
+
+    }
+
 
     @OnClick(R.id.loadButton)
     public void onLoadButtonPressed(){
-        Toast.makeText(getContext(), "TODO  charger la video correspondante", Toast.LENGTH_SHORT).show();
-    }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+        if (feed.equals("direct")) return;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
 
-    }
+        _progressBar.setVisibility(View.VISIBLE);
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+        Uri uri = Connexion.O().getTimelapseURI(videoFilePath, feed);
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+        if (uri == null) return;
+
+        _videoView.setVideoURI(uri);
+        _videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                _progressBar.setVisibility(GONE);
+                _videoView.start();
+            }
+        });
+
     }
 
     @Override
