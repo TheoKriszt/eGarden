@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,9 +25,7 @@ import fr.kriszt.theo.egarden.fragment.PlantDetailsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantsListFragment;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
 import fr.kriszt.theo.egarden.fragment.NotificationsFragment;
-import fr.kriszt.theo.egarden.fragment.RequestImagePlantFragment;
 import fr.kriszt.theo.egarden.fragment.SettingsFragment;
-import fr.kriszt.theo.egarden.fragment.StatsFragment;
 import fr.kriszt.theo.egarden.fragment.TimelapseViewFragment;
 
 
@@ -37,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "eGardenDashBoard";
 
 
-    private static boolean TEST = true;
+//    private static boolean TEST = true;
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView navigationView;
@@ -52,16 +49,16 @@ public class MainActivity extends AppCompatActivity {
 
     // tags used to attach the fragments
     private static final String TAG_DASHBOARD = "dashboard";
-    private static final String TAG_NOTIFICATIONS = "notifications";
-    private static final String TAG_SHOOTINGS = "shootings";
-    private static final String TAG_GARDEN = "garden_details";
-    private static final String TAG_STATS = "stats";
-    private static final String TAG_SETTINGS = "settings";
+    private static final String TAG_PLANTS_STATE = "garden_details";
     private static final String TAG_STREAM_IMGS ="stream_imgs" ;
     private static final String TAG_DWNLOAD ="download_imgs" ;
     private static final String TAG_TIMELAPSE ="timelapse" ;
-
+    private static final String TAG_NOTIFICATIONS = "notifications";
+    private static final String TAG_SETTINGS = "settings";
     public static String CURRENT_TAG = TAG_DASHBOARD;
+
+//    private static final String TAG_STATS = "stats";
+//    private static final String TAG_SHOOTINGS = "shootings";
 
 
     @Override
@@ -145,28 +142,33 @@ public class MainActivity extends AppCompatActivity {
         switch (navItemIndex) {
             case 0:
                 return new DashboardFragment();
-            case 1:
-                return new NotificationsFragment();
-            case 2:
-                return new RequestImagePlantFragment();
 
-            case 3:
+//            case 2:
+//                return new RequestImagePlantFragment();
+
+            case 1:
                 return new PlantsListFragment();
 
-            case 4:
+            case 2:
                 return new GardenImgs();
 
-            case 5:
+
+            case 3:
                 return new DownloadClientPlantsImgsFragment();
 
-            case 6:
-                return new StatsFragment();
+//            case 6:
+//                return new StatsFragment();
 
-            case 7:
+            case 4 :
+                return new TimelapseViewFragment();
+
+            case 5:
+                return new NotificationsFragment();
+
+            case 6:
                 return new SettingsFragment();
 
-            case 8 :
-                return new TimelapseViewFragment();
+
 
             default:
                 return new DashboardFragment();
@@ -199,38 +201,48 @@ public class MainActivity extends AppCompatActivity {
                         navItemIndex = 0;
                         CURRENT_TAG = TAG_DASHBOARD;
                         break;
-                    case R.id.nav_notifications:
+
+
+//                    case R.id.nav_shooting:
+//                        navItemIndex = 2;
+//                        CURRENT_TAG = TAG_SHOOTINGS;
+//                        break;
+
+                    case R.id.nav_plants_state:
                         navItemIndex = 1;
-                        CURRENT_TAG = TAG_NOTIFICATIONS;
+                        CURRENT_TAG = TAG_PLANTS_STATE;
                         break;
-                    case R.id.nav_shooting:
-                        navItemIndex = 2;
-                        CURRENT_TAG = TAG_SHOOTINGS;
-                        break;
+
                     case R.id.nav_stream_imgs :
-                        navItemIndex = 3;
+                        navItemIndex = 2;
                         CURRENT_TAG = TAG_STREAM_IMGS;
                         break;
-                    case R.id.garden:
-                        navItemIndex = 4;
-                        CURRENT_TAG = TAG_GARDEN;
-                        break;
-                    case R.id.dwn_imgs:
-                        navItemIndex = 5;
+
+                    case R.id.nav_download_imgs:
+                        navItemIndex = 3;
                         CURRENT_TAG = TAG_DWNLOAD;
                         break;
-                    case R.id.nav_statistics:
-                        navItemIndex = 6;
-                        CURRENT_TAG = TAG_STATS;
-                        break;
-                    case R.id.nav_settings:
-                        navItemIndex = 7;
-                        CURRENT_TAG = TAG_SETTINGS;
-                        break;
+//                    case R.id.nav_statistics:
+//                        navItemIndex = 6;
+//                        CURRENT_TAG = TAG_STATS;
+//                        break;
+
                     case R.id.nav_timelapse:
-                        navItemIndex = 8;
+                        navItemIndex = 4;
                         CURRENT_TAG = TAG_TIMELAPSE;
                         break;
+
+                    case R.id.nav_notifications:
+                        navItemIndex = 5;
+                        CURRENT_TAG = TAG_NOTIFICATIONS;
+                        break;
+
+
+                    case R.id.nav_settings:
+                        navItemIndex = 6;
+                        CURRENT_TAG = TAG_SETTINGS;
+                        break;
+
 
 //                    case R.id.nav_about_us:
 //                        // launch new intent instead of loading fragment
@@ -302,8 +314,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Toast.makeText(this, "BackPressed from " + CURRENT_TAG, Toast.LENGTH_SHORT).show();
         if (CURRENT_TAG.equals(PlantDetailsFragment.TAG)){
-            navItemIndex = 3;
-            CURRENT_TAG = TAG_STREAM_IMGS;
+            navItemIndex = 1;
+//            CURRENT_TAG = TAG_STREAM_IMGS;
+            CURRENT_TAG = TAG_PLANTS_STATE;
             loadHomeFragment();
             return;
         }

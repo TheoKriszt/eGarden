@@ -34,6 +34,9 @@ import fr.kriszt.theo.egarden.utils.Connexion;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * @deprecated
+ */
 public class RequestImagePlantFragment extends Fragment {
 
     private static final String TAG = "RequestImagePlant";

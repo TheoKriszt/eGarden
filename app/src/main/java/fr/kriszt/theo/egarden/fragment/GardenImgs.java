@@ -72,7 +72,7 @@ public class GardenImgs extends Fragment {
 
         ImageTitleNameArrayListForClick = new ArrayList<>();
 
-        ListOfdataAdapter = new ArrayList<>();
+        ListOfdataAdapter = new ArrayList<GardenAdapter>();
 
         recyclerView = (RecyclerView) view.findViewById(R.id.gardenImgs
         );
@@ -103,6 +103,7 @@ public class GardenImgs extends Fragment {
 
                 View view = Recyclerview.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
 
+
                 if(view != null && gestureDetector.onTouchEvent(motionEvent)) {
 
                     //Getting RecyclerView Clicked Item value.
@@ -131,73 +132,75 @@ public class GardenImgs extends Fragment {
 
     public void JSON_HTTP_CALL(){
 
-//        Connexion.O(getContext()).sendGetRequest(garden_imgs_uri, null, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                try {
-//                    JSONArray res = new JSONArray(response);
-//                    ParseJSonResponse(res);
-//                    //Toast.makeText(getContext(), "Reçu : " + res.length() + " elements", Toast.LENGTH_SHORT).show();
-//                } catch (JSONException e) {
-//                    Log.e(TAG, "onResponse: ", e);
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(getContext(), "Error fetching plants", Toast.LENGTH_SHORT).show();
-//                Log.e(TAG, "onErrorResponse: " + Connexion.O().decodeError(error));
-//            }
-//        });
+        Connexion.O(getContext()).sendGetRequest(garden_imgs_uri, null, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray res = new JSONArray(response);
+                    ParseJSonResponse(res);
+                    //Toast.makeText(getContext(), "Reçu : " + res.length() + " elements", Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    Log.e(TAG, "onResponse: ", e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "Error fetching plants", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onErrorResponse: " + Connexion.O().decodeError(error));
+            }
+        });
 
 
-        RequestOfJSonArray = new JsonArrayRequest(garden_imgs_url,
-
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                        ParseJSonResponse(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-
-        requestQueue = Volley.newRequestQueue(this.getView().getContext());
-
-        requestQueue.add(RequestOfJSonArray);
+//        RequestOfJSonArray = new JsonArrayRequest(garden_imgs_url,
+//
+//                new Response.Listener<JSONArray>() {
+//                    @Override
+//                    public void onResponse(JSONArray response) {
+//
+//                        ParseJSonResponse(response);
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//
+//                    }
+//                });
+//
+//        requestQueue = Volley.newRequestQueue(this.getView().getContext());
+//
+//        requestQueue.add(RequestOfJSonArray);
     }
 
     public void ParseJSonResponse(JSONArray array){
 
         for(int i = 0; i<array.length(); i++) {
 
-            GardenAdapter GetDataAdapter2 = new GardenAdapter();
+            GardenAdapter plantAdapter = new GardenAdapter();
 
             JSONObject json = null;
             try {
 
                 json = array.getJSONObject(i);
 
-                GetDataAdapter2.setImageTitle(json.getString(image_Name_JSON));
-
-                // Adding image title name in array to display on RecyclerView click event.
                 ImageTitleNameArrayListForClick.add(json.getString(image_Name_JSON));
+                plantAdapter.setImageTitle(json.getString(image_Name_JSON));
 
-                GetDataAdapter2.setImageUrl(json.getString(image_URL_JSON));
+
+
+
+                plantAdapter.setImageUrl(json.getString(image_URL_JSON));
+                ListOfdataAdapter.add(plantAdapter);
 
             } catch (JSONException e) {
 
                 e.printStackTrace();
             }
-            ListOfdataAdapter.add(GetDataAdapter2);
         }
 
         recyclerViewadapter = new GardenRecyclerAdapter(ListOfdataAdapter, getView().getContext());
+
 
         recyclerView.setAdapter(recyclerViewadapter);
     }
