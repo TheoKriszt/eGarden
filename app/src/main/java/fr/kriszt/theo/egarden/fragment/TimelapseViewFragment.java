@@ -1,6 +1,5 @@
 package fr.kriszt.theo.egarden.fragment;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -15,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -34,14 +33,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
-import fr.kriszt.theo.egarden.utils.Security;
 
 import static android.view.View.GONE;
 
@@ -56,7 +53,8 @@ public class TimelapseViewFragment extends Fragment {
     @BindView(R.id.weekDaySpinner) Spinner _weekdaySpinner;
     @BindView(R.id.selectSpinner) Spinner _selectSpinner;
     @BindView(R.id.imageView) ImageView _imageView;
-    @BindView(R.id.loadButton) Button _loadButton;
+    @BindView(R.id.loadButton) ImageButton _loadButton;
+    @BindView(R.id.downloadButton) ImageButton _downloadButton;
     @BindView(R.id.wallplugButton) ToggleButton _wallplugButton;
 
     Handler refreshHandler = new Handler();
@@ -183,17 +181,21 @@ public class TimelapseViewFragment extends Fragment {
         }
 
         if (feed.equals("direct")){
-            _videoView.setVisibility(View.INVISIBLE);
+            _videoView.setVisibility(View.GONE);
             _imageView.setVisibility(View.VISIBLE);
-            _selectSpinner.setVisibility(View.INVISIBLE);
+            _selectSpinner.setVisibility(View.GONE);
+            _downloadButton.setVisibility(GONE);
+            _loadButton.setVisibility(GONE);
             refreshHandler.post(refreshDirect);
 //                    Connexion.O().downloadImage("snapshot", new Response.Listener<Bitmap>() {
             return;
         }else {
             refreshHandler.removeCallbacks(refreshDirect);
             _videoView.setVisibility(View.VISIBLE);
-            _imageView.setVisibility(View.INVISIBLE);
+            _imageView.setVisibility(View.GONE);
             _selectSpinner.setVisibility(View.VISIBLE);
+            _downloadButton.setVisibility(View.VISIBLE);
+            _loadButton.setVisibility(View.VISIBLE);
         }
 
         Connexion.O(getContext()).sendGetRequest("/timelapses/" + feed, null, new Response.Listener<String>() {
@@ -260,9 +262,16 @@ public class TimelapseViewFragment extends Fragment {
 
     }
 
+    @OnClick(R.id.downloadButton)
+    public void onDownloadButtonPressed(){
+        Uri uri = Connexion.O().getTimelapseURI(videoFilePath, feed);
+        Connexion.O(getContext()).downloadFile(uri, null, videoFileName, "Timelapse eGarden");
+    }
+
     @Override
     public void onStop() {
         super.onStop();
+        refreshHandler.removeCallbacks(refreshDirect);
         Connexion.cancellAll();
     }
 

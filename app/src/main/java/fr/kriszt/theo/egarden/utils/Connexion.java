@@ -1,10 +1,12 @@
 package fr.kriszt.theo.egarden.utils;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ImageView;
@@ -29,6 +31,8 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.content.Context.DOWNLOAD_SERVICE;
 
 /**
  * Created by T.Kriszt on 12/03/18.
@@ -200,5 +204,19 @@ public class Connexion {
         if (videoFile == null) return null;
         String path  = address + ":" + port  + "/timelapse/" + feed + "/" +  videoFile;
         return Uri.parse(path);
+    }
+
+    public void downloadFile(Uri uri, @Nullable String subdir, @Nullable String filename, @Nullable String title){
+
+        // Create request for android download manager
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+
+
+        request.setTitle(title)
+                .setDescription(filename)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, filename);
+        downloadManager.enqueue(request);
     }
 }
