@@ -265,7 +265,7 @@ public class TimelapseViewFragment extends Fragment {
     @OnClick(R.id.downloadButton)
     public void onDownloadButtonPressed(){
         Uri uri = Connexion.O().getTimelapseURI(videoFilePath, feed);
-        Connexion.O(getContext()).downloadFile(uri, null, videoFileName, "Timelapse eGarden");
+        Connexion.O(getContext()).downloadFile(uri, videoFileName, "Timelapse eGarden");
     }
 
     @Override

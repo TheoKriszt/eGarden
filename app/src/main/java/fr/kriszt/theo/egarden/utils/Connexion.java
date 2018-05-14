@@ -206,7 +206,7 @@ public class Connexion {
         return Uri.parse(path);
     }
 
-    public void downloadFile(Uri uri, @Nullable String subdir, @Nullable String filename, @Nullable String title){
+    public void downloadFile(Uri uri, String filename, @Nullable String title){
 
         // Create request for android download manager
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
