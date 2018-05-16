@@ -109,7 +109,8 @@ public class TimelapseViewFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        refreshHandler.post(refreshDirect);
+        if (_weekdaySpinner.getSelectedItemPosition() > 0)
+            refreshHandler.post(refreshDirect);
 
         MediaController videoController = new MediaController(getContext());
         videoController.setMediaPlayer(_videoView);
