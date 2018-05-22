@@ -130,6 +130,11 @@ public class GardenImgs extends Fragment {
 
     }
 
+    public void onDestroy()
+    {
+        super.onDestroy();
+        recyclerView.setAdapter(null);
+    }
     public void JSON_HTTP_CALL(){
 
         Connexion.O(getContext()).sendGetRequest(garden_imgs_uri, null, new Response.Listener<String>() {

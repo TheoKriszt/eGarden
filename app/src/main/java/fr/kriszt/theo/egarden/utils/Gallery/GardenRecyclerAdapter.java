@@ -35,7 +35,7 @@ public class GardenRecyclerAdapter extends RecyclerView.Adapter<GardenRecyclerAd
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gardenview, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
 
@@ -54,13 +54,14 @@ public class GardenRecyclerAdapter extends RecyclerView.Adapter<GardenRecyclerAd
                         Viewholder.VollyImageView,//Server Image
                         R.mipmap.ic_launcher,//Before loading server image the default showing image.
                         android.R.drawable.ic_dialog_alert //Error image if requested image dose not found on server.
+
                 )
         );
 
         Viewholder.VollyImageView.setImageUrl(gardenAdapterOBJ.getImageUrl(), imageLoader);
         Log.d(TAG, gardenAdapterOBJ.getImageUrl());
         Viewholder.ImageTitleTextView.setText(gardenAdapterOBJ.getImageTitle());
-
+        Log.e(TAG, "gardenHistory.sizeo() == " + gardenHistory.size());
 //
 //
 //
@@ -100,8 +101,8 @@ public class GardenRecyclerAdapter extends RecyclerView.Adapter<GardenRecyclerAd
 
             VollyImageView = (NetworkImageView) itemView.findViewById(R.id.VolleyImageView) ;
 
-            autoIconView = itemView.findViewById(R.id.auto_watering_icon);
-            autoIconView.setVisibility(View.INVISIBLE);
+//            autoIconView = itemView.findViewById(R.id.auto_watering_icon);
+//            autoIconView.setVisibility(View.INVISIBLE);
 //            itemLayout = itemView.findViewById(R.id.plantItemLayout);
 
 
