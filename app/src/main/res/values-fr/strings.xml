@@ -71,4 +71,5 @@
     <string name="on">ON</string>
     <string name="off">OFF</string>
 
+    <string name="downLoadImgGardenButton">Télécharger image</string>
 </resources>

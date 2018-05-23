@@ -48,17 +48,17 @@ public class GardenRecyclerAdapter extends RecyclerView.Adapter<GardenRecyclerAd
         GardenAdapter gardenAdapterOBJ =  gardenHistory.get(position);
 
         imageLoader = ImageAdapter.getInstance(context).getImageLoader();
-
+        Log.e(TAG, "onBindViewHolder: Viewholder.VolleyImageView =" + Viewholder.VolleyImageView);
         imageLoader.get(gardenAdapterOBJ.getImageUrl(),
                 ImageLoader.getImageListener(
-                        Viewholder.VollyImageView,//Server Image
+                        Viewholder.VolleyImageView,//Server Image
                         R.mipmap.ic_launcher,//Before loading server image the default showing image.
                         android.R.drawable.ic_dialog_alert //Error image if requested image dose not found on server.
 
                 )
         );
 
-        Viewholder.VollyImageView.setImageUrl(gardenAdapterOBJ.getImageUrl(), imageLoader);
+        Viewholder.VolleyImageView.setImageUrl(gardenAdapterOBJ.getImageUrl(), imageLoader);
         Log.d(TAG, gardenAdapterOBJ.getImageUrl());
         Viewholder.ImageTitleTextView.setText(gardenAdapterOBJ.getImageTitle());
         Log.e(TAG, "gardenHistory.sizeo() == " + gardenHistory.size());
@@ -91,7 +91,7 @@ public class GardenRecyclerAdapter extends RecyclerView.Adapter<GardenRecyclerAd
     class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView ImageTitleTextView;
-        public NetworkImageView VollyImageView ;
+        public NetworkImageView VolleyImageView ;
         public ImageView autoIconView ;
         public RelativeLayout itemLayout;
 
@@ -99,7 +99,7 @@ public class GardenRecyclerAdapter extends RecyclerView.Adapter<GardenRecyclerAd
             super(itemView);
             ImageTitleTextView = (TextView) itemView.findViewById(R.id.ImageNameTextView) ;
 
-            VollyImageView = (NetworkImageView) itemView.findViewById(R.id.VolleyImageView) ;
+            VolleyImageView = (NetworkImageView) itemView.findViewById(R.id.VolleyImageView) ;
 
 //            autoIconView = itemView.findViewById(R.id.auto_watering_icon);
 //            autoIconView.setVisibility(View.INVISIBLE);

@@ -1,6 +1,8 @@
 package fr.kriszt.theo.egarden.fragment;
 //import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import org.json.JSONArray;
@@ -51,16 +53,19 @@ public class GardenImgs extends Fragment {
 
     //View view ;
 
-    int RecyclerViewItemPosition ;
+    int recyclerViewItemPosition ;
 
     RecyclerView.LayoutManager layoutManagerOfrecyclerView;
 
     RecyclerView.Adapter recyclerViewadapter;
 
     ArrayList<String> ImageTitleNameArrayListForClick;
+    ImageView single_gardenview;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        single_gardenview= (ImageView) inflater.inflate(R.layout.single_gardenview, container, false);
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.garden_details , container, false);
     }
@@ -71,7 +76,7 @@ public class GardenImgs extends Fragment {
         ImageTitleNameArrayListForClick = new ArrayList<>();
 
         ListOfdataAdapter = new ArrayList<GardenAdapter>();
-
+        single_gardenview=(ImageView)view.findViewById(R.id.single_gardenview);
         recyclerView = (RecyclerView) view.findViewById(R.id.gardenImgs
         );
 
@@ -100,15 +105,32 @@ public class GardenImgs extends Fragment {
             public boolean onInterceptTouchEvent(RecyclerView Recyclerview, MotionEvent motionEvent) {
 
                 View view = Recyclerview.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
-
+                Log.e(TAG , "onInterceptTouchEvent : hello");
 
                 if(view != null && gestureDetector.onTouchEvent(motionEvent)) {
 
                     //Getting RecyclerView Clicked Item value.
-                    RecyclerViewItemPosition = Recyclerview.getChildAdapterPosition(view);
+                    recyclerViewItemPosition = Recyclerview.getChildAdapterPosition(view);
+
+
+                    ImageView little_gardenview=(ImageView) view.findViewById(R.id.VolleyImageView);
+
+                    Bitmap bitmap = ((BitmapDrawable)little_gardenview.getDrawable()).getBitmap();
+                    single_gardenview.setImageBitmap(bitmap);
+                    single_gardenview.setVisibility(View.VISIBLE);
+                    single_gardenview.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            single_gardenview.setVisibility(View.GONE);                   recyclerView.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    recyclerView.setVisibility(View.GONE);
+//                    view.getParent().bringChildToFront(little_gardenview);
+//                    Bitmap bitmap = ((BitmapDrawable)view.getget.getDrawable()).getBitmap();
+//                    little_gardenview.setImageBitmap(view.get);
 
                     // Showing RecyclerView Clicked Item value using Toast.
-                    Toast.makeText(view.getContext(), ImageTitleNameArrayListForClick.get(RecyclerViewItemPosition), Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(), ImageTitleNameArrayListForClick.get(recyclerViewItemPosition) + view.getClass().getSimpleName(), Toast.LENGTH_LONG).show();
 
 
                 }

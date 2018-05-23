@@ -12,10 +12,27 @@
     android:layout_height="match_parent"
     tools:context="fr.kriszt.theo.egarden.fragment.GardenImgs">
 
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gardenImgs"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+
+    <ImageView
+        android:id="@+id/single_gardenview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dip"
+        tools:visibility="gone" />
+
+    <Button
+        android:id="@+id/downLoadImgGardenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/" />
+
 </FrameLayout>
+
 
     <!--</RelativeLayout>-->
