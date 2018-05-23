@@ -17,10 +17,10 @@
             android:icon="@drawable/ic_photo_camera"
             android:title="@string/observe_garden"/>
 
-        <item
-            android:id="@+id/nav_download_imgs"
-            android:icon="@drawable/ic_file_download_black_24dp"
-            android:title="@string/dwn_imgs"/>
+        <!--<item-->
+            <!--android:id="@+id/nav_download_imgs"-->
+            <!--android:icon="@drawable/ic_file_download_black_24dp"-->
+            <!--android:title="@string/dwn_imgs"/>-->
 
         <item
             android:id="@+id/nav_timelapse"

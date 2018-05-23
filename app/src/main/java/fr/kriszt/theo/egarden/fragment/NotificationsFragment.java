@@ -1,6 +1,5 @@
 package fr.kriszt.theo.egarden.fragment;
 
-//import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,12 +54,10 @@ public class NotificationsFragment extends Fragment {
     @BindView(R.id.notification_delay_edit_layout) TextInputLayout delay_edit_layout;
     private ArrayAdapter<CharSequence> storageTypesAdapter;
     private ArrayAdapter<CharSequence> delayTypesAdapter;
-    private String storageUnitValue;
     private boolean generalEnabled;
     private boolean thirstEnabled;
     private boolean reservoirEnabled;
     private boolean meteoEnabled;
-    private String storageValue;
 
 
     public NotificationsFragment() {
@@ -68,23 +65,10 @@ public class NotificationsFragment extends Fragment {
     }
 
 
-//    public static NotificationsFragment newInstance(String param1, String param2) {
-//        NotificationsFragment fragment = new NotificationsFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
 
@@ -92,7 +76,6 @@ public class NotificationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
         return view;
     }
@@ -112,7 +95,6 @@ public class NotificationsFragment extends Fragment {
         // Apply the adapter to the spinner
         _storageSpinner.setAdapter(storageTypesAdapter);
 
-//        ArrayAdapter<CharSequence> delayTypesAdapter;
         delayTypesAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.notification_delay_types, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
@@ -175,8 +157,6 @@ public class NotificationsFragment extends Fragment {
         params.put("delay", String.valueOf(_delayValueEdit.getText()));
         params.put("delay_unit", _delaySpinner.getSelectedItem().toString());
         params.put("storage_unit", _storageSpinner.getSelectedItem().toString());
-        // TODO : gerer type fieldlist
-
 
 
         Connexion.O().sendPostRequest("/userPrefs", params, new Response.Listener<String>() {
@@ -194,7 +174,6 @@ public class NotificationsFragment extends Fragment {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-//                    Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
 
                     Log.w(TAG, "onResponse: " + response);
 
@@ -222,16 +201,8 @@ public class NotificationsFragment extends Fragment {
                     _meteoSwitch.setChecked(meteo);
                     _storageSizeEdit.setText(String.valueOf(storage));
                     _delayValueEdit.setText(String.valueOf(delay));
-//                    _storageSpinner.set;
 
                     setFieldsVisibility(general);
-
-
-                    // TODO : retrouver item selection
-//                    storageTypesAdapter
-//                    delayTypesAdapter
-
-
 
 
                 } catch (JSONException e) {
@@ -257,12 +228,6 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
 

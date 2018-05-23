@@ -2,6 +2,7 @@ package fr.kriszt.theo.egarden.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_DASHBOARD = "dashboard";
     private static final String TAG_PLANTS_STATE = "garden_details";
     private static final String TAG_STREAM_IMGS ="stream_imgs" ;
-    private static final String TAG_DWNLOAD ="download_imgs" ;
+//    private static final String TAG_DWNLOAD ="download_imgs" ;
     private static final String TAG_TIMELAPSE ="timelapse" ;
     private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_SETTINGS = "settings";
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         mHandler = new Handler();
 
         ActionBar actionbar = getSupportActionBar();
+        assert actionbar != null;
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
@@ -108,18 +110,12 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Sometimes, when fragment has huge data, screen seems hanging
-        // when switching between navigation menus
-        // So using runnable, the fragment is loaded with cross fade effect
-        // This effect can be seen in GMail app
         Runnable mPendingRunnable = new Runnable() {
             @Override
             public void run() {
                 // update the main content by replacing fragments
                 Fragment fragment = getHomeFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-//                        android.R.anim.fade_out);
 
                 fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
                 fragmentTransaction.commitAllowingStateLoss();
@@ -153,19 +149,19 @@ public class MainActivity extends AppCompatActivity {
                 return new GardenImgs();
 
 
-            case 3:
-                return new DownloadClientPlantsImgsFragment();
+//            case 3:
+//                return new DownloadClientPlantsImgsFragment();
 
 //            case 6:
 //                return new StatsFragment();
 
-            case 4 :
+            case 3 :
                 return new TimelapseViewFragment();
 
-            case 5:
+            case 4:
                 return new NotificationsFragment();
 
-            case 6:
+            case 5:
                 return new SettingsFragment();
 
 
@@ -189,10 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
             // This method will trigger on item Click of navigation menu
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-//                Log.w(TAG, "onNavigationItemSelected: old tag : " + CURRENT_TAG);
-
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()) {
@@ -218,44 +211,31 @@ public class MainActivity extends AppCompatActivity {
                         CURRENT_TAG = TAG_STREAM_IMGS;
                         break;
 
-                    case R.id.nav_download_imgs:
-                        navItemIndex = 3;
-                        CURRENT_TAG = TAG_DWNLOAD;
-                        break;
+//                    case R.id.nav_download_imgs:
+//                        navItemIndex = 3;
+//                        CURRENT_TAG = TAG_DWNLOAD;
+//                        break;
 //                    case R.id.nav_statistics:
 //                        navItemIndex = 6;
 //                        CURRENT_TAG = TAG_STATS;
 //                        break;
 
                     case R.id.nav_timelapse:
-                        navItemIndex = 4;
+                        navItemIndex = 3;
                         CURRENT_TAG = TAG_TIMELAPSE;
                         break;
 
                     case R.id.nav_notifications:
-                        navItemIndex = 5;
+                        navItemIndex = 4;
                         CURRENT_TAG = TAG_NOTIFICATIONS;
                         break;
 
 
                     case R.id.nav_settings:
-                        navItemIndex = 6;
+                        navItemIndex = 5;
                         CURRENT_TAG = TAG_SETTINGS;
                         break;
-
-
-//                    case R.id.nav_about_us:
-//                        // launch new intent instead of loading fragment
-//                        startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
-//                        drawer.closeDrawers();
-//                        return true;
-//                    case R.id.nav_privacy_policy:
-//                        // launch new intent instead of loading fragment
-//                        startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
-//                        drawer.closeDrawers();
-//                        return true;
                     default:
-//                        Log.e(TAG, "onNavigationItemSelected: CAS DEFAUT");
                         navItemIndex = 0;
                 }
 
@@ -267,7 +247,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 menuItem.setChecked(true);
 
-//                Log.w(TAG, "onNavigationItemSelected() returned: " + CURRENT_TAG);
 
                 loadHomeFragment();
 
@@ -293,7 +272,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Setting the actionbarToggle to drawer layout
         drawer.setDrawerListener(actionBarDrawerToggle); // deprecated
-//        drawer.addDrawerListener(actionBarDrawerToggle);
 
         //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
@@ -302,34 +280,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawers();
             return;
-        }
-
-        // This code loads home fragment when back key is pressed
-        // when user is in other fragment than home
-        boolean shouldLoadHomeFragOnBackPress = true;
-
-
-        //Toast.makeText(this, "BackPressed from " + CURRENT_TAG, Toast.LENGTH_SHORT).show();
-        if (CURRENT_TAG.equals(PlantDetailsFragment.TAG)){
+        }else if (CURRENT_TAG.equals(PlantDetailsFragment.TAG)){
             navItemIndex = 1;
 //            CURRENT_TAG = TAG_STREAM_IMGS;
             CURRENT_TAG = TAG_PLANTS_STATE;
             loadHomeFragment();
             return;
-        }
-
-        if (shouldLoadHomeFragOnBackPress) {
-            // checking if user is on other navigation menu
-            // rather than home
-            if (navItemIndex != 0) {
-                navItemIndex = 0;
-                CURRENT_TAG = TAG_DASHBOARD;
-                loadHomeFragment();
-                return;
-            }
+        }else
+        // This code loads home fragment when back key is pressed
+        if (navItemIndex != 0) {
+            navItemIndex = 0;
+            CURRENT_TAG = TAG_DASHBOARD;
+            loadHomeFragment();
+            return;
         }
 
         super.onBackPressed();
@@ -338,45 +305,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-
-        // show menu only when home fragment is selected
-        /*
-        if (navItemIndex == 0) {
-            getMenuInflater().inflate(R.menu.main, menu);
-        }
-
-        // when fragment is notifications, load the menu created for notifications
-        if (navItemIndex == 3) {
-            getMenuInflater().inflate(R.menu.notifications, menu);
-        }*/
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawer.openDrawer(GravityCompat.START);
-                return true;
-        }
 
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_logout) {
-//            Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
-//            return true;
-//        }
-//
-//        // user is in notifications fragment
-//        // and selected 'Mark all as Read'
-//        if (id == R.id.action_mark_all_read) {
-//            Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
-//        }
-//
-//        // user is in notifications fragment
-//        // and selected 'Clear All'
-//        if (id == R.id.action_clear_notifications) {
-//            Toast.makeText(getApplicationContext(), "Clear all notifications!", Toast.LENGTH_LONG).show();
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                drawer.openDrawer(GravityCompat.START);
+//                return true;
 //        }
         return super.onOptionsItemSelected(item);
     }

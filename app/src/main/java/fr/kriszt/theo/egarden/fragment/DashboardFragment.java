@@ -59,12 +59,6 @@ public class DashboardFragment extends Fragment {
         // Required empty public constructor
     }
 
-//    public static DashboardFragment newInstance() {
-//        DashboardFragment fragment = new DashboardFragment();
-//        Bundle args = new Bundle();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

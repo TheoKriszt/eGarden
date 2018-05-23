@@ -50,16 +50,12 @@ public class PlantsListFragment extends Fragment {
 
     private static final String plants_url = "/plants";
 
-//    int RecyclerViewItemPosition ;
-
     RecyclerView.LayoutManager recyclerLayoutManager;
 
     RecyclerView.Adapter recyclerViewAdapter;
 
-//    ArrayList<String> ImageTitleNameArrayListForClick = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.imgs_recycled , container, false);
     }
 
@@ -78,7 +74,6 @@ public class PlantsListFragment extends Fragment {
 
         fetch_plants();
 
-        // Implementing Click Listener on RecyclerView.
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener()
         {
 
@@ -97,26 +92,17 @@ public class PlantsListFragment extends Fragment {
                 if(item != null && gestureDetector.onTouchEvent(motionEvent)) {
 
                     //Getting RecyclerView Clicked Item value.
-//                    RecyclerViewItemPosition =
                     final int itemPosition = Recyclerview.getChildAdapterPosition(item);
 
-                    // Showing RecyclerView Clicked Item value using Toast.
-                    // Todo : get to given plant view
-                    //Toast.makeText(item.getContext(), "Item pos. : " + itemPosition, Toast.LENGTH_SHORT).show();
 
-                    ///////////////////
                     Runnable mPendingRunnable = new Runnable() {
                         @Override
                         public void run() {
-                            // update the main content by replacing fragments
                             String plantId = adaptedPlants.get(itemPosition).getPlantId();
                             Fragment plantFragment = PlantDetailsFragment .newInstance(plantId);
                             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-//                        android.R.anim.fade_out);
                             fragmentTransaction.replace(R.id.frame, plantFragment, PlantDetailsFragment.TAG);
                             CURRENT_TAG = PlantDetailsFragment.TAG;
-//                            fragmentTransaction.replace(R.id.frame, plantFragment, CURRENT_TAG);
                             fragmentTransaction.commitAllowingStateLoss();
                         }
                     };
@@ -124,7 +110,6 @@ public class PlantsListFragment extends Fragment {
                     if (mPendingRunnable != null) {
                         mHandler.post(mPendingRunnable);
                     }
-                    ///////////////////
                 }
 
                 return false;
@@ -154,7 +139,6 @@ public class PlantsListFragment extends Fragment {
                 try {
                     JSONArray res = new JSONArray(response);
                     parsePlantsList(res);
-                    //Toast.makeText(getContext(), "Reçu : " + res.length() + " elements", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     Log.e(TAG, "onResponse: ", e);
                 }
@@ -177,15 +161,12 @@ public class PlantsListFragment extends Fragment {
                 JSONObject json;
                 json = plants.getJSONObject(i);
                 adaptedPlants.add(new PlantAdapter(json));
-                // Adding image title name in array to display on RecyclerView click event.
-//                ImageTitleNameArrayListForClick.add(json.getString(Image_Name_JSON));
 
             } catch (JSONException e) {
                 Log.e(TAG, "parse plants list : ", e);
             }
         }
 
-        //Toast.makeText(getContext(), adaptedPlants.size() + " adapted", Toast.LENGTH_SHORT).show();
 
         recyclerViewAdapter = new PlantsRecyclerAdapter(adaptedPlants, getView().getContext());
 
