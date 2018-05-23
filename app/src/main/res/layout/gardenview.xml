@@ -1,44 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools"
-    android:id="@+id/cardview1"
+    android:id="@+id/gardenview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardElevation="5dp"
     card_view:contentPadding="5dp"
     card_view:cardCornerRadius="5dp"
-    card_view:cardMaxElevation="5dp">
+    card_view:cardMaxElevation="5dp"
+    >
 
 
     <RelativeLayout
-        android:id="@+id/plantItemLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="#ECEFF1">
-
-        <!--<ImageView-->
-        <!--android:id="@+id/auto_watering"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--card_view:srcCompat="@drawable/auto_off"-->
-        <!--android:he-->
-        <!---->
-        <!--/>-->
-
-        <ImageView
-            android:id="@+id/auto_watering_icon"
-            android:layout_width="@android:dimen/app_icon_size"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:adjustViewBounds="true"
-            android:cropToPadding="false"
-            android:visibility="visible"
-            android:layout_alignParentEnd="true" />
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/VolleyImageView"

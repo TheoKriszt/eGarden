@@ -67,9 +67,7 @@ public class GardenImgs extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
-        ImageView goute = view.findViewById(R.id.auto_watering_icon);
-//        goute.setVisibility(View.INVISIBLE);
-
+//
         ImageTitleNameArrayListForClick = new ArrayList<>();
 
         ListOfdataAdapter = new ArrayList<GardenAdapter>();
