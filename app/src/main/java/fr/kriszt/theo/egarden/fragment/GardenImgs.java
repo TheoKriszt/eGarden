@@ -109,6 +109,8 @@ public class GardenImgs extends Fragment {
 
                     // Showing RecyclerView Clicked Item value using Toast.
                     Toast.makeText(view.getContext(), ImageTitleNameArrayListForClick.get(RecyclerViewItemPosition), Toast.LENGTH_LONG).show();
+
+
                 }
 
                 return false;
