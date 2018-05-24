@@ -32,7 +32,7 @@
         <item>Dashboard</item>
         <item>@string/plants_states</item>
         <item>@string/garden</item>
-        <item>Download all plants images</item>
+        <!--<item>Download all plants images</item>-->
         <item>Timelapses</item>
         <item>Notifications</item>
         <item>Settings</item>

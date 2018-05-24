@@ -144,9 +144,7 @@ public class PlantDetailsFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 try {
-                    //Toast.makeText(getContext(), "Infos : " + response, Toast.LENGTH_SHORT).show();
                     JSONObject json = new JSONObject(response);
-                    //name, threshold, value, last_updated
                     _plantName.setText(json.getString("name"));
                     int threshold = Integer.parseInt(json.getString("threshold"));
                     _autoThresholdBar.setProgress(threshold);
@@ -154,8 +152,6 @@ public class PlantDetailsFragment extends Fragment {
                             || json.getString("auto_watering").equals("1"));
 
                     _plantDescription.setText(json.getString("description"));
-                    int lastHygrometry = (int) json.getDouble("value");
-//                    boolean isThirsty = lastHygrometry < threshold;
 
                     try {
                         String stateWord = getActivity().getResources().getString(R.string.state);
@@ -197,7 +193,6 @@ public class PlantDetailsFragment extends Fragment {
 
     private void loadHydroGraph(String response) throws JSONException {
         JSONArray array = new JSONArray(response);
-        // value, time
         ArrayList<Entry> entries = new ArrayList<>();
         final ArrayList<String> dateLabels = new ArrayList<>();
 
@@ -239,12 +234,7 @@ public class PlantDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_plant_details, container, false);
-
-        //loadPlantInformation();
-
 
         return view;
     }

@@ -41,6 +41,9 @@ import fr.kriszt.theo.egarden.utils.DownloadTask;
 import fr.kriszt.theo.egarden.utils.Urls;
 import fr.kriszt.theo.egarden.utils.ZipManager;
 
+/**
+ * @deprecated
+ */
 public class DownloadClientPlantsImgsFragment extends Fragment implements View.OnClickListener {
     private static Button downloadZip, openDownloadedFolder,unzipFile;
     private static final String TAG = "DownloadPlantsImgs";

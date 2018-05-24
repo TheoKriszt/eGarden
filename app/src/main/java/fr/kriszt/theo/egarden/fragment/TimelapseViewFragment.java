@@ -76,7 +76,10 @@ public class TimelapseViewFragment extends Fragment {
                 public void onResponse(Bitmap response) {
                     _imageView.setImageBitmap(response);
                     _progressBar.setVisibility(View.INVISIBLE);
-                    refreshHandler.postDelayed(instance, 1000);
+                    if(_weekdaySpinner.getSelectedItemPosition() == 0){
+                        refreshHandler.postDelayed(instance, 1000);
+                    }
+
                 }
             }, new Response.ErrorListener() {
                 @Override
