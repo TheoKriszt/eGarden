@@ -3,6 +3,7 @@ package fr.kriszt.theo.egarden.fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import org.json.JSONArray;
@@ -21,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.android.volley.RequestQueue;
@@ -28,6 +31,9 @@ import com.android.volley.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
 import fr.kriszt.theo.egarden.utils.Gallery.GardenAdapter;
@@ -36,7 +42,7 @@ import fr.kriszt.theo.egarden.utils.Gallery.GardenRecyclerAdapter;
 public class GardenImgs extends Fragment {
 
     private static final String TAG = "GardenImgs";
-    List<GardenAdapter> ListOfdataAdapter;
+    List<GardenAdapter> listOfdataAdapter;
 
     RecyclerView recyclerView;
 
@@ -47,12 +53,14 @@ public class GardenImgs extends Fragment {
     final String image_Name_JSON = "image_title";
     final String image_URL_JSON = "image_url";
 
-    JsonArrayRequest RequestOfJSonArray ;
+    //Single selected image url storage for download
+    GardenAdapter current_selected_image = null;
 
     RequestQueue requestQueue ;
 
     //View view ;
-
+    @BindView(R.id.download_garden_img_button)
+    ImageButton downloadGardenImgButton;
     int recyclerViewItemPosition ;
 
     RecyclerView.LayoutManager layoutManagerOfrecyclerView;
@@ -72,10 +80,10 @@ public class GardenImgs extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
-//
+      ButterKnife.bind(this,view);
         ImageTitleNameArrayListForClick = new ArrayList<>();
 
-        ListOfdataAdapter = new ArrayList<GardenAdapter>();
+        listOfdataAdapter = new ArrayList<GardenAdapter>();
         single_gardenview=(ImageView)view.findViewById(R.id.single_gardenview);
         recyclerView = (RecyclerView) view.findViewById(R.id.gardenImgs
         );
@@ -105,6 +113,8 @@ public class GardenImgs extends Fragment {
             public boolean onInterceptTouchEvent(RecyclerView Recyclerview, MotionEvent motionEvent) {
 
                 View view = Recyclerview.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+
+
                 Log.e(TAG , "onInterceptTouchEvent : hello");
 
                 if(view != null && gestureDetector.onTouchEvent(motionEvent)) {
@@ -119,20 +129,24 @@ public class GardenImgs extends Fragment {
                     single_gardenview.setImageBitmap(bitmap);
                     single_gardenview.setVisibility(View.VISIBLE);
                     single_gardenview.setOnClickListener(new View.OnClickListener() {
+                        //Click in lonely focused image
                         @Override
                         public void onClick(View v) {
-                            single_gardenview.setVisibility(View.GONE);                   recyclerView.setVisibility(View.VISIBLE);
+                            single_gardenview.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            downloadGardenImgButton.setVisibility(View.GONE);
+
                         }
                     });
+    //CLick over image in Recycled list
+                    downloadGardenImgButton.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
-//                    view.getParent().bringChildToFront(little_gardenview);
-//                    Bitmap bitmap = ((BitmapDrawable)view.getget.getDrawable()).getBitmap();
-//                    little_gardenview.setImageBitmap(view.get);
+                    downloadGardenImgButton.setVisibility(View.VISIBLE);
 
                     // Showing RecyclerView Clicked Item value using Toast.
-                    Toast.makeText(view.getContext(), ImageTitleNameArrayListForClick.get(recyclerViewItemPosition) + view.getClass().getSimpleName(), Toast.LENGTH_LONG).show();
-
-
+                    Toast.makeText(view.getContext(), ImageTitleNameArrayListForClick.get(recyclerViewItemPosition) , Toast.LENGTH_LONG).show();
+                    Log.e(TAG,"onInterceptToucheEvent : listOfdataAdapter.getImageUrl =  " + listOfdataAdapter.get(recyclerViewItemPosition).getImageUrl());
+                    current_selected_image= listOfdataAdapter.get(recyclerViewItemPosition);
                 }
 
                 return false;
@@ -216,9 +230,9 @@ public class GardenImgs extends Fragment {
 
 
 
-
-                plantAdapter.setImageUrl(json.getString(image_URL_JSON));
-                ListOfdataAdapter.add(plantAdapter);
+                plantAdapter.setImageUrl(Connexion.O().getServerURL()+ json.getString(image_URL_JSON));
+                listOfdataAdapter.add(plantAdapter);
+                Log.e(TAG, "ParseJSonResponse: plantAdapter.getImageUrl " + plantAdapter.getImageUrl() );
 
             } catch (JSONException e) {
 
@@ -226,9 +240,17 @@ public class GardenImgs extends Fragment {
             }
         }
 
-        recyclerViewadapter = new GardenRecyclerAdapter(ListOfdataAdapter, getView().getContext());
+        recyclerViewadapter = new GardenRecyclerAdapter(listOfdataAdapter, getView().getContext());
 
 
         recyclerView.setAdapter(recyclerViewadapter);
     }
+
+    @OnClick(R.id.download_garden_img_button)
+    public void onDownloadButtonPressed(){
+        Connexion.O(getContext()).downloadFile(Uri.parse(current_selected_image.getImageUrl()),current_selected_image.getImageTitle(), null /*getResources().getString(R.string.garden_image_download_in_progress)*/);
+    }
+
+
+
 }

@@ -10,6 +10,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="fr.kriszt.theo.egarden.fragment.GardenImgs">
 
 
@@ -26,12 +27,18 @@
         android:layout_margin="10dip"
         tools:visibility="gone" />
 
-    <Button
-        android:id="@+id/downLoadImgGardenButton"
+    <ImageButton
+        android:id="@+id/download_garden_img_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/" />
-
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/downloadButton"
+        app:srcCompat="@drawable/ic_file_download_black_24dp"
+        tools:visibility="gone" />
 </FrameLayout>
 
 

@@ -50,8 +50,6 @@ public class Connexion {
     private static Connexion O = null;
     public RequestQueue requestQueue;
 
-
-
     public static synchronized Connexion O(Context context, String p, String addr){
         if (O == null){
             O = new Connexion();
@@ -206,6 +204,16 @@ public class Connexion {
         return Uri.parse(path);
     }
 
+    public Uri getURI(String path, String file)
+    {
+        if (file == null) return null;
+        String p  = address + ":" + port  +"/" +path;
+        if (! (p.charAt(p.length()- 1)== '/'))
+            p+='/';
+        p+= file;
+        return Uri.parse(p);
+    }
+
     public void downloadFile(Uri uri, String filename, @Nullable String title){
 
         // Create request for android download manager
@@ -219,4 +227,12 @@ public class Connexion {
                 .setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, filename);
         downloadManager.enqueue(request);
     }
+
+    public String getServerURL()
+    {
+        return address + ":" + port + "/";
+    }
+
 }
+
+

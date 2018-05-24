@@ -71,5 +71,6 @@
     <string name="on">ON</string>
     <string name="off">OFF</string>
 
-    <string name="downLoadImgGardenButton">Télécharger image</string>
+    <string name="download_garden_img_button">Télécharger image</string>
+    <string name="garden_image_download_in_progress">Téléchargement d\'image du jardin en cours</string>
 </resources>
