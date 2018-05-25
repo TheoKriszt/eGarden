@@ -71,6 +71,9 @@
     <string name="on">ON</string>
     <string name="off">OFF</string>
 
-    <string name="download_garden_img_button">Télécharger image</string>
-    <string name="garden_image_download_in_progress">Téléchargement d\'image du jardin en cours</string>
+    <string name="observe_garden">Observer le jardin</string>
+    <string name="garden">Jardin</string>
+    <string name="plants_states">Etat des plantes</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="download">télécharger</string>
 </resources>

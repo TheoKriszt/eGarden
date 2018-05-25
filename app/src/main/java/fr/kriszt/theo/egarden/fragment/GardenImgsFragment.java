@@ -39,7 +39,7 @@ import fr.kriszt.theo.egarden.utils.Gallery.GardenRecyclerAdapter;
 public class GardenImgsFragment extends Fragment {
 
     private static final String TAG = "GardenImgsFragment";
-    List<GardenAdapter> listOfdataAdapter;
+    List<GardenAdapter> gardenAdapterList;
 
     RecyclerView recyclerView;
 
@@ -74,7 +74,7 @@ public class GardenImgsFragment extends Fragment {
       ButterKnife.bind(this,view);
         ImageTitleNameArrayListForClick = new ArrayList<>();
 
-        listOfdataAdapter = new ArrayList<>();
+        gardenAdapterList = new ArrayList<>();
         single_gardenview= view.findViewById(R.id.single_gardenview);
         recyclerView = view.findViewById(R.id.gardenImgs
         );
@@ -112,26 +112,24 @@ public class GardenImgsFragment extends Fragment {
 
                     Bitmap bitmap = ((BitmapDrawable)little_gardenview.getDrawable()).getBitmap();
                     single_gardenview.setImageBitmap(bitmap);
+
                     single_gardenview.setVisibility(View.VISIBLE);
+                    downloadGardenImgButton.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+
                     single_gardenview.setOnClickListener(new View.OnClickListener() {
                         //Click in lonely focused image
                         @Override
                         public void onClick(View v) {
-                    single_gardenview.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    downloadGardenImgButton.setVisibility(View.GONE);
-
+                            single_gardenview.setVisibility(View.GONE);
+                            downloadGardenImgButton.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
                         }
                     });
 
-                    //CLick over image in Recycled list
-                    downloadGardenImgButton.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                    downloadGardenImgButton.setVisibility(View.VISIBLE);
-
                     // Showing RecyclerView Clicked Item value using Toast.
                     Toast.makeText(view.getContext(), ImageTitleNameArrayListForClick.get(recyclerViewItemPosition) , Toast.LENGTH_LONG).show();
-                    current_selected_image= listOfdataAdapter.get(recyclerViewItemPosition);
+                    current_selected_image= gardenAdapterList.get(recyclerViewItemPosition);
                 }
 
                 return false;
@@ -183,7 +181,7 @@ public class GardenImgsFragment extends Fragment {
                 plantAdapter.setImageTitle(json.getString(image_Name_JSON));
 
                 plantAdapter.setImageUrl(Connexion.O().getServerURL()+ json.getString(image_URL_JSON));
-                listOfdataAdapter.add(plantAdapter);
+                gardenAdapterList.add(plantAdapter);
 
             } catch (JSONException e) {
 
@@ -191,7 +189,7 @@ public class GardenImgsFragment extends Fragment {
             }
         }
 
-        recyclerViewadapter = new GardenRecyclerAdapter(listOfdataAdapter, getView().getContext());
+        recyclerViewadapter = new GardenRecyclerAdapter(gardenAdapterList, getView().getContext());
 
         recyclerView.setAdapter(recyclerViewadapter);
     }

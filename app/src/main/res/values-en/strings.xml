@@ -44,4 +44,23 @@
     <string name="on">ON</string>
     <string name="off">OFF</string>
     <string name="download">download</string>
+    <string name="all_the">All the</string>
+    <string name="watering">Watering</string>
+    <string name="reporter_si_pluie_pr_vue">Postpone if rain is forecast</string>
+    <string name="autowater">auto watering</string>
+    <string name="observe_garden">Monitor the garden</string>
+    <string name="arroser_uniquement_le_soir">Only water at night</string>
+    <string name="water_now">Water now</string>
+    <string name="view">"View : "</string>
+    <string name="prise_secteur">Wall plug</string>
+    <string name="load">Load</string>
+    <string name="enable_timelapse">Enable the timelapse</string>
+    <string name="arroser_pendant">Water for</string>
+    <string name="heures">hours</string>
+    <string name="in_less_than">In less than</string>
+    <string name="saved_confirmation">Preferences saved</string>
+    <string name="dwn_imgs">Download the pictures</string>
+    <string name="garden">Garden</string>
+    <string name="action_settings">Settings</string>
+    <string name="plants_states">Plants state</string>
 </resources>
