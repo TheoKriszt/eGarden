@@ -44,11 +44,11 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // Load from stored preferences
-        PreferencesStorage PSinstance = PreferencesStorage.O(this);
-        String savedPort = PSinstance.getSavedPort();
-        String savedIP = PSinstance.getSavedIP();
-        String savedUsername = PSinstance.getSavedUsername();
-        String savedPassword = PSinstance.getSavedPassword();
+        PreferencesStorage ps = PreferencesStorage.O(this);
+        String savedPort = ps.getSavedPort();
+        String savedIP = ps.getSavedIP();
+        String savedUsername = ps.getSavedUsername();
+        String savedPassword = ps.getSavedPassword();
 
         _editIPAddress.setText(savedIP);
         _editPort.setText(savedPort);
@@ -58,14 +58,12 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.connectButton)
     public void submit() {
-
         final String port = _editPort.getText().toString();
         final String ip = _editIPAddress.getText().toString();
         final String username = _editUsername.getText().toString();
         final String password = _editPassword.getText().toString();
 
-        Connexion.O(this, port, ip);
-
+        Connexion.O(this, port, ip); // Create connexion instance, providing access to the garden's server
 
         if(!Connexion.O().isOnline()){
             Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_SHORT).show();

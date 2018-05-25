@@ -1,8 +1,6 @@
 package fr.kriszt.theo.egarden.utils.Gallery;
 
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

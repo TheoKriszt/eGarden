@@ -2,11 +2,9 @@ package fr.kriszt.theo.egarden.fragment;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,11 +38,11 @@ import butterknife.ButterKnife;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
 
+import static java.lang.Float.parseFloat;
+
 public class DashboardFragment extends Fragment {
     private static final String TAG = "DashboardFragment";
-    private View view;
 
-//    private OnFragmentInteractionListener mListener;
     private LineChart lineChart;
     @BindView(R.id.weather_alert) TextView _weatherAlert;
     @BindView(R.id.temperature_alert) TextView _temperatureAlert;
@@ -66,7 +64,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void fetchDHTValues() {
-        Connexion.O().sendGetRequest("/DHT", null, new Response.Listener<String>() {
+        Connexion.O().sendGetRequest("/DHT", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -76,7 +74,6 @@ public class DashboardFragment extends Fragment {
                 final ArrayList<String> dateLabels = new ArrayList<>();
                 try {
                     JSONArray jsonArray = new JSONArray(response);
-                    Log.i(TAG, "JSONARRAY: " + jsonArray.length() + " rows fetched");
 
                     if(jsonArray.length() == 0){
                         getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
@@ -89,17 +86,17 @@ public class DashboardFragment extends Fragment {
                         float hum = 0;
 
                         try{
-                            sol = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("sol")));
+                            sol = parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("sol")));
                         }
-                        catch(NumberFormatException e){}
+                        catch(NumberFormatException ignored){}
                         try{
-                            hum = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("hum")));
+                            hum = parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("hum")));
                         }
-                        catch(NumberFormatException e){}
+                        catch(NumberFormatException ignored){}
                         try{
-                            temp = Float.parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("temp")));
+                            temp = parseFloat(String.valueOf(jsonArray.getJSONObject(i).get("temp")));
                         }
-                        catch(NumberFormatException e){}
+                        catch(NumberFormatException ignored){}
 
                             String date = String.valueOf(jsonArray.getJSONObject(i).get("date"));
 
@@ -115,7 +112,7 @@ public class DashboardFragment extends Fragment {
 
                 }
 
-                LineDataSet humDataSet = null;
+                LineDataSet humDataSet;
 
                 try {
                     humDataSet = new LineDataSet(humEntries, getString(R.string.humidity) + " %HR");
@@ -147,7 +144,6 @@ public class DashboardFragment extends Fragment {
                 YAxis leftAxis = lineChart.getAxisLeft();
                 YAxis rightAxis = lineChart.getAxisRight();
                 XAxis xAxis = lineChart.getXAxis();
-//                xAxis.setLabelRotationAngle(45f);
                 xAxis.setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
@@ -180,7 +176,6 @@ public class DashboardFragment extends Fragment {
 
                 try {
                     Log.e(TAG, "get DHT: \n" + Connexion.O().decodeError(error));
-//                    Log.e(TAG, "get DHT: \n" + error.);
                     Toast.makeText(getContext(), R.string.errorGetDHT, Toast.LENGTH_SHORT).show();
                     getView().findViewById(R.id.dashboard_dht_progressbar).setVisibility(View.GONE);
                 }catch (NullPointerException e){
@@ -193,12 +188,11 @@ public class DashboardFragment extends Fragment {
 
     private void fetchWeatherAPI(){
 
-        Connexion.O().sendGetRequest("/weather", null, new Response.Listener<String>() {
+        Connexion.O().sendGetRequest("/weather", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject json = new JSONObject(response);
-//                    Log.e(TAG, response, null);
                     JSONObject weather = (JSONObject) json.get("weather");
                     JSONObject temperature = (JSONObject) json.get("temperature");
                     JSONObject humidity = (JSONObject) json.get("humidity");
@@ -210,8 +204,6 @@ public class DashboardFragment extends Fragment {
                     String weatherMsg = weather.getString("msg");
                     String weatherAlert = weather.getString("alert");
                     String weatherIcon = weather.getString("icon");
-
-//                    Toast.makeText(view.getContext(), response , Toast.LENGTH_SHORT).show();
 
                     _weatherValue.setText( weatherMsg );
                     _weatherAlert.setText( weatherAlert );
@@ -229,13 +221,10 @@ public class DashboardFragment extends Fragment {
 
 
 
-                } catch (JSONException e) {
-//                    Toast.makeText(view.getContext() , "erreur parsing JSON ", Toast.LENGTH_SHORT).show();
+                } catch (JSONException | IllegalStateException e) {
                     Log.e(TAG, "onResponse: ", e);
                 }
-                catch (IllegalStateException e){
-                    Log.e(TAG, "onResponse: ", e);
-                }
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -249,7 +238,7 @@ public class DashboardFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         return view;
     }
@@ -268,7 +257,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void fetchPlantsStatuses() {
-        Connexion.O().sendGetRequest("/plants", null, new Response.Listener<String>() {
+        Connexion.O().sendGetRequest("/plants", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 int plantsWarnings = 0;
@@ -295,18 +284,6 @@ public class DashboardFragment extends Fragment {
         }, null);
     }
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-//        mListener = null;
-    }
 
     @Override
     public void onStop() {

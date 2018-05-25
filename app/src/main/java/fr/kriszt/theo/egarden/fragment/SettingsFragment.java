@@ -1,8 +1,6 @@
 package fr.kriszt.theo.egarden.fragment;
 
-//import android.app.Fragment;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -38,7 +35,6 @@ import fr.kriszt.theo.egarden.utils.Connexion;
 public class SettingsFragment extends Fragment {
 
     private static final String TAG = "Settings";
-    private OnFragmentInteractionListener mListener;
 
     @BindView(R.id.wait_for_night_switch) Switch _waitForNightSwitch;
     @BindView(R.id.wait_for_rain_switch) Switch _waitForRainSwitch;
@@ -57,16 +53,6 @@ public class SettingsFragment extends Fragment {
 
     public SettingsFragment() {
         // Required empty public constructor
-    }
-
-    public static SettingsFragment newInstance(String param1, String param2) {
-        SettingsFragment fragment = new SettingsFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -109,7 +95,7 @@ public class SettingsFragment extends Fragment {
                 //
 
 
-        Connexion.O().sendGetRequest("/garden-settings", null, new Response.Listener<String>() {
+        Connexion.O().sendGetRequest("/garden-settings", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -179,20 +165,6 @@ public class SettingsFragment extends Fragment {
 
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-    }
 
     @Override
     public void onStop() {

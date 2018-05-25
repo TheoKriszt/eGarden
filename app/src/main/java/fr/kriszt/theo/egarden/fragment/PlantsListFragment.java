@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -26,8 +25,6 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import javax.security.auth.login.LoginException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -133,7 +130,7 @@ public class PlantsListFragment extends Fragment {
 
     public void fetch_plants(){
 
-        Connexion.O(getContext()).sendGetRequest(plants_url, null, new Response.Listener<String>() {
+        Connexion.O(getContext()).sendGetRequest(plants_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {

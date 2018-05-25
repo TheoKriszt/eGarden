@@ -15,13 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
-//import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
 import fr.kriszt.theo.egarden.R;
-import fr.kriszt.theo.egarden.fragment.DownloadClientPlantsImgsFragment;
-//import fr.kriszt.theo.egarden.fragment.GardenImgs;
-import fr.kriszt.theo.egarden.fragment.GardenImgs;
+import fr.kriszt.theo.egarden.fragment.GardenImgsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantDetailsFragment;
 import fr.kriszt.theo.egarden.fragment.PlantsListFragment;
 import fr.kriszt.theo.egarden.fragment.DashboardFragment;
@@ -31,8 +26,6 @@ import fr.kriszt.theo.egarden.fragment.TimelapseViewFragment;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = "eGardenDashBoard";
 
 
 //    private static boolean TEST = true;
@@ -52,14 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_DASHBOARD = "dashboard";
     private static final String TAG_PLANTS_STATE = "garden_details";
     private static final String TAG_STREAM_IMGS ="stream_imgs" ;
-//    private static final String TAG_DWNLOAD ="download_imgs" ;
     private static final String TAG_TIMELAPSE ="timelapse" ;
     private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_SETTINGS = "settings";
     public static String CURRENT_TAG = TAG_DASHBOARD;
-
-//    private static final String TAG_STATS = "stats";
-//    private static final String TAG_SHOOTINGS = "shootings";
 
 
     @Override
@@ -139,21 +128,11 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 return new DashboardFragment();
 
-//            case 2:
-//                return new RequestImagePlantFragment();
-
             case 1:
                 return new PlantsListFragment();
 
             case 2:
-                return new GardenImgs();
-
-
-//            case 3:
-//                return new DownloadClientPlantsImgsFragment();
-
-//            case 6:
-//                return new StatsFragment();
+                return new GardenImgsFragment();
 
             case 3 :
                 return new TimelapseViewFragment();
@@ -163,8 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
             case 5:
                 return new SettingsFragment();
-
-
 
             default:
                 return new DashboardFragment();
@@ -195,12 +172,6 @@ public class MainActivity extends AppCompatActivity {
                         CURRENT_TAG = TAG_DASHBOARD;
                         break;
 
-
-//                    case R.id.nav_shooting:
-//                        navItemIndex = 2;
-//                        CURRENT_TAG = TAG_SHOOTINGS;
-//                        break;
-
                     case R.id.nav_plants_state:
                         navItemIndex = 1;
                         CURRENT_TAG = TAG_PLANTS_STATE;
@@ -210,15 +181,6 @@ public class MainActivity extends AppCompatActivity {
                         navItemIndex = 2;
                         CURRENT_TAG = TAG_STREAM_IMGS;
                         break;
-
-//                    case R.id.nav_download_imgs:
-//                        navItemIndex = 3;
-//                        CURRENT_TAG = TAG_DWNLOAD;
-//                        break;
-//                    case R.id.nav_statistics:
-//                        navItemIndex = 6;
-//                        CURRENT_TAG = TAG_STATS;
-//                        break;
 
                     case R.id.nav_timelapse:
                         navItemIndex = 3;
@@ -281,12 +243,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+        // We don't want to go to previous fragment but rather to the dashboard upon a back press
+        // that's why we don't use the backstack
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawers();
             return;
-        }else if (CURRENT_TAG.equals(PlantDetailsFragment.TAG)){
+        }else if (CURRENT_TAG.equals(PlantDetailsFragment.TAG)){ // plants details bring back to plants list
             navItemIndex = 1;
-//            CURRENT_TAG = TAG_STREAM_IMGS;
             CURRENT_TAG = TAG_PLANTS_STATE;
             loadHomeFragment();
             return;
@@ -308,16 +272,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                drawer.openDrawer(GravityCompat.START);
-//                return true;
-//        }
-        return super.onOptionsItemSelected(item);
-    }
 
 }
 

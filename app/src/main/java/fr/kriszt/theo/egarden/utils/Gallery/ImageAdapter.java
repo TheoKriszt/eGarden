@@ -26,7 +26,7 @@ public class ImageAdapter {
 
     public static Context context1;
 
-    LruCache<String, Bitmap> LRUCACHE = new LruCache<String, Bitmap>(30);
+    LruCache<String, Bitmap> LRUCACHE = new LruCache<>(30);
 
     private ImageAdapter(Context context) {
 

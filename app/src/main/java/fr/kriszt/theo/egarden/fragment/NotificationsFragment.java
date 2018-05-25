@@ -1,7 +1,5 @@
 package fr.kriszt.theo.egarden.fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,7 +35,6 @@ import fr.kriszt.theo.egarden.utils.Connexion;
 public class NotificationsFragment extends Fragment {
 
     private static final String TAG = "Notifications";
-    private OnFragmentInteractionListener mListener;
 
     @BindView(R.id.general_enable_switch) Switch _generalSwitch;
     @BindView(R.id.thirsty_switch) Switch _thirstySwitch;
@@ -88,18 +85,15 @@ public class NotificationsFragment extends Fragment {
 
         setFieldsVisibility(false);
 
+        // Set local strings using the spinner position
         storageTypesAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.notification_storage_sizes, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         storageTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         _storageSpinner.setAdapter(storageTypesAdapter);
 
         delayTypesAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.notification_delay_types, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         delayTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         _delaySpinner.setAdapter(delayTypesAdapter);
 
         loadUserPreferences();
@@ -169,7 +163,7 @@ public class NotificationsFragment extends Fragment {
 
     private void loadUserPreferences() {
 
-        Connexion.O(getContext()).sendGetRequest("/userPrefs", null, new Response.Listener<String>() {
+        Connexion.O(getContext()).sendGetRequest("/userPrefs", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -214,32 +208,6 @@ public class NotificationsFragment extends Fragment {
             }
         }, null);
 
-    }
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 
     @Override

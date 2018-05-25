@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="fr.kriszt.theo.egarden.fragment.GardenImgs">
+    tools:context="fr.kriszt.theo.egarden.fragment.GardenImgsFragment">
 
 
 

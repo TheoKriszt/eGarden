@@ -63,10 +63,11 @@ public class PlantsRecyclerAdapter extends RecyclerView.Adapter<PlantsRecyclerAd
 
 
 
+        // Fond de la cardview : vert (arrosé), rouge (manque d'eau)
         Viewholder.itemLayout.setBackgroundColor(
                 plantAdapterOBJ.isThirsty() ?
-                        Color.rgb(220, 120, 120) :
-                        Color.rgb(46, 185, 113)
+                        Color.rgb(220, 120, 120) : // rouge
+                        Color.rgb(46, 185, 113) // vert
         );
 
         if (plantAdapterOBJ.isAutoWatering()){

@@ -21,7 +21,6 @@ import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -36,6 +35,9 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 
 /**
  * Created by T.Kriszt on 12/03/18.
+ * Singleton utility class providing access to the garden's server
+ * once {@link Security} provides a valid JWT <br/>
+ * See {@see https://jwt.io/}
  */
 
 public class Connexion {
@@ -48,8 +50,15 @@ public class Connexion {
 
 
     private static Connexion O = null;
-    public RequestQueue requestQueue;
+    private RequestQueue requestQueue;
 
+    /**
+     *
+     * @param context current {@link Context} for Volley {@link Volley}
+     * @param p the server's access port
+     * @param addr IPv4 or plain text domain name where the server is reachable
+     * @return Singleton instance of Connexion utility
+     */
     public static synchronized Connexion O(Context context, String p, String addr){
         if (O == null){
             O = new Connexion();
@@ -59,15 +68,18 @@ public class Connexion {
         port = p;
         address = (addr.startsWith("http://") ? "" : "http://") + addr;
 
-
         return O;
     }
 
+    /**
+     * @param context {@link Context} current context for {@link Volley}
+     * @return Singleton instance of Connexion utility
+     * @throws IllegalStateException if instance wasn't properly initialized with {@link Connexion O(Activity activity)} beforehand
+     */
     public static synchronized Connexion O(Context context){
-        if (port == null || address == null){
+        if ((port == null) || (address == null)){
             throw new IllegalStateException(Connexion.class.getSimpleName() + "is not initialized, call O(Context context, String port, String address) first ");
         }
-//        O = new Connexion();
         O.context = context;
         O.requestQueue.stop();
 
@@ -75,6 +87,10 @@ public class Connexion {
         return O;
     }
 
+    /**
+     * @return Singleton instance of Connexion utility
+     * @throws IllegalStateException if instance wasn't properly initialized with {@link Connexion O(Activity activity)} beforehand
+     */
     public static synchronized Connexion O(){
         if (O == null){
             throw new IllegalStateException(Connexion.class.getSimpleName() + "is not initialized, call O(Context context, String port, String address) first ");
@@ -84,35 +100,42 @@ public class Connexion {
 
     public  boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         Log.d(TAG, "isOnline: "  + (null != netInfo ? netInfo.getExtraInfo() : "False"));
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-
-    public void sendJSON(String url, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, responseListener, errorListener);
-
-        requestQueue.add(jsonObjectRequest);
-
-//        requestQueue.addToRequestQueue(jsonObjectRequest);
-
-// Access the RequestQueue through your singleton class.
-//        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
-    }
-
-
+    /**
+     *
+     * @param url relative url from the server's base url, ex : {@code /weather}
+     * @param params HashMap of key/values containing post params
+     * @param responseListener callback on what to do with a successful response
+     * @param errorListener callback on what to do whith an error, includes a 403 "forbidden" HTTP status
+     */
     public void sendPostRequest(final String url, @Nullable final HashMap<String, String> params, @Nullable Response.Listener<String> responseListener, @Nullable Response.ErrorListener errorListener){
         sendHttpRequest(Request.Method.POST, url, params, responseListener, errorListener);
     }
 
-    public void sendGetRequest(final String url, @Nullable final HashMap<String, String> params, @Nullable Response.Listener<String> responseListener, @Nullable Response.ErrorListener errorListener){
-        sendHttpRequest(Request.Method.GET, url, params, responseListener, errorListener);
+    /**
+     * @param url relative url from the server's base url, ex : {@code /weather}
+     * @param responseListener callback on what to do with a successful response
+     * @param errorListener callback on what to do whith an error, includes a 403 "forbidden" HTTP status
+     * @see Security
+     */
+    public void sendGetRequest(final String url, @Nullable Response.Listener<String> responseListener, @Nullable Response.ErrorListener errorListener){
+        sendHttpRequest(Request.Method.GET, url, null, responseListener, errorListener);
     }
 
-    public void sendHttpRequest(final int method, final String url, @Nullable final HashMap<String, String> params, @Nullable final Response.Listener<String> responseListener, @Nullable Response.ErrorListener errorListener){
+    /**
+     * @param method {@link Request.Method} (POST | GET)
+     * @param url relative url from the server's base url, ex : {@code /weather}
+     * @param params HashMap of key/values containing post params
+     * @param responseListener callback on what to do with a successful response
+     * @param errorListener callback on what to do whith an error, includes a 403 "forbidden" HTTP status
+     * Automaticallly adds the JWT token as an authorization HTTP header
+     */
+    private void sendHttpRequest(final int method, final String url, @Nullable final HashMap<String, String> params, @Nullable final Response.Listener<String> responseListener, @Nullable Response.ErrorListener errorListener){
 
         StringRequest stringRequest = new StringRequest(method , address + ":" + port  + url, responseListener, errorListener) {
             protected Map<String, String> getParams() {
@@ -121,12 +144,11 @@ public class Connexion {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-
                 String token = Security.getToken();
                 Map<String, String> headers = new HashMap<>();
-//                headers.put("Content-Type", "application/json");
+
                 if (token != null){
-                    headers.put("Authorization", "Bearer " + token);  // Authorization: Bearer <token>
+                    headers.put("Authorization", "Bearer " + token);
                     return headers;
                 }else return super.getHeaders();
             }
@@ -134,7 +156,7 @@ public class Connexion {
         };
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                TIMEOUT_MS,
+                TIMEOUT_MS,                                     // give it some time for heavy requests
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -143,10 +165,10 @@ public class Connexion {
 
 
     /**
-     * Télécharge l'image stockée dans /home/pi/egarden/images/imgUrl
-     * @param imgUrl le nom du fichier
-     * @param responseListener quoi faire en cas de succès
-     * @param errorListener que faire en cas d'échec
+     * Downloads given picture stored in server's pictures folder
+     * @param imgUrl picture file name
+     * @param responseListener what to do on a success
+     * @param errorListener what to do on a failure
      */
     public void downloadImage(String imgUrl, Response.Listener<Bitmap> responseListener, Response.ErrorListener errorListener) {
 
@@ -154,7 +176,7 @@ public class Connexion {
         String uri;
 
         if (!absolutePath){
-            uri = address + ":" + port + "/" + imgUrl;
+            uri = getServerURL() + imgUrl;
         } else {
             uri = imgUrl;
         }
@@ -174,14 +196,15 @@ public class Connexion {
             try {
                 String res = new String(response.data,
                         HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+
                 // Now you can use any deserializer to make sense of data
-                JSONObject obj = new JSONObject(res);
-                return obj;
-//                System.out.println(obj.toString());
+                return new JSONObject(res);
             } catch (UnsupportedEncodingException e1) {
+
                 // Couldn't properly decode data to string
                 e1.printStackTrace();
             } catch (JSONException e2) {
+
                 // returned data is not JSONObject?
                 e2.printStackTrace();
             }
@@ -189,6 +212,13 @@ public class Connexion {
         return null;
     }
 
+    /**
+     * Cancels all pending requests in the request queue
+     *
+     * <p>Some requests may be on their way back when the users changes the recipient context to another one
+     * Upon receiving such a "lost" request, the app will crash
+     * To prevent that, call this method every time you close/destroy an activity or a fragment</p>
+     */
     public static void cancellAll() {
         O.requestQueue.cancelAll(new RequestQueue.RequestFilter() {
             @Override
@@ -198,33 +228,36 @@ public class Connexion {
         });
     }
 
+    /**
+     * The server-side timelapses Uri may change depending on where they are stored
+     * @param videoFile the video file name, usualy YYYY-MM-DD.mp4
+     * @param feed {@link String }(direct | day | week)
+     * @return the proper Uri to start downloading the video
+     */
     public Uri getTimelapseURI(String videoFile, String feed) {
         if (videoFile == null) return null;
-        String path  = address + ":" + port  + "/timelapse/" + feed + "/" +  videoFile;
+        String path  = getServerURL() + "timelapse/" + feed + "/" +  videoFile;
         return Uri.parse(path);
     }
 
-    public Uri getURI(String path, String file)
-    {
-        if (file == null) return null;
-        String p  = address + ":" + port  +"/" +path;
-        if (! (p.charAt(p.length()- 1)== '/'))
-            p+='/';
-        p+= file;
-        return Uri.parse(p);
-    }
-
+    /**
+     * Calls the download manager to asynchronously download the given picture or video
+     * Stores the file in the general-purpose Downloads folder
+     * @param uri the source Uri
+     * @param filename the file name under wich to store the file on the local storage
+     * @param title the optionnal name to display chen downloading the file
+     */
     public void downloadFile(Uri uri, String filename, @Nullable String title){
 
         // Create request for android download manager
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(uri);
 
-
         request.setTitle(title)
                 .setDescription(filename)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 .setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, filename);
+        assert downloadManager != null;
         downloadManager.enqueue(request);
     }
 
@@ -232,7 +265,4 @@ public class Connexion {
     {
         return address + ":" + port + "/";
     }
-
 }
-
-

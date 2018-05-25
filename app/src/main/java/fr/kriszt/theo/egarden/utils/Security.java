@@ -53,7 +53,6 @@ public class Security  extends FirebaseInstanceIdService{
             @Override
             public void onResponse(String response) {
                 auth_token = response;
-                Log.i(TAG, "Auth token : " + response);
                 responseListener.onResponse(response);
             }
         };
@@ -67,5 +66,9 @@ public class Security  extends FirebaseInstanceIdService{
 
     public static String getToken() {
         return auth_token;
+    }
+
+    public static void setToken(String token) {
+        auth_token = token;
     }
 }

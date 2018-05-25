@@ -15,24 +15,15 @@ public class FirebaseGardenNotifier extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
 
+
+    /**
+     * Mandatory, but keeps the default behaviour
+     * as we just want to bring the user on the login activity when touching a notification
+     */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         Log.d(TAG, "From: " + remoteMessage.getFrom());
-
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-
-//            if (/* Check if data needs to be processed by long running job */ true) {
-//                // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
-//                scheduleJob();
-//            } else {
-//                // Handle message within 10 seconds
-//                handleNow();
-//            }
-
-        }
 
     }
 }

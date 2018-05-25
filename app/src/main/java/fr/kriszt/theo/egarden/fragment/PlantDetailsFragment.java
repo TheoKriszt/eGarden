@@ -1,6 +1,5 @@
 package fr.kriszt.theo.egarden.fragment;
 
-//import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -45,18 +44,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.kriszt.theo.egarden.R;
 import fr.kriszt.theo.egarden.utils.Connexion;
-import fr.kriszt.theo.egarden.utils.Gallery.PlantAdapter;
 
 
 public class PlantDetailsFragment extends Fragment {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String TAG = "PlantDetailsFragment";
 
     private static final String PLANT_ID = "plantId";
 
     private String plantId;
-
-    private OnFragmentInteractionListener mListener;
 
     @BindView(R.id.plant_detail_name) TextView _plantName;
     @BindView(R.id.plant_detail_description) TextView _plantDescription;
@@ -104,7 +99,7 @@ public class PlantDetailsFragment extends Fragment {
 
 
 
-        Connexion.O().sendGetRequest("/soil/" + plantId, null, new Response.Listener<String>() {
+        Connexion.O().sendGetRequest("/soil/" + plantId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -140,7 +135,7 @@ public class PlantDetailsFragment extends Fragment {
     }
 
     private void updatePlantInfo() {
-        Connexion.O().sendGetRequest("/plant/" + plantId, null, new Response.Listener<String>() {
+        Connexion.O().sendGetRequest("/plant/" + plantId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -234,9 +229,7 @@ public class PlantDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_plant_details, container, false);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_plant_details, container, false);
     }
 
     @OnClick(R.id.plant_detail_save_button)
@@ -249,7 +242,6 @@ public class PlantDetailsFragment extends Fragment {
         Connexion.O().sendPostRequest("/plant", params, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                // TODO : extract string ressource
                 Toast.makeText(getContext(), getResources().getString(R.string.saved_confirmation), Toast.LENGTH_SHORT).show();
                 updatePlantInfo();
             }
@@ -278,28 +270,6 @@ public class PlantDetailsFragment extends Fragment {
         });
     }
 
-    // TODO : remove all unused functions like this one
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
 
     enum PlantState{
 

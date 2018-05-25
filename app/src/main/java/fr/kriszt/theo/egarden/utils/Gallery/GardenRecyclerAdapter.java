@@ -1,21 +1,16 @@
 package fr.kriszt.theo.egarden.utils.Gallery;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import com.android.volley.toolbox.NetworkImageView;
-
-
-import java.util.List;
-import com.android.volley.toolbox.ImageLoader;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+
+import java.util.List;
 
 import fr.kriszt.theo.egarden.R;
 
@@ -37,9 +32,7 @@ public class GardenRecyclerAdapter extends RecyclerView.Adapter<GardenRecyclerAd
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gardenview, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(view);
-
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -48,7 +41,7 @@ public class GardenRecyclerAdapter extends RecyclerView.Adapter<GardenRecyclerAd
         GardenAdapter gardenAdapterOBJ =  gardenHistory.get(position);
 
         imageLoader = ImageAdapter.getInstance(context).getImageLoader();
-        Log.e(TAG, "onBindViewHolder: Viewholder.VolleyImageView =" + Viewholder.VolleyImageView);
+        Log.i(TAG, "onBindViewHolder: Viewholder.VolleyImageView =" + Viewholder.VolleyImageView);
         imageLoader.get(gardenAdapterOBJ.getImageUrl(),
                 ImageLoader.getImageListener(
                         Viewholder.VolleyImageView,//Server Image
@@ -61,23 +54,6 @@ public class GardenRecyclerAdapter extends RecyclerView.Adapter<GardenRecyclerAd
         Viewholder.VolleyImageView.setImageUrl(gardenAdapterOBJ.getImageUrl(), imageLoader);
         Log.d(TAG, gardenAdapterOBJ.getImageUrl());
         Viewholder.ImageTitleTextView.setText(gardenAdapterOBJ.getImageTitle());
-        Log.e(TAG, "gardenHistory.sizeo() == " + gardenHistory.size());
-//
-//
-//
-//        Viewholder.itemLayout.setBackgroundColor(
-//                gardenAdapterOBJ.isThirsty() ?
-//                        Color.rgb(220, 120, 120) :
-//                        Color.rgb(46, 185, 113)
-//        );
-//
-//        if (gardenAdapterOBJ.isAutoWatering()){
-//            // mettre l'icone auto watering : ON
-//            int iconResource = context.getResources().getIdentifier(
-//                    "auto_on", "drawable", context.getPackageName() );
-//            Viewholder.autoIconView.setImageResource(iconResource);
-
-//        }
 
 
 
@@ -92,19 +68,12 @@ public class GardenRecyclerAdapter extends RecyclerView.Adapter<GardenRecyclerAd
 
         public TextView ImageTitleTextView;
         public NetworkImageView VolleyImageView ;
-        public ImageView autoIconView ;
-        public RelativeLayout itemLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ImageTitleTextView = (TextView) itemView.findViewById(R.id.ImageNameTextView) ;
+            ImageTitleTextView = itemView.findViewById(R.id.ImageNameTextView);
 
-            VolleyImageView = (NetworkImageView) itemView.findViewById(R.id.VolleyImageView) ;
-
-//            autoIconView = itemView.findViewById(R.id.auto_watering_icon);
-//            autoIconView.setVisibility(View.INVISIBLE);
-//            itemLayout = itemView.findViewById(R.id.plantItemLayout);
-
+            VolleyImageView = itemView.findViewById(R.id.VolleyImageView);
 
         }
     }

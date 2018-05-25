@@ -47,7 +47,6 @@ public class TimelapseViewFragment extends Fragment {
 
 
     private static final String TAG = "Timelapse";
-    private ArrayAdapter<CharSequence> WeekDayTypesAdapter;
     @BindView(R.id.videoView) VideoView _videoView;
     @BindView(R.id.video_progressBar) ProgressBar _progressBar;
     @BindView(R.id.weekDaySpinner) Spinner _weekdaySpinner;
@@ -119,12 +118,12 @@ public class TimelapseViewFragment extends Fragment {
         videoController.setMediaPlayer(_videoView);
         videoController.setAnchorView(_videoView);
 
-        WeekDayTypesAdapter = ArrayAdapter.createFromResource(getContext(),
+        ArrayAdapter<CharSequence> weekDayTypesAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.timelapse_weekday_select, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
-        WeekDayTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        weekDayTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        _weekdaySpinner.setAdapter(WeekDayTypesAdapter);
+        _weekdaySpinner.setAdapter(weekDayTypesAdapter);
 
         _selectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -191,7 +190,6 @@ public class TimelapseViewFragment extends Fragment {
             _downloadButton.setVisibility(GONE);
             _loadButton.setVisibility(GONE);
             refreshHandler.post(refreshDirect);
-//                    Connexion.O().downloadImage("snapshot", new Response.Listener<Bitmap>() {
             return;
         }else {
             refreshHandler.removeCallbacks(refreshDirect);
@@ -202,7 +200,7 @@ public class TimelapseViewFragment extends Fragment {
             _loadButton.setVisibility(View.VISIBLE);
         }
 
-        Connexion.O(getContext()).sendGetRequest("/timelapses/" + feed, null, new Response.Listener<String>() {
+        Connexion.O(getContext()).sendGetRequest("/timelapses/" + feed, new Response.Listener<String>() {
 
 
             @Override
