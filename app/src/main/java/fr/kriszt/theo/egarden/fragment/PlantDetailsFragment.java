@@ -53,17 +53,28 @@ public class PlantDetailsFragment extends Fragment {
 
     private String plantId;
 
-    @BindView(R.id.plant_detail_name) TextView _plantName;
-    @BindView(R.id.plant_detail_description) TextView _plantDescription;
-    @BindView(R.id.plant_detail_state) TextView _plantState;
-    @BindView(R.id.plant_detail_autowater_switch) Switch _autoSwitch;
-    @BindView(R.id.plant_detail_auto_image) ImageView _autoImage;
-    @BindView(R.id.plant_detail_threshold_seekbar) SeekBar _autoThresholdBar;
-    @BindView(R.id.plant_detail_save_button) Button _saveButton;
-    @BindView(R.id.plant_detail_water_button) Button _waterButton;
-    @BindView(R.id.plant_detail_hygrometry_progressbar) ProgressBar _hygroProgressBar;
-    @BindView(R.id.plant_detail_hygrometry_chart) LineChart _lineChart;
-    @BindView(R.id.plant_detail_image) ImageView _plantImage;
+    @BindView(R.id.plant_detail_name)
+    TextView _plantName;
+    @BindView(R.id.plant_detail_description)
+    TextView _plantDescription;
+    @BindView(R.id.plant_detail_state)
+    TextView _plantState;
+    @BindView(R.id.plant_detail_autowater_switch)
+    Switch _autoSwitch;
+    @BindView(R.id.plant_detail_auto_image)
+    ImageView _autoImage;
+    @BindView(R.id.plant_detail_threshold_seekbar)
+    SeekBar _autoThresholdBar;
+    @BindView(R.id.plant_detail_save_button)
+    Button _saveButton;
+    @BindView(R.id.plant_detail_water_button)
+    Button _waterButton;
+    @BindView(R.id.plant_detail_hygrometry_progressbar)
+    ProgressBar _hygroProgressBar;
+    @BindView(R.id.plant_detail_hygrometry_chart)
+    LineChart _lineChart;
+    @BindView(R.id.plant_detail_image)
+    ImageView _plantImage;
 
 
     private boolean autowater;
@@ -98,7 +109,6 @@ public class PlantDetailsFragment extends Fragment {
         updatePlantInfo();
 
 
-
         Connexion.O().sendGetRequest("/soil/" + plantId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -123,9 +133,9 @@ public class PlantDetailsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 autowater = isChecked;
-                if (autowater){
+                if (autowater) {
                     _autoImage.setImageResource(R.drawable.auto_on);
-                }else {
+                } else {
                     _autoImage.setImageResource(R.drawable.auto_off);
                 }
 
@@ -152,14 +162,14 @@ public class PlantDetailsFragment extends Fragment {
                         String stateWord = getActivity().getResources().getString(R.string.state);
                         String stateString = getActivity().getResources().getString(PlantState.PLANT_UNKNOWN.getDescriptionRessource());
 
-                        PlantState plantState = PlantState.valueOf( json.getString("plantState"));
-                        if (plantState != null){
+                        PlantState plantState = PlantState.valueOf(json.getString("plantState"));
+                        if (plantState != null) {
                             stateString = getResources().getString(plantState.getDescriptionRessource());
                         }
                         _plantState.setText(String.format("%s : %s", stateWord, stateString));
 
                         updateImageView(json.get("imgURI").toString());
-                    }catch (IllegalStateException e){
+                    } catch (IllegalStateException e) {
                         Log.e(TAG, "onResponse: perte de contexte", e);
                     }
 
@@ -190,8 +200,12 @@ public class PlantDetailsFragment extends Fragment {
         JSONArray array = new JSONArray(response);
         ArrayList<Entry> entries = new ArrayList<>();
         final ArrayList<String> dateLabels = new ArrayList<>();
+        if (array.length() == 0) {
+            _lineChart.setVisibility(View.GONE);
+            return;
+        }
 
-        for (int i = 0; i < array.length(); i++){
+        for (int i = 0; i < array.length(); i++) {
             float hygro = Float.parseFloat(String.valueOf(array.getJSONObject(i).get("value")));
             String date = String.valueOf(array.getJSONObject(i).get("time"));
 
@@ -223,6 +237,7 @@ public class PlantDetailsFragment extends Fragment {
         _lineChart.setData(lineData);
 
         _hygroProgressBar.setVisibility(View.GONE);
+        _lineChart.setVisibility(View.VISIBLE);
 
     }
 
@@ -233,7 +248,7 @@ public class PlantDetailsFragment extends Fragment {
     }
 
     @OnClick(R.id.plant_detail_save_button)
-    public void onSaveButtonPressed(){
+    public void onSaveButtonPressed() {
         HashMap<String, String> params = new HashMap<>();
         params.put("autowater", autowater ? "true" : "false");
         params.put("threshold", String.valueOf(_autoThresholdBar.getProgress()));
@@ -250,15 +265,15 @@ public class PlantDetailsFragment extends Fragment {
     }
 
     @OnClick(R.id.plant_detail_water_button)
-    public void onWaterButtonPressed(){
+    public void onWaterButtonPressed() {
         Connexion.O().sendPostRequest("/soil/" + plantId, null, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
 
                     Toast.makeText(getActivity().getBaseContext(), response, Toast.LENGTH_SHORT).show();
-                }catch (NullPointerException e){
-                    Log.e(TAG, "onResponse, perte de contexte: ",e );
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "onResponse, perte de contexte: ", e);
                 }
             }
         }, new Response.ErrorListener() {
@@ -271,20 +286,20 @@ public class PlantDetailsFragment extends Fragment {
     }
 
 
-    enum PlantState{
+    enum PlantState {
 
-        PLANT_THIRSTY (R.string.plant_thirsty),
-        PLANT_HYDRATED (R.string.plant_hydrated),
-        PLANT_WATERING (R.string.plant_watering),
-        PLANT_UNKNOWN (R.string.plant_unknown);
+        PLANT_THIRSTY(R.string.plant_thirsty),
+        PLANT_HYDRATED(R.string.plant_hydrated),
+        PLANT_WATERING(R.string.plant_watering),
+        PLANT_UNKNOWN(R.string.plant_unknown);
 
         private final int desc;
 
-        PlantState(int res){
+        PlantState(int res) {
             this.desc = res;
         }
 
-        public int getDescriptionRessource(){
+        public int getDescriptionRessource() {
             return desc;
         }
     }

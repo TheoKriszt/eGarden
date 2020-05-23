@@ -104,6 +104,7 @@
     <string name="on">ON</string>
     <string name="off">OFF</string>
     <string name="download">download</string>
+    <string name="plant_name">Nom de la plante</string>
 
     <string-array name="notification_storage_sizes">
         <item>%</item>

@@ -76,4 +76,5 @@
     <string name="plants_states">Etat des plantes</string>
     <string name="action_settings">Paramètres</string>
     <string name="download">télécharger</string>
+    <string name="plant_name">Nom de la plante</string>
 </resources>

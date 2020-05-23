@@ -21,19 +21,17 @@
       ],
       "api_key": [
         {
-          "current_key": "AIza***REMOVED***"
+          "current_key": "AIzaSyBXP9rOCCOXHUqwUgMuZyOaM-fPpIbxbN8"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35284846932-muefmid83kvf9j5h1mb7lldo93sdma7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
